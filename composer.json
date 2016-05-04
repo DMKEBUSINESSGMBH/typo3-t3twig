@@ -1,0 +1,31 @@
+{
+    "name" : "dmk/t3twig",
+    "description" : "Extend rn_base for using twig templates instead of marker templates",
+    "version" : "0.0.1",
+    "type" : "typo3-cms-extension",
+    "keywords" : ["TYPO3 CMS", "twig", "template"],
+    "homepage" : "http://www.dmk-ebusiness.de/",
+    "license" : "GPL-2.0+",
+    "authors" : [
+        {
+            "name" : "Eric Hertwig",
+            "email" : "eric.hertwig@dmk-ebusiness.de",
+            "role" : "Developer"
+        }
+    ],
+    "require": {
+        "typo3/cms-core": ">=6.2.22,<8.0",
+        "digedag/rn-base": ">=1.0.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "DMK\\T3twig\\": "Classes"
+        }
+    },
+    "support": {
+        "email": "dev@dmk-ebusiness.de"
+    },
+    "replace": {
+        "typo3-ter/t3twig": "*"
+    }
+}
