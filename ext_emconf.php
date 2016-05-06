@@ -1,9 +1,14 @@
 <?php
-/***************************************************************
- *
+
+/**
  * Extension Manager/Repository config file for ext "t3twig".
  *
- ***************************************************************/
+ * @category TYPO3-Extension
+ * @package  DMK\T3twig
+ * @author   Eric Hertwig <dev@dmk-ebusiness.de>
+ * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link	 https://www.dmk-ebusiness.de/
+ */
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'T3twig',
