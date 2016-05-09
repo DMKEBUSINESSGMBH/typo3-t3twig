@@ -30,7 +30,7 @@ class BaseTwigView extends \tx_rnbase_view_Base
 	{
 		$templateName = $this->getController()->getTemplateFileName().'.html.twig';
 		$template = TwigUtil::getTwigTemplate(
-			$configurations, $templateName
+			$configurations, $templateName, $this->getController()->getConfId()
 		);
 
 		/**
@@ -38,7 +38,13 @@ class BaseTwigView extends \tx_rnbase_view_Base
 		 *
 		 * @TODO: check for performance issues?!
 		 */
-		$result = $template->render($viewData->getArrayCopy());
+		$result = $template->render(
+			[
+				'viewData' => $viewData->getArrayCopy(),
+				'configurations' => $configurations,
+				'formatter' => $formatter,
+			]
+		);
 
 		return $result;
 	}

@@ -2,6 +2,8 @@
 
 namespace DMK\T3twig\Util;
 
+use \TYPO3\CMS\Core\Exception;
+
 /**
  * Class TwigUtil
  *
@@ -42,8 +44,44 @@ class TwigUtil
 			]
 		);
 
-		$twig->addExtension(new \Twig_Extension_Debug());
+		$twig = self::injectExtensions($twig);
 
 		return $twig->loadTemplate($template);
+	}
+
+	/**
+ 	 * Inject Twig Extensions by TS Config
+	 *
+	 * @param \Twig_Environment $environment
+	 *
+	 * @return \Twig_Environment
+	 * @throws \TYPO3\CMS\Core\Exception
+	 */
+	private function injectExtensions(\Twig_Environment $environment)
+	{
+		/** Get Extension Config */
+		$extensions = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_t3twig.']['twig_extensions.'];
+
+		foreach ($extensions as $extension => $value){
+			/** @var \Twig_Extension $extInstance */
+			$extInstance = \tx_rnbase::makeInstance($value);
+
+			/** Is it a valide twig extension? */
+			if (! $extInstance instanceof \Twig_ExtensionInterface) {
+				throw new Exception(sprintf(
+					'Twig extension must be an instance of Twig_ExtensionInterface; "%s" given,',
+					is_object($extInstance) ? get_class($extInstance) : gettype($extInstance)
+				));
+			}
+
+			/** Is extension already enabled? */
+			if ($environment->hasExtension($extInstance->getName())){
+				continue;
+			}
+
+			$environment->addExtension($extInstance);
+		}
+
+		return $environment;
 	}
 }
