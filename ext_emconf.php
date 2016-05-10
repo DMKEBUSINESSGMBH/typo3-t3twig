@@ -22,7 +22,6 @@ $EM_CONF[$_EXTKEY] = array(
 	'module' => '',
 	'state' => 'stable',
 	'uploadfolder' => 0,
-	'createDirs' => '',
 	'modify_tables' => '',
 	'clearcacheonload' => 0,
 	'lockType' => '',
@@ -43,4 +42,5 @@ $EM_CONF[$_EXTKEY] = array(
 	'_md5_values_when_last_written' => '',
 	'suggests' => array(
 	),
+	'createDirs' => 'typo3temp/t3twig/',
 );

@@ -33,7 +33,6 @@ class TwigUtil
 		 * Some ToDos
 		 *
 		 * @TODO: take care of debug configuration
-		 * @TODO: Add TwigCaching
 		 * @TODO: Handle twig extension, filter etc. includes via TS
 		 */
 		$loader = new \Twig_Loader_Filesystem($filePath);
@@ -41,6 +40,7 @@ class TwigUtil
 			$loader,
 			[
 				'debug' => true,
+				'cache' => PATH_site.'typo3temp/t3twig',
 			]
 		);
 
