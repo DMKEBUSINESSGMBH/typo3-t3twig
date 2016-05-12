@@ -1,5 +1,5 @@
-plugin.tx_t3twig {
+lib.tx_t3twig {
 	twig_extensions {
-		t3twigDebug = Twig_Extension_Debug
+		base_Debug = Twig_Extension_Debug
 	}
 }
