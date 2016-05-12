@@ -23,12 +23,13 @@ class BaseTwigView extends \tx_rnbase_view_Base
 	 */
 	function render( $view, &$configurations )
 	{
-		$template = TwigUtil::getTwigTemplate(
-			\tx_rnbase_util_Files::getFileAbsFileName($this->getTemplate($view, '.html.twig'))
-		);
+		$templateFullFilePath = \tx_rnbase_util_Files::getFileAbsFileName($this->getTemplate($view, '.html.twig'));
 
-		TwigUtil::injectExtensions($template->getEnvironment(), $configurations->getExploded('twig_extensions.'));
+		$twigEnv = TwigUtil::getTwigEnvironment(dirname($templateFullFilePath));
 
+		TwigUtil::injectExtensions($twigEnv, $configurations->getExploded('twig_extensions.'));
+
+		$template = $twigEnv->loadTemplate(basename($templateFullFilePath));
 		$result = $template->render(
 			[
 				'viewData' => $configurations->getViewData(),

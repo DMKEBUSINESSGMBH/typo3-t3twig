@@ -16,24 +16,22 @@ use \TYPO3\CMS\Core\Exception;
 class TwigUtil
 {
 	/**
-	 * Returns a template instance representing the given template name
+	 * Returns an instance of twig environment
 	 *
-	 * @param string $template template name
-	 * @param bool   $debug    enable debug
+	 * @param string $templateDir template directory
+	 * @param bool   $debug       enable debug
 	 *
-	 * @return \Twig_TemplateInterface
+	 * @return \Twig_Environment
 	 */
-	public static function getTwigTemplate($template, $debug = true)
+	public static function getTwigEnvironment($templateDir, $debug = true)
 	{
-		$filePath = dirname($template);
-
 		/**
 		 * Some ToDos
 		 *
 		 * @TODO: take care of debug configuration
 		 */
-		$loader = new \Twig_Loader_Filesystem($filePath);
-		$twig = new \Twig_Environment(
+		$loader = new \Twig_Loader_Filesystem($templateDir);
+		$twigEnv = new \Twig_Environment(
 			$loader,
 			[
 				'debug' => true,
@@ -41,7 +39,7 @@ class TwigUtil
 			]
 		);
 
-		return $twig->loadTemplate(basename($template));
+		return $twigEnv;
 	}
 
 	/**
