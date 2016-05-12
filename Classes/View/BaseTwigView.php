@@ -2,7 +2,6 @@
 
 namespace DMK\T3twig\View;
 
-use DMK\T3twig\Action\BaseTwigAction;
 use DMK\T3twig\Util\TwigUtil;
 
 /**
@@ -17,55 +16,27 @@ use DMK\T3twig\Util\TwigUtil;
 class BaseTwigView extends \tx_rnbase_view_Base
 {
 	/**
-	 * Returns rendered twig template
-	 *
-	 * @param string                     $template       template name
-	 * @param \ArrayObject               $viewData       viewData object
-	 * @param \tx_rnbase_configurations  $configurations rn_base configuration
-	 * @param \tx_rnbase_util_FormatUtil $formatter      formatter
+	 * @param string $view
+	 * @param \tx_rnbase_configurations $configurations
 	 *
 	 * @return string
 	 */
-	function createOutput($template, &$viewData, &$configurations, &$formatter)
+	function render( $view, &$configurations )
 	{
-		$templateName = $this->getController()->getTemplateFileName().'.html.twig';
 		$template = TwigUtil::getTwigTemplate(
-			$configurations, $templateName, $this->getController()->getConfId()
+			\tx_rnbase_util_Files::getFileAbsFileName($this->getTemplate($view, '.html.twig'))
 		);
 
-		/**
-		 * Some Todos
-		 *
-		 * @TODO: check for performance issues?!
-		 */
+		TwigUtil::injectExtensions($template->getEnvironment(), $configurations->getExploded('twig_extensions.'));
+
 		$result = $template->render(
 			[
-				'viewData' => $viewData->getArrayCopy(),
+				'viewData' => $configurations->getViewData(),
 				'configurations' => $configurations,
-				'formatter' => $formatter,
+				'formatter' => $configurations->getFormatter(),
 			]
 		);
 
 		return $result;
-	}
-
-	/**
-	 * Returns BaseTwigAction controller
-	 *
-	 * @return BaseTwigAction
-	 */
-	function getController()
-	{
-		return parent::getController();
-	}
-
-	/**
-	 * Set the used controller and ensure type safety
-	 *
-	 * @param BaseTwigAction $controller
-	 */
-	public function setController(BaseTwigAction $controller)
-	{
-		parent::setController($controller);
 	}
 }

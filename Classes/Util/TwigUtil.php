@@ -18,22 +18,19 @@ class TwigUtil
 	/**
 	 * Returns a template instance representing the given template name
 	 *
-	 * @param \tx_rnbase_configurations $configurations rn_base configuration
-	 * @param string                    $template       template name
-	 * @param bool                      $debug          enable debug
+	 * @param string $template template name
+	 * @param bool   $debug    enable debug
 	 *
 	 * @return \Twig_TemplateInterface
 	 */
-	public static function getTwigTemplate($configurations, $template, $debug = true)
+	public static function getTwigTemplate($template, $debug = true)
 	{
-		$utility = \tx_rnbase_util_Typo3Classes::getGeneralUtilityClass();
-		$filePath = $utility::getFileAbsFileName($configurations->getTemplatePath());
+		$filePath = dirname($template);
 
 		/**
 		 * Some ToDos
 		 *
 		 * @TODO: take care of debug configuration
-		 * @TODO: Handle twig extension, filter etc. includes via TS
 		 */
 		$loader = new \Twig_Loader_Filesystem($filePath);
 		$twig = new \Twig_Environment(
@@ -44,24 +41,20 @@ class TwigUtil
 			]
 		);
 
-		$twig = self::injectExtensions($twig);
-
-		return $twig->loadTemplate($template);
+		return $twig->loadTemplate(basename($template));
 	}
 
 	/**
  	 * Inject Twig Extensions by TS Config
 	 *
 	 * @param \Twig_Environment $environment
+	 * @param array $extensions
 	 *
 	 * @return \Twig_Environment
 	 * @throws \TYPO3\CMS\Core\Exception
 	 */
-	private function injectExtensions(\Twig_Environment $environment)
+	public static function injectExtensions(\Twig_Environment $environment, array $extensions)
 	{
-		/** Get Extension Config */
-		$extensions = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_t3twig.']['twig_extensions.'];
-
 		foreach ($extensions as $extension => $value){
 			/** @var \Twig_Extension $extInstance */
 			$extInstance = \tx_rnbase::makeInstance($value);
@@ -81,7 +74,5 @@ class TwigUtil
 
 			$environment->addExtension($extInstance);
 		}
-
-		return $environment;
 	}
 }
