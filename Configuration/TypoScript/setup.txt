@@ -1,5 +1,6 @@
 lib.tx_t3twig {
 	twig_extensions {
-		base_Debug = Twig_Extension_Debug
+		twigBase_Debug = Twig_Extension_Debug
+		t3twig_mediaObject = DMK\T3twig\Twig\ImageExtension
 	}
 }
