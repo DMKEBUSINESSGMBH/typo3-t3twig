@@ -34,12 +34,12 @@ class ImageExtension extends \Twig_Extension
 	/**
 	 * Fetches FAL records and return as array of tx_rnbase_model_media
 	 *
-	 * @param \Tx_Rnbase_Domain_Model_Base $model
+	 * @param \Tx_Rnbase_Domain_Model_DomainInterface $model
 	 * @param $refField
 	 *
 	 * @return array[tx_rnbase_model_media]
 	 */
-	public function getMediaObjects(\Tx_Rnbase_Domain_Model_Base $model, $refField='images')
+	public function getMediaObjects(\Tx_Rnbase_Domain_Model_DomainInterface $model, $refField='images')
 	{
 		return $this->fetchFiles($model->getTableName(), $model->getUid(), $refField);
 	}
