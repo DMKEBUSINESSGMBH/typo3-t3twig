@@ -27,7 +27,7 @@ class ImageExtension extends \Twig_Extension
 	 */
 	public function getFunctions() {
 		return [
-			new \Twig_SimpleFunction('getGenericMediaObject', [$this, 'getGenericMediaObject']),
+			new \Twig_SimpleFunction('getGenericMediaObjects', [$this, 'getGenericMediaObjects']),
 		];
 	}
 
@@ -51,7 +51,7 @@ class ImageExtension extends \Twig_Extension
 	 *
 	 * @return array
 	 */
-	public function getGenericMediaObject($table, $uid, $refField='images')
+	public function getGenericMediaObjects($table, $uid, $refField='images')
 	{
 		return $this->fetchFiles($table, $uid, $refField);
 	}
