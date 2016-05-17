@@ -1,2 +1,21 @@
-#Twig for TYPO3 with rn_base
+#README
+
+[![Latest Stable Version](https://poser.pugx.org/dmk/t3twig/v/stable)](https://packagist.org/packages/dmk/t3twig) [![Latest Unstable Version](https://poser.pugx.org/dmk/t3twig/v/unstable)](https://packagist.org/packages/dmk/t3twig) [![Total Downloads](https://poser.pugx.org/dmk/t3twig/downloads)](https://packagist.org/packages/dmk/t3twig) [![License](https://poser.pugx.org/dmk/t3twig/license)](https://packagist.org/packages/dmk/t3twig)
+
+##t3twig - Twig support for TYPO3 with rn_base plugins
+###What it it?
 Extend rn_base for using twig templates instead of marker templates
+
+### Installation
+Install TYPO3 via composer. Maybe you can use our [TYPO3-Composer-Webroot Project](https://github.com/DMKEBUSINESSGMBH/typo3-composer-webroot)
+
+From project root you need to run
+```bash
+composer require dmk/t3twig
+```
+
+### Documentation
+
+For usage please have a look in our [Documentation](Documentation/index.md)
+
+[CHANGELOG](CHANGELOG.md)
