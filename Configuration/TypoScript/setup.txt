@@ -3,4 +3,8 @@ lib.tx_t3twig {
 		twigBase_Debug = Twig_Extension_Debug
 		t3twig_mediaObject = DMK\T3twig\Twig\ImageExtension
 	}
+	twig_templatepaths {
+		T3twig = EXT:t3twig/Resources/views
+	}
 }
+

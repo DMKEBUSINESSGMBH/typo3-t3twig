@@ -16,23 +16,34 @@ use \TYPO3\CMS\Core\Exception;
 class TwigUtil
 {
 	/**
-	 * Returns an instance of twig environment
+	 * Returns an instance of twig loader filesystem
 	 *
 	 * @param string $templateDir template directory
-	 * @param bool   $debug       enable debug
+	 *
+	 * @return \Twig_Loader_Filesystem
+	 */
+	public static function getTwigLoaderFilesystem($templateDir)
+	{
+		return new \Twig_Loader_Filesystem($templateDir);
+	}
+
+	/**
+	 * Returns an instance of twig environment
+	 *
+	 * @param \Twig_Loader_Filesystem $twigLoaderFilesystem twig loader filesystem
+	 * @param bool                    $debug                enable debug
 	 *
 	 * @return \Twig_Environment
 	 */
-	public static function getTwigEnvironment($templateDir, $debug = true)
+	public static function getTwigEnvironment($twigLoaderFilesystem, $debug = true)
 	{
 		/**
 		 * Some ToDos
 		 *
 		 * @TODO: take care of debug configuration
 		 */
-		$loader = new \Twig_Loader_Filesystem($templateDir);
 		$twigEnv = new \Twig_Environment(
-			$loader,
+			$twigLoaderFilesystem,
 			[
 				'debug' => true,
 				'cache' => PATH_site.'typo3temp/t3twig',
@@ -40,6 +51,21 @@ class TwigUtil
 		);
 
 		return $twigEnv;
+	}
+
+	/**
+	 * Inject twig template paths with namespace
+	 *
+	 * @param \Twig_Loader_Filesystem $twigLoaderFilesystem
+	 * @param array $paths
+	 *
+	 * @throws \Twig_Error_Loader
+	 */
+	public static function injectTemplatePaths(\Twig_Loader_Filesystem $twigLoaderFilesystem, array $paths)
+	{
+		foreach ($paths as $namespace => $path){
+			$twigLoaderFilesystem->addPath(\tx_rnbase_util_Files::getFileAbsFileName($path), $namespace);
+		}
 	}
 
 	/**
