@@ -12,4 +12,4 @@ public function getViewClassName()
     return 'DMK\T3twig\View\BaseTwigView';
 }
 ```
-and the `	protected function getTemplateName() {return 'templateName';}` to define your template name. Now the `templateName.html.twig` file is used from your templatePath which was configured via TS.
+and the `protected function getTemplateName() {return 'templateName';}` to define your template name. Now the `templateName.html.twig` file is used from your templatePath which was configured via TS.
