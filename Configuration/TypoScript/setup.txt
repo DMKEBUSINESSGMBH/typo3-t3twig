@@ -2,6 +2,7 @@ lib.tx_t3twig {
 	twig_extensions {
 		twigBase_Debug = Twig_Extension_Debug
 		t3twig_mediaObject = DMK\T3twig\Twig\ImageExtension
+		t3twig_languageExtension = DMK\T3twig\Twig\LanguageExtension
 	}
 	twig_templatepaths {
 		T3twig = EXT:t3twig/Resources/views
