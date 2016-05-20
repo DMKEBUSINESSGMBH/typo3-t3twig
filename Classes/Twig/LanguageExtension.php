@@ -17,8 +17,9 @@ class LanguageExtension extends \Twig_Extension
 	public function getFilters()
 	{
 		return [
-			new \Twig_SimpleFilter('getTranslation', [$this, 'getTranslation'], ['needs_environment' => true]),
-		];	}
+			new \Twig_SimpleFilter('t3trans', [$this, 'getTranslation'], ['needs_environment' => true]),
+		];
+	}
 
 	/**
 	 * @param T3twigEnvironment $env
@@ -28,7 +29,7 @@ class LanguageExtension extends \Twig_Extension
 	 *
 	 * @return mixed
 	 */
-	public function getTranslation($env, $label, $alt='', $hsc=FALSE)
+	public function getTranslation(T3twigEnvironment $env, $label, $alt='', $hsc = false)
 	{
 		return $env->getConfigurations()->getLL($label, $alt, $hsc);
 	}
@@ -40,6 +41,6 @@ class LanguageExtension extends \Twig_Extension
 	 */
 	public function getName()
 	{
-		return 't3twig_translationExtension';
+		return 't3twig_languageExtension';
 	}
 }
