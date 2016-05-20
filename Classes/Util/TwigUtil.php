@@ -33,7 +33,7 @@ class TwigUtil
 	 * @param \Twig_Loader_Filesystem $twigLoaderFilesystem twig loader filesystem
 	 * @param bool                    $debug                enable debug
 	 *
-	 * @return \Twig_Environment
+	 * @return T3twigEnvironment
 	 */
 	public static function getTwigEnvironment($twigLoaderFilesystem, $debug = true)
 	{
@@ -42,10 +42,10 @@ class TwigUtil
 		 *
 		 * @TODO: take care of debug configuration
 		 */
-		$twigEnv = new \Twig_Environment(
+		$twigEnv = new T3twigEnvironment(
 			$twigLoaderFilesystem,
 			[
-				'debug' => true,
+				'debug' => $debug,
 				'cache' => PATH_site.'typo3temp/t3twig',
 			]
 		);
@@ -71,13 +71,12 @@ class TwigUtil
 	/**
  	 * Inject Twig Extensions by TS Config
 	 *
-	 * @param \Twig_Environment $environment
+	 * @param T3twigEnvironment $environment
 	 * @param array $extensions
 	 *
-	 * @return \Twig_Environment
 	 * @throws \TYPO3\CMS\Core\Exception
 	 */
-	public static function injectExtensions(\Twig_Environment $environment, array $extensions)
+	public static function injectExtensions(T3twigEnvironment $environment, array $extensions)
 	{
 		foreach ($extensions as $extension => $value){
 			/** @var \Twig_Extension $extInstance */
