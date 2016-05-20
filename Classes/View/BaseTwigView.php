@@ -33,13 +33,7 @@ class BaseTwigView extends \tx_rnbase_view_Base
 		TwigUtil::injectExtensions($twigEnv, $configurations->getExploded('twig_extensions.'));
 
 		$template = $twigEnv->loadTemplate(basename($templateFullFilePath));
-		$result = $template->render(
-			[
-				'viewData' => $configurations->getViewData(),
-				'configurations' => $configurations,
-				'formatter' => $configurations->getFormatter(),
-			]
-		);
+		$result = $template->render($configurations->getViewData()->getArrayCopy());
 
 		return $result;
 	}
