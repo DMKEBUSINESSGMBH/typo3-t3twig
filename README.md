@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/dmk/t3twig/v/stable)](https://packagist.org/packages/dmk/t3twig) [![Latest Unstable Version](https://poser.pugx.org/dmk/t3twig/v/unstable)](https://packagist.org/packages/dmk/t3twig) [![Total Downloads](https://poser.pugx.org/dmk/t3twig/downloads)](https://packagist.org/packages/dmk/t3twig) [![License](https://poser.pugx.org/dmk/t3twig/license)](https://packagist.org/packages/dmk/t3twig)
 
 ##t3twig - Twig support for TYPO3 with rn_base plugins
-###What it it?
+###What is it for?
 Extend rn_base for using twig templates instead of marker templates
 
 ### Installation
