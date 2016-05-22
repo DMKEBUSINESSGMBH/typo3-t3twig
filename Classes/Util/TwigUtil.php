@@ -35,7 +35,7 @@ class TwigUtil
 	 *
 	 * @return T3twigEnvironment
 	 */
-	public static function getTwigEnvironment($twigLoaderFilesystem, $debug = true)
+	public static function getTwigEnvironment(\Twig_Loader_Filesystem $twigLoaderFilesystem, $debug = true)
 	{
 		/**
 		 * Some ToDos
