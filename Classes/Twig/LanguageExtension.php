@@ -14,6 +14,9 @@ use DMK\T3twig\Util\T3twigEnvironment;
  */
 class LanguageExtension extends \Twig_Extension
 {
+	/**
+	 * @return array
+	 */
 	public function getFilters()
 	{
 		return [
