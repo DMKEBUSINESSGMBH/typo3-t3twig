@@ -24,7 +24,7 @@ class ImageExtension extends \Twig_Extension
 			new \Twig_SimpleFilter('getMediaObjects', [$this, 'getMediaObjects']),
 			new \Twig_SimpleFilter(
 				't3images', [$this, 'renderImage'],
-				['needs_environment' => true, 'is_safe' => ['all']]
+				['needs_environment' => true]
 			),
 			new \Twig_SimpleFilter(
 				't3imageFromTS', [$this, 'renderImageFromTyposcript'],
