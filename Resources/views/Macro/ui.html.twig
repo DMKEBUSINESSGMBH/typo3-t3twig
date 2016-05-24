@@ -1,0 +1,4 @@
+{% macro renderProperty(item, property, label) %}
+    <label>{{ label|default(property) }}</label>:
+    <span>{{ item.getProperty(property) }}</span>
+{% endmacro %}
