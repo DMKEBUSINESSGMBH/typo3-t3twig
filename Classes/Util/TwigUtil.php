@@ -57,41 +57,43 @@ class TwigUtil
 	 * Inject twig template paths with namespace
 	 *
 	 * @param \Twig_Loader_Filesystem $twigLoaderFilesystem
-	 * @param array $paths
+	 * @param array                   $paths
 	 *
 	 * @throws \Twig_Error_Loader
 	 */
 	public static function injectTemplatePaths(\Twig_Loader_Filesystem $twigLoaderFilesystem, array $paths)
 	{
-		foreach ($paths as $namespace => $path){
+		foreach ($paths as $namespace => $path) {
 			$twigLoaderFilesystem->addPath(\tx_rnbase_util_Files::getFileAbsFileName($path), $namespace);
 		}
 	}
 
 	/**
- 	 * Inject Twig Extensions by TS Config
+	 * Inject Twig Extensions by TS Config
 	 *
 	 * @param T3twigEnvironment $environment
-	 * @param array $extensions
+	 * @param array             $extensions
 	 *
 	 * @throws \TYPO3\CMS\Core\Exception
 	 */
 	public static function injectExtensions(T3twigEnvironment $environment, array $extensions)
 	{
-		foreach ($extensions as $extension => $value){
+		foreach ($extensions as $extension => $value) {
 			/** @var \Twig_Extension $extInstance */
 			$extInstance = \tx_rnbase::makeInstance($value);
 
 			/** Is it a valide twig extension? */
-			if (! $extInstance instanceof \Twig_ExtensionInterface) {
-				throw new Exception(sprintf(
-					'Twig extension must be an instance of Twig_ExtensionInterface; "%s" given,',
-					is_object($extInstance) ? get_class($extInstance) : gettype($extInstance)
-				));
+			if ( ! $extInstance instanceof \Twig_ExtensionInterface) {
+				throw new Exception(
+					sprintf(
+						'Twig extension must be an instance of Twig_ExtensionInterface; "%s" given,',
+						is_object($extInstance) ? get_class($extInstance) : gettype($extInstance)
+					)
+				);
 			}
 
 			/** Is extension already enabled? */
-			if ($environment->hasExtension($extInstance->getName())){
+			if ($environment->hasExtension($extInstance->getName())) {
 				continue;
 			}
 

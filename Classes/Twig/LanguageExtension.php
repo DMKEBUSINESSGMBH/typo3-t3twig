@@ -1,6 +1,7 @@
 <?php
 
 namespace DMK\T3twig\Twig;
+
 use DMK\T3twig\Util\T3twigEnvironment;
 
 /**
@@ -26,13 +27,13 @@ class LanguageExtension extends \Twig_Extension
 
 	/**
 	 * @param T3twigEnvironment $env
-	 * @param string $label
-	 * @param string $alt
-	 * @param bool $hsc
+	 * @param string            $label
+	 * @param string            $alt
+	 * @param bool              $hsc
 	 *
 	 * @return mixed
 	 */
-	public function getTranslation(T3twigEnvironment $env, $label, $alt='', $hsc = false)
+	public function getTranslation(T3twigEnvironment $env, $label, $alt = '', $hsc = false)
 	{
 		return $env->getConfigurations()->getLL($label, $alt, $hsc);
 	}

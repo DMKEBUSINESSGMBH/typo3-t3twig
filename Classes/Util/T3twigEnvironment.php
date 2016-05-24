@@ -15,7 +15,7 @@ use DMK\T3twig\View\BaseTwigView;
  */
 class T3twigEnvironment extends \Twig_Environment
 {
-	/** @var BaseTwigView  */
+	/** @var BaseTwigView */
 	protected $view;
 
 	/**

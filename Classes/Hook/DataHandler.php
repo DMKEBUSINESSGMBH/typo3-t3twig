@@ -33,7 +33,7 @@ class DataHandler implements SingletonInterface
 	 * remove cache directory
 	 * http://stackoverflow.com/a/31008113
 	 *
-	 * @param $source
+	 * @param      $source
 	 * @param bool $removeOnlyChildren
 	 *
 	 * @throws \Exception
