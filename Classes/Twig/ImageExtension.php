@@ -10,6 +10,7 @@ use DMK\T3twig\Util\T3twigEnvironment;
  * @category TYPO3-Extension
  * @package  DMK\T3twig\Twig
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
+ *           Mario Seidel <dev@dmk-ebusiness.de>
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
