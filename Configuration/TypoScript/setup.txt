@@ -4,6 +4,7 @@ lib.tx_t3twig {
 		t3twig_mediaObject = DMK\T3twig\Twig\ImageExtension
 		t3twig_languageExtension = DMK\T3twig\Twig\LanguageExtension
 		t3twig_linkExtension = DMK\T3twig\Twig\LinkExtension
+		t3twig_rteExtension = DMK\T3twig\Twig\TSParserExtension
 	}
 	twig_templatepaths {
 		T3twig = EXT:t3twig/Resources/views
