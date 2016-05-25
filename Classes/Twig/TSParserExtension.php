@@ -10,6 +10,7 @@ use DMK\T3twig\Util\T3twigEnvironment;
  * @category TYPO3-Extension
  * @package  DMK\T3twig\Twig
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
+ *           Michael Wagner <dev@dmk-ebusiness.de>
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
@@ -46,11 +47,10 @@ class TSParserExtension extends \Twig_Extension
 
 		$cObj->data = $record;
 
-		// Für DATETIME gibt es eine Sonderbehandlung, um leere Werte zu behandeln
+		// For DATETIME there is a special treatment to treat empty values
 		if ($conf[ $field ] == 'DATETIME' && $conf[ $field.'.' ]['ifEmpty'] && ! $value) {
 			$value = $conf[ $field.'.' ]['ifEmpty'];
 		} elseif ($conf[ $field ]) {
-			// Get value using cObjGetSingle
 			$cObj->setCurrentVal($value);
 			$value = $cObj->cObjGetSingle($conf[ $field ], $conf[ $field.'.' ]);
 			$cObj->setCurrentVal(false);
