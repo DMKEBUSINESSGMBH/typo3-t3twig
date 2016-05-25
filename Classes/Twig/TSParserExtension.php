@@ -23,7 +23,7 @@ class TSParserExtension extends \Twig_Extension
 	{
 		return [
 			new \Twig_SimpleFilter(
-				't3parsefield', [$this, 'parseField'],
+				't3parseField', [$this, 'parseField'],
 				['needs_environment' => true, 'is_safe' => ['html'],]
 			),
 		];
