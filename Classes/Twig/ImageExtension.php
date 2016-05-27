@@ -62,10 +62,8 @@ class ImageExtension extends \Twig_Extension
 		$fileRefs       = \tx_rnbase_util_TSFAL::fetchReferences($model->getTableName(), $model->getUid(), $refField);
 
 		foreach ($fileRefs as $fileRef) {
-			$images[] = $configurations->getCObj()->cImage(
-				$fileRef,
-				$configurations->get($confId.$refField.'.')
-			);
+			$tsConfig = $configurations->get($confId.$refField.'.') ? $configurations->get($confId.$refField.'.') : [];
+			$images[] = $configurations->getCObj()->cImage($fileRef, $tsConfig);
 		}
 
 		return $images;
