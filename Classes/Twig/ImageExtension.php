@@ -62,8 +62,10 @@ class ImageExtension extends \Twig_Extension
 		$fileRefs       = \tx_rnbase_util_TSFAL::fetchReferences($model->getTableName(), $model->getUid(), $refField);
 
 		foreach ($fileRefs as $fileRef) {
-			$tsConfig = $configurations->get($confId.$refField.'.') ? $configurations->get($confId.$refField.'.') : [];
-			$images[] = $configurations->getCObj()->cImage($fileRef, $tsConfig);
+			$images[] = $configurations->getCObj()->cImage(
+				$fileRef,
+				$configurations->getExploded($confId.$refField.'.')
+			);
 		}
 
 		return $images;
@@ -84,7 +86,6 @@ class ImageExtension extends \Twig_Extension
 			$configurations->get($tsPath.'.')
 		);
 	}
-
 
 	/**
 	 * Fetches FAL records and return as array of tx_rnbase_model_media
