@@ -33,7 +33,7 @@ plugin.tx_myplugin {
 Returns an array of [\tx_rnbase_model_media objects](https://github.com/digedag/rn_base/blob/master/model/class.tx_rnbase_model_media.php) for an item which implements the [\Tx_Rnbase_Domain_Model_DomainInterface](https://github.com/digedag/rn_base/blob/master/Classes/Domain/Model/DomainInterface.php) and has a field which contains FAL references
 
 ```twig
-{% set images = item|getMediaObjects %}
+{% set images = item|getMediaObjects($refField = 'images') %}
 ```
 
 
