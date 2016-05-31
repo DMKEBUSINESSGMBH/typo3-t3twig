@@ -2,3 +2,4 @@
 [Table of Contents](../index.md)
 
 * [TypoScript Parser](./extensions/tsparser.md)
+* [Translation](./extensions/translation.md)

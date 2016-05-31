@@ -18,7 +18,7 @@ plugin.tx_myplugin {
 ```
 
 
-If a flattened array of the records isn't still needed you can hand over an empty array to the extension.
+If a flattened array of the record isn't still needed you can hand over an empty array to the extension.
 
 ```
 plugin.tx_myplugin {
