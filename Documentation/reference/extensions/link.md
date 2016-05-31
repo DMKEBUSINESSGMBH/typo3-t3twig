@@ -30,4 +30,4 @@ Renders a full qualified a tag.
 {{ 'Label'|t3url($dest, $tsPath = 'link.') }}
 ```
 
-The only difference to `t3url` is that you can add a label which is rendered within the <a>-Tag.
+The only difference to `t3url` is that you can add a label which is rendered within the a-Tag.
