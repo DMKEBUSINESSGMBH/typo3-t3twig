@@ -50,5 +50,6 @@ plugin.tx_myplugin {
     }
 }
 ```
-
+```twig
 {{ $tsPath|t3imageFromTS }}
+```
