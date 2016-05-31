@@ -1,10 +1,12 @@
 [Extensions](../extensions.md)
 
-
 # TSParser
-## t3parseField
 
 This extensions allows you to parse any field you have defined in TS. A flattened data array of the item is always needed.
+
+## t3parseField
+
+Renders an field with TS configuration
 
 ```
 plugin.tx_myplugin {

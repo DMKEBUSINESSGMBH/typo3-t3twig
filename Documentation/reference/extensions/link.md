@@ -1,9 +1,12 @@
 [Extensions](../extensions.md)
 
-
 # Link Handler
-##t3url
+
 This extensions allows you to render a link via [tx_rnbase_util_Link](https://github.com/digedag/rn_base/blob/master/util/class.tx_rnbase_util_Link.php).
+
+## t3url
+
+Renders an URL
 
 ```twig
 {{ t3url($destination, $tsPath = 'link.')}}
@@ -19,7 +22,8 @@ The `$destination` could contain one of the following values:
 As an optional you can provide a tsPath to init the link via TypoScript. For more information @see initByTS() - function in \tx_rnbase_util_Link()
 
 
-##t3link
+## t3link
+
 Renders a full qualified a tag.
 
 ```twig

@@ -1,10 +1,12 @@
 [Extensions](../extensions.md)
 
-
 # Translation
+
+This extensions allows you to render translated labels in your plugin.
+
 ## t3trans
 
-Translated labels in your plugin.
+Translate a label
 
 ```
 plugin.tx_myplugin {
