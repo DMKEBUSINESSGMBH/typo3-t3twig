@@ -3,3 +3,4 @@
 
 * [TypoScript Parser](./extensions/tsparser.md)
 * [Translation](./extensions/translation.md)
+* [Link Handler](./extensions/link.md)

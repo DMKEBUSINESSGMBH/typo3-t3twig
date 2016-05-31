@@ -1,5 +1,8 @@
-# TSParser
 [Extensions](../extensions.md)
+
+
+# TSParser
+## t3parseField
 
 This extensions allows you to parse any field you have defined in TS. A flattened data array of the item is always needed.
 
@@ -29,6 +32,6 @@ plugin.tx_myplugin {
 }
 ```
 
-```
+```twig
 {{ []|t3parseField('onlyText') }}
 ```

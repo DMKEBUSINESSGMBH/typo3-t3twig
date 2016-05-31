@@ -1,5 +1,8 @@
-# Translation
 [Extensions](../extensions.md)
+
+
+# Translation
+## t3trans
 
 Translated labels in your plugin.
 
