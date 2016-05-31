@@ -10,11 +10,11 @@ Renders an field with TS configuration.
 
 ```
 plugin.tx_myplugin {
-	confId {
-		descriptionListCrop = TEXT
-		descriptionListCrop.field = description
-		descriptionListCrop.crop = 320 | ... | 1
-	}
+    confId {
+        descriptionListCrop = TEXT
+        descriptionListCrop.field = description
+        descriptionListCrop.crop = 320 | ... | 1
+    }
 }
 ```
 
@@ -27,10 +27,10 @@ If a flattened array of the record isn't still needed you can hand over an empty
 
 ```
 plugin.tx_myplugin {
-	confId {
-		onlyText = TEXT
-		onlyText.value = ExampleText
-	}
+    confId {
+        onlyText = TEXT
+        onlyText.value = ExampleText
+    }
 }
 ```
 
