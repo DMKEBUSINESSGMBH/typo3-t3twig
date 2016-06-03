@@ -42,13 +42,14 @@ class LinkExtension extends \Twig_Extension
 	 * @param T3twigEnvironment $env
 	 * @param                   $label
 	 * @param                   $dest
+	 * @param array             $params
 	 * @param string            $tsPath
 	 *
 	 * @return array
 	 */
-	public function renderLink(T3twigEnvironment $env, $label, $dest, $tsPath = 'link.')
+	public function renderLink(T3twigEnvironment $env, $label, $dest, $params = [], $tsPath = 'link.')
 	{
-		$rnBaseLink = $this->makeRnbaseLink($env, $label, $dest, $tsPath);
+		$rnBaseLink = $this->makeRnbaseLink($env, $label, $dest, $params, $tsPath);
 
 		return $rnBaseLink->makeTag();
 	}
@@ -56,13 +57,14 @@ class LinkExtension extends \Twig_Extension
 	/**
 	 * @param T3twigEnvironment $env
 	 * @param                   $dest
+	 * @param array             $params
 	 * @param string            $tsPath
 	 *
 	 * @return string
 	 */
-	public function renderUrl(T3twigEnvironment $env, $dest, $tsPath = 'link.')
+	public function renderUrl(T3twigEnvironment $env, $dest, $params = [], $tsPath = 'link.')
 	{
-		$rnBaseLink = $this->makeRnbaseLink($env, $label = '', $dest, $tsPath);
+		$rnBaseLink = $this->makeRnbaseLink($env, $label = '', $dest, $params, $tsPath);
 
 		return $rnBaseLink->makeUrl(false);
 	}
@@ -81,18 +83,19 @@ class LinkExtension extends \Twig_Extension
 	 * @param T3twigEnvironment $env
 	 * @param                   $label
 	 * @param                   $dest
+	 * @param array             $params
 	 * @param string            $tsPath
 	 *
 	 * @return \tx_rnbase_util_Link
 	 */
-	private function makeRnbaseLink(T3twigEnvironment $env, $label, $dest, $tsPath = 'link.')
+	private function makeRnbaseLink(T3twigEnvironment $env, $label, $dest, $params, $tsPath = 'link.')
 	{
 		$configurations = $env->getConfigurations();
 		$confId         = $env->getConfId();
 
 		$rnBaseLink = $configurations->createLink();
 		$rnBaseLink->label($label);
-		$rnBaseLink->initByTS($configurations, $confId.$tsPath, []);
+		$rnBaseLink->initByTS($configurations, $confId.$tsPath, $params);
 		$rnBaseLink->destination($dest);
 
 		if(($extTarget = $configurations->get($confId.$tsPath.'extTarget'))) {

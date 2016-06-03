@@ -9,8 +9,10 @@ This extensions allows you to render a link via [tx_rnbase_util_Link](https://gi
 Renders an URL
 
 ```twig
-{{ t3url($destination, $tsPath = 'link.')}}
+{{ t3url($destination, $params = [], $tsPath = 'link.')}}
 ```
+
+In the `$params` array you can  hand over some parameters which are added as get variables to your url
 
 The `$destination` could contain one of the following values:
 * pageId
@@ -27,7 +29,7 @@ As an optional you can provide a tsPath to init the link via TypoScript. For mor
 Renders a full qualified a tag.
 
 ```twig
-{{ 'Label'|t3url($dest, $tsPath = 'link.') }}
+{{ 'Label'|t3url($dest, $params = [], $tsPath = 'link.') }}
 ```
 
 The only difference to `t3url` is that you can add a label which is rendered within the a-Tag.
