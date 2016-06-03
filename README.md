@@ -16,6 +16,6 @@ composer require dmk/t3twig
 
 ### Documentation
 
-For usage please have a look in our [Documentation](Documentation/index.md)
+For usage please have a look in our [Documentation](Documentation/README.md)
 
 [CHANGELOG](CHANGELOG.md)
