@@ -37,7 +37,7 @@ Returns an array of [\tx_rnbase_model_media objects](https://github.com/digedag/
 ```
 
 
-## ## getGenericMediaObjects
+## getGenericMediaObjects
 
 Returns an array of [\tx_rnbase_model_media objects](https://github.com/digedag/rn_base/blob/master/model/class.tx_rnbase_model_media.php) for any item with a field which contains FAL references
 
