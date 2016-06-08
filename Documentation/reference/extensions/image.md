@@ -37,6 +37,15 @@ Returns an array of [\tx_rnbase_model_media objects](https://github.com/digedag/
 ```
 
 
+## ## getGenericMediaObjects
+
+Returns an array of [\tx_rnbase_model_media objects](https://github.com/digedag/rn_base/blob/master/model/class.tx_rnbase_model_media.php) for any item with a field which contains FAL references
+
+```twig
+{% set imagesGeneric = getGenericMediaObjects('tx_cal_event', item.row.uid, 'image') %}
+```
+
+
 ## t3imageFromTS
 
 Renders a [cImage](https://docs.typo3.org/typo3cms/TyposcriptReference/ContentObjects/Image/Index.html) for a given TS path and returns full img-tag
