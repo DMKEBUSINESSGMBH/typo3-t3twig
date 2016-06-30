@@ -27,6 +27,23 @@ plugin.tx_myplugin {
 }
 ```
 
+## t3genericImages
+
+Returns an array of img-Tags for an item (see getGenericMediaObjects) with a field which contains FAL references.
+
+```
+plugin.tx_myplugin {
+    $confId {
+        $tsPathConfig {
+            file.maxW = 270
+        }
+    }
+}
+```
+```twig
+{% set img = t3genericImages('tx_cal_event', item.row.uid, $refField = 'images', $tsPathConfig = 'images') %}
+```
+
 
 ## getMediaObjects
 
@@ -52,7 +69,7 @@ Renders a [cImage](https://docs.typo3.org/typo3cms/TyposcriptReference/ContentOb
 
 ```
 plugin.tx_myplugin {
-    $tsPath{
+    $tsPath {
         file = EXT:myplugin/Resources/Public/Images/img.png
         imgOption1 =
         ...

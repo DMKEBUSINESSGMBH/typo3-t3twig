@@ -41,6 +41,10 @@ class ImageExtension extends \Twig_Extension
 	{
 		return [
 			new \Twig_SimpleFunction('getGenericMediaObjects', [$this, 'getGenericMediaObjects']),
+			new \Twig_SimpleFunction(
+				't3genericImages', [$this, 'renderGenericImage'],
+				['needs_environment' => true, 'is_safe' => ['html']]
+			),
 		];
 	}
 
@@ -56,20 +60,32 @@ class ImageExtension extends \Twig_Extension
 		\Tx_Rnbase_Domain_Model_DomainInterface $model,
 		$refField = 'images'
 	) {
-		$configurations = $env->getConfigurations();
-		$confId         = $env->getConfId();
-		$images         = [];
-		$fileRefs       = \tx_rnbase_util_TSFAL::fetchReferences($model->getTableName(), $model->getUid(), $refField);
+		$fileRefs = \tx_rnbase_util_TSFAL::fetchReferences($model->getTableName(), $model->getUid(), $refField);
 
-		foreach ($fileRefs as $fileRef) {
-			$images[] = $configurations->getCObj()->cImage(
-				$fileRef,
-				$configurations->getExploded($confId.$refField.'.')
-			);
-		}
-
-		return $images;
+		return $this->renderReferences($env, $fileRefs, $refField);
 	}
+
+	/**
+	 * @param T3twigEnvironment $env
+	 * @param                   $table
+	 * @param                   $uid
+	 * @param string            $refField
+	 * @param string            $tsPathConfig
+	 *
+	 * @return array
+	 */
+	public function renderGenericImage(
+		T3twigEnvironment $env,
+		$table,
+		$uid,
+		$refField = 'images',
+		$tsPathConfig = 'images'
+	) {
+		$fileRefs = \tx_rnbase_util_TSFAL::fetchReferences($table, $uid, $refField);
+
+		return $this->renderReferences($env, $fileRefs, $tsPathConfig);
+	}
+
 
 	/**
 	 * @param T3twigEnvironment $env
@@ -122,6 +138,29 @@ class ImageExtension extends \Twig_Extension
 	protected function fetchFiles($table, $uid, $refField)
 	{
 		return \tx_rnbase_util_TSFAL::fetchFiles($table, $uid, $refField);
+	}
+
+	/**
+	 * @param T3twigEnvironment $env
+	 * @param                   $fileRefs
+	 * @param                   $tsPathConfig
+	 *
+	 * @return array
+	 */
+	protected function renderReferences($env, $fileRefs, $tsPathConfig)
+	{
+		$configurations = $env->getConfigurations();
+		$confId         = $env->getConfId();
+		$images         = [];
+
+		foreach ($fileRefs as $fileRef) {
+			$images[] = $configurations->getCObj()->cImage(
+				$fileRef,
+				$configurations->getExploded($confId.$tsPathConfig.'.')
+			);
+		}
+
+		return $images;
 	}
 
 	/**
