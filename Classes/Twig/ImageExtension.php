@@ -152,9 +152,11 @@ class ImageExtension extends \Twig_Extension
 		$configurations = $env->getConfigurations();
 		$confId         = $env->getConfId();
 		$images         = [];
+		$cObj           = $configurations->getCObj();
 
 		foreach ($fileRefs as $fileRef) {
-			$images[] = $configurations->getCObj()->cImage(
+			$cObj->setCurrentFile($fileRef);
+			$images[] = $cObj->cImage(
 				$fileRef,
 				$configurations->getExploded($confId.$tsPathConfig.'.')
 			);
