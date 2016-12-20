@@ -29,7 +29,7 @@ As an optional you can provide a tsPath to init the link via TypoScript. For mor
 Renders a full qualified a tag.
 
 ```twig
-{{ 'Label'|t3url($dest, $params = [], $tsPath = 'link.') }}
+{{ 'Label'|t3link($dest, $params = [], $tsPath = 'link.') }}
 ```
 
 The only difference to `t3url` is that you can add a label which is rendered within the a-Tag.
