@@ -43,6 +43,14 @@ plugin.tx_myplugin {
 ```twig
 {% set img = t3genericImages('tx_cal_event', item.row.uid, $refField = 'images', $tsPathConfig = 'images') %}
 ```
+## t3image
+
+Returns an img-Tag for the given image(path, id oder FAL reference).
+
+```
+```twig
+{{ t3image(image.file_path, {'file.': {'maxH' : 635}}) }}
+```
 
 
 ## getMediaObjects

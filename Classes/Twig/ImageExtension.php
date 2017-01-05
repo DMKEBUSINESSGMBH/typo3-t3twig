@@ -24,7 +24,7 @@ class ImageExtension extends \Twig_Extension
 		return [
 			new \Twig_SimpleFilter('getMediaObjects', [$this, 'getMediaObjects']),
 			new \Twig_SimpleFilter(
-				't3images', [$this, 'renderImage'],
+				't3images', [$this, 'renderImages'],
 				['needs_environment' => true]
 			),
 			new \Twig_SimpleFilter(
@@ -45,6 +45,10 @@ class ImageExtension extends \Twig_Extension
 				't3genericImages', [$this, 'renderGenericImage'],
 				['needs_environment' => true, 'is_safe' => ['html']]
 			),
+			new \Twig_SimpleFunction(
+				't3image', [$this, 'renderImage'],
+				['needs_environment' => true, 'is_safe' => ['html']]
+			),
 		];
 	}
 
@@ -55,7 +59,7 @@ class ImageExtension extends \Twig_Extension
 	 *
 	 * @return array
 	 */
-	public function renderImage(
+	public function renderImages(
 		T3twigEnvironment $env,
 		\Tx_Rnbase_Domain_Model_DomainInterface $model,
 		$refField = 'images'
@@ -63,6 +67,26 @@ class ImageExtension extends \Twig_Extension
 		$fileRefs = \tx_rnbase_util_TSFAL::fetchReferences($model->getTableName(), $model->getUid(), $refField);
 
 		return $this->renderReferences($env, $fileRefs, $refField);
+	}
+
+	/**
+	 * @param T3twigEnvironment $env
+	 * @param                   $image
+	 * @param                   $options
+	 *
+	 * @return array
+	 */
+	public function renderImage(
+		T3twigEnvironment $env,
+		$image,
+		$options = array()
+	) {
+		$configurations = $env->getConfigurations();
+
+		return $configurations->getCObj()->cImage(
+			$image,
+			$options
+		);
 	}
 
 	/**
