@@ -4,6 +4,22 @@
 
 This extensions allows you to parse any field you have defined in TS.
 
+## t3cObject
+
+Creates output based on TypoScript.
+
+```
+    lib.testlink = TEXT
+    lib.testlink {
+        field = label
+        typolink.parameter.field = pid
+    }
+```
+
+```twig
+    {{ t3cObject('lib.testlink', {'pid': 1, 'label': 'Wohoo'}) }}
+```
+
 ## t3parseField
 
 Renders an field with TS configuration.

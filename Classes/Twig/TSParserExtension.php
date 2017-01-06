@@ -10,7 +10,7 @@ use DMK\T3twig\Util\T3twigEnvironment;
  * @category TYPO3-Extension
  * @package  DMK\T3twig\Twig
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
- *           Michael Wagner <dev@dmk-ebusiness.de>
+ * @author   Michael Wagner <dev@dmk-ebusiness.de>
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
@@ -25,6 +25,19 @@ class TSParserExtension extends \Twig_Extension
 			new \Twig_SimpleFilter(
 				't3parseField', [$this, 'parseField'],
 				['needs_environment' => true, 'is_safe' => ['html'],]
+			),
+		];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getFunctions()
+	{
+		return [
+			new \Twig_SimpleFunction(
+				't3cObject', [$this, 'renderContentObject'],
+				['needs_environment' => true, 'is_safe' => ['html']]
 			),
 		];
 	}
@@ -63,6 +76,74 @@ class TSParserExtension extends \Twig_Extension
 		$cObj->data = $tmp;
 
 		return $value;
+	}
+
+	/**
+	 * Creates output based on TypoScript.
+	 *
+	 * @param T3twigEnvironment $env
+	 * @param string            $typoscriptObjectPath
+	 * @param array             $data
+	 *
+	 * @throws \Exception
+	 *
+	 * @return string
+	 */
+	public function renderContentObject(
+		T3twigEnvironment $env,
+		$typoscriptObjectPath,
+		$data = null
+	) {
+		$currentValue = null;
+		if (is_scalar($data)) {
+			$currentValue = (string) $data;
+			$data = [$data];
+		}
+		// @TODO: handle objects!
+
+		$contentObject = $env->getConfigurations()->getCObj();
+
+		// set data
+		if ($data !== null) {
+			$backupData = $contentObject->data;
+			$contentObject->data = $data;
+		}
+
+		if ($currentValue !== null) {
+			$contentObject->setCurrentVal($currentValue);
+		}
+
+		$setup = $GLOBALS['TSFE']->tmpl->setup;
+
+		$pathSegments = \Tx_Rnbase_Utility_Strings::trimExplode(
+			'.',
+			$typoscriptObjectPath
+		);
+		$lastSegment = array_pop($pathSegments);
+
+		// check the ts path and find the setup config
+		foreach ($pathSegments as $segment) {
+			if (!array_key_exists(($segment . '.'), $setup)) {
+				throw new \Exception(
+					'TypoScript object path "' . htmlspecialchars($typoscriptObjectPath) . '" does not exist',
+					1483710972
+				);
+			}
+			$setup = $setup[$segment . '.'];
+		}
+
+		// render the ts
+		$content = $contentObject->cObjGetSingle(
+			$setup[$lastSegment],
+			$setup[$lastSegment . '.']
+		);
+
+		// reset data
+		if (isset($backupData)) {
+			$contentObject->data = $backupData;
+		}
+
+		return $content;
 	}
 
 	/**
