@@ -15,30 +15,30 @@ use DMK\T3twig\View\BaseTwigView;
  */
 class T3twigEnvironment extends \Twig_Environment
 {
-	/** @var BaseTwigView */
-	protected $view;
+    /** @var BaseTwigView */
+    protected $view;
 
-	/**
-	 * @param BaseTwigView $view
-	 */
-	public function setView(BaseTwigView $view)
-	{
-		$this->view = $view;
-	}
+    /**
+     * @param BaseTwigView $view
+     */
+    public function setView(BaseTwigView $view)
+    {
+        $this->view = $view;
+    }
 
-	/**
-	 * @return \tx_rnbase_configurations
-	 */
-	public function getConfigurations()
-	{
-		return $this->view->getController()->getConfigurations();
-	}
+    /**
+     * @return \tx_rnbase_configurations
+     */
+    public function getConfigurations()
+    {
+        return $this->view->getController()->getConfigurations();
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getConfId()
-	{
-		return $this->view->getController()->getConfId();
-	}
+    /**
+     * @return string
+     */
+    public function getConfId()
+    {
+        return $this->view->getController()->getConfId();
+    }
 }

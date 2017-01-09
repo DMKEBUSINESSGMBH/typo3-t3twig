@@ -16,64 +16,64 @@ use TYPO3\CMS\Core\Resource\Folder;
  */
 class DataHandler implements SingletonInterface
 {
-	/**
-	 * @param array $parameters
-	 *
-	 * @return bool
-	 * @throws \Exception
-	 */
-	public function clearTwigCache(array $parameters = [])
-	{
-		self::recursivelyRemoveDirectory(PATH_site.'typo3temp/t3twig');
+    /**
+     * @param array $parameters
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function clearTwigCache(array $parameters = [])
+    {
+        self::recursivelyRemoveDirectory(PATH_site.'typo3temp/t3twig');
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * remove cache directory
-	 * http://stackoverflow.com/a/31008113
-	 *
-	 * @param      $source
-	 * @param bool $removeOnlyChildren
-	 *
-	 * @throws \Exception
-	 */
-	private static function recursivelyRemoveDirectory($source, $removeOnlyChildren = true)
-	{
-		if (empty($source) || file_exists($source) === false) {
-			throw new \Exception("File does not exist: '$source'");
-		}
+    /**
+     * remove cache directory
+     * http://stackoverflow.com/a/31008113
+     *
+     * @param      $source
+     * @param bool $removeOnlyChildren
+     *
+     * @throws \Exception
+     */
+    private static function recursivelyRemoveDirectory($source, $removeOnlyChildren = true)
+    {
+        if (empty($source) || file_exists($source) === false) {
+            throw new \Exception("File does not exist: '$source'");
+        }
 
-		if (is_file($source) || is_link($source)) {
-			if (false === unlink($source)) {
-				throw new \Exception("Cannot delete file '$source'");
-			}
-		}
+        if (is_file($source) || is_link($source)) {
+            if (false === unlink($source)) {
+                throw new \Exception("Cannot delete file '$source'");
+            }
+        }
 
-		$files = new \RecursiveIteratorIterator(
-			new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
-			\RecursiveIteratorIterator::CHILD_FIRST
-		);
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::CHILD_FIRST
+        );
 
-		foreach ($files as $fileInfo) {
-			if ($fileInfo->isDir()) {
-				if (self::recursivelyRemoveDirectory($fileInfo->getRealPath()) === false) {
-					throw new \Exception("Failed to remove directory '{$fileInfo->getRealPath()}'");
-				}
-				if (false === rmdir($fileInfo->getRealPath())) {
-					throw new \Exception("Failed to remove empty directory '{$fileInfo->getRealPath()}'");
-				}
-			} else {
-				if (unlink($fileInfo->getRealPath()) === false) {
-					throw new \Exception("Failed to remove file '{$fileInfo->getRealPath()}'");
-				}
-			}
-		}
+        foreach ($files as $fileInfo) {
+            if ($fileInfo->isDir()) {
+                if (self::recursivelyRemoveDirectory($fileInfo->getRealPath()) === false) {
+                    throw new \Exception("Failed to remove directory '{$fileInfo->getRealPath()}'");
+                }
+                if (false === rmdir($fileInfo->getRealPath())) {
+                    throw new \Exception("Failed to remove empty directory '{$fileInfo->getRealPath()}'");
+                }
+            } else {
+                if (unlink($fileInfo->getRealPath()) === false) {
+                    throw new \Exception("Failed to remove file '{$fileInfo->getRealPath()}'");
+                }
+            }
+        }
 
-		if ($removeOnlyChildren === false) {
-			if (false === rmdir($source)) {
-				throw new \Exception("Cannot remove directory '$source'");
-			}
-		}
-	}
+        if ($removeOnlyChildren === false) {
+            if (false === rmdir($source)) {
+                throw new \Exception("Cannot remove directory '$source'");
+            }
+        }
+    }
 }
