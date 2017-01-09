@@ -35,6 +35,14 @@ class T3twigEnvironment extends \Twig_Environment
     }
 
     /**
+     * @return \tx_rnbase_parameters
+     */
+    public function getParameters()
+    {
+        return $this->getConfigurations()->getParameters();
+    }
+
+    /**
      * @return string
      */
     public function getConfId()

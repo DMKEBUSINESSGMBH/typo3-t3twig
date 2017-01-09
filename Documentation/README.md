@@ -4,8 +4,9 @@
 
 * [Getting Started](./reference/GettingStarted.md)
 * Extensions:
-  * [Image Handler](./extensions/Image.md)
-  * [Link Handler](./extensions/Link.md)
-  * [Translation](./extensions/Translation.md)
-  * [TypoScript Parser](./extensions/TsParser.md)
+  * [Image Handler](./reference/extensions/Image.md)
+  * [Link Handler](./reference/extensions/Link.md)
+  * [Request](./reference/extensions/Request.md)
+  * [Translation](./reference/extensions/Translation.md)
+  * [TypoScript Parser](./reference/extensions/TsParser.md)
 
