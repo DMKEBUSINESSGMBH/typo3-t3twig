@@ -1,4 +1,3 @@
-[Extensions](../extensions.md)
 
 # Image Handler
 

@@ -4,3 +4,6 @@
 /.settings
 /.idea
 /.DS_Store
+
+### md renderings
+*.md.html
