@@ -61,7 +61,16 @@ class RequestExtension extends \Twig_Extension
         T3twigEnvironment $env,
         $paramName
     ) {
-        return $env->getParameters()->get($paramName);
+        $paths = explode('|', $paramName);
+        $segment = array_shift($paths);
+
+        $param = $env->getParameters()->get($segment);
+
+        while (($segment = array_shift($paths)) !== null) {
+            $param = $param[$segment];
+        }
+
+        return $param;
     }
 
     /**

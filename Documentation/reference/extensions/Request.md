@@ -11,3 +11,10 @@ The folowing url should output bar `/?mksearch[foo]=bar`
 ```twig
     {{ t3gp('foo') }}
 ```
+
+The folowing url should output baz `/?mksearch[foo][bar]=baz`
+
+```twig
+    {{ t3gp('foo|bar') }}
+    {{ t3gp('foo').bar }}
+```
