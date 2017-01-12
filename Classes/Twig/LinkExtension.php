@@ -96,7 +96,10 @@ class LinkExtension extends \Twig_Extension
         $rnBaseLink = $configurations->createLink();
         $rnBaseLink->label($label);
         $rnBaseLink->initByTS($configurations, $confId.$tsPath, $params);
-        $rnBaseLink->destination($dest);
+        // set destination only if set, so 0 for current page can be used
+        if (!empty($dest)) {
+        	$rnBaseLink->destination($dest);
+        }
 
         if (($extTarget = $configurations->get($confId.$tsPath.'extTarget'))) {
             $rnBaseLink->externalTargetAttribute($extTarget);
