@@ -67,6 +67,9 @@ class RequestExtension extends \Twig_Extension
         $param = $env->getParameters()->get($segment);
 
         while (($segment = array_shift($paths)) !== null) {
+            if (!isset($param[$segment])) {
+                return null;
+            }
             $param = $param[$segment];
         }
 
