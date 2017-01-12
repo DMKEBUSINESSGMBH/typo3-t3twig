@@ -3,6 +3,8 @@
 ##Table of Contents
 
 * [Getting Started](./reference/GettingStarted.md)
+* Macros:
+  * [Pagination](./reference/Macros/Pagination.md)
 * Extensions:
   * [Image Handler](./reference/extensions/Image.md)
   * [Link Handler](./reference/extensions/Link.md)
