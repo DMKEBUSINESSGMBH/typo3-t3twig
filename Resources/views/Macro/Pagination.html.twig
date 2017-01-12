@@ -1,0 +1,158 @@
+
+{% macro pageBrowser(state, options, labels) %}
+{% spaceless %}
+{#
+<!--
+    Source: on https://gist.github.com/SimonSimCity/4594748
+    Updated by: Michael Wagner
+    {{ dump({'state':state,'options':options,'labels':labels}) }}
+    state = {
+        listSize: "The complete number of items in listm (unused for the moment)",
+        pageSize: "The complete number of items per page (unused for the moment)",
+        pointer: "The current pointer. This is the current page to show",
+        lastPage: "Returns the count of pages",
+    }
+    options = {
+        pointerParameterName: "the name of the parameter for the links",
+        linkParameters: "an array with aditional parameters for the pointer links (optional, default is {})",
+        firstIsNull: "set to true if the first page is 0, otherwise (first page is 1) false",
+        extremePagesLimit: "the number of first and last pages to be displayed (optional, default is 3)",
+        nearbyPagesLimit: "the number of pages that are displayed around the active page (optional, default is 2)",
+        showFirstAndLast: "should the first and last buttons be displayed? (optional, default is true)",
+        showPreviousAndNext: "should the prev and next buttons be displayed? (optional, default is true)",
+        showAlwaysFirstAndLast: "should the next/last and prev/first buttons already be shown (optional, default is true)",
+    }
+    labels = {
+        first: "«",
+        last: "»",
+        next: "›",
+        prev: "‹",
+        dots: "…",
+    }
+ -->
+#}
+    {% if state.lastPage > 1 %}
+
+        {% set pointer = state.pointer|default(1) %}
+
+        {# the number of first and last pages to be displayed #}
+        {% set extremePagesLimit = options.extremePagesLimit|default(3) %}
+
+        {# the number of pages that are displayed around the active page #}
+        {% set nearbyPagesLimit = options.nearbyPagesLimit|default(2) %}
+
+        {# check options and set default values #}
+        {% set showFirstAndLast = options.showFirstAndLast is null ? 1 : options.showFirstAndLast %}
+        {% set showPreviousAndNext = options.showPreviousAndNext is null ? 1 : options.showPreviousAndNext %}
+        {% set showAlwaysFirstAndLast = options.showAlwaysFirstAndLast is null ? 1 : options.showAlwaysFirstAndLast %}
+
+        {% set pidFix = options.firstIsNull ? -1 : 0 %}
+
+        {% set ppName = options.pointerParameterName|default('pb-pointer') %}
+        {% set params = options.linkParameters|default({}) %}
+
+        <ul class="pagination pagination-sm">
+
+            {% if pointer > 1 %}
+
+                {% if (showFirstAndLast) %}
+                    <li {{ pointer == 1 ? 'class="disabled"' }}>
+                        {{ labels.first|default('«')|t3link(0, params|merge({(ppName) : (1 + pidFix)})) }}
+                    </li>
+                {% endif %}
+
+                {% if (showPreviousAndNext) %}
+                    <li {{ pointer == 1 ? 'class="disabled"' }}>
+                        {{ labels.prev|default('‹')|t3link(0, params|merge({(ppName) : ((pointer - 1 < firstPageId ? firstPageId : pointer - 1) + pidFix)})) }}
+                    </li>
+                {% endif %}
+
+                {% for i in range(1, extremePagesLimit) if ( i < pointer - nearbyPagesLimit ) %}
+                    <li>
+                        {{ i|t3link(0, params|merge({(ppName) : (i + pidFix)})) }}
+                    </li>
+                {% endfor %}
+
+                {% if extremePagesLimit + 1 < pointer - nearbyPagesLimit %}
+                    <li>
+                        <span>{{ labels.dots|default('…') }}</span>
+                    </li>
+                {% endif %}
+
+                {% for i in range(pointer - nearbyPagesLimit, pointer - 1) if ( i > 0 ) %}
+                    <li>
+                        {{ i|t3link(0, params|merge({(ppName) : (i + pidFix)})) }}
+                    </li>
+                {% endfor %}
+
+            {% elseif showAlwaysFirstAndLast %}
+
+                {% if (showFirstAndLast) %}
+                    <li class="disabled">
+                        <span>{{ labels.first|default('«') }}</span>
+                    </li>
+                {% endif %}
+
+                {% if (showPreviousAndNext) %}
+                    <li class="disabled">
+                        <span>{{ labels.prev|default('‹') }}</span>
+                    </li>
+                {% endif %}
+
+            {% endif %}
+
+            <li class="active">
+                    {{ pointer|default('0')|t3link(0, params|merge({(ppName) : (pointer + pidFix)})) }}
+            </li>
+
+            {% if pointer < state.lastPage %}
+
+                {% for i in range(pointer + 1, pointer + nearbyPagesLimit) if ( i <= state.lastPage ) %}
+                    <li>
+                        {{ i|t3link(0, params|merge({(ppName) : (i + pidFix)})) }}
+                    </li>
+                {% endfor %}
+
+                {% if  (state.lastPage - extremePagesLimit) > (pointer + nearbyPagesLimit) %}
+                    <li>
+                        <span>{{ labels.dots|default('…') }}</span>
+                    </li>
+                {% endif %}
+
+                {% for i in range(state.lastPage - extremePagesLimit+1, state.lastPage) if ( i > pointer + nearbyPagesLimit ) %}
+                    <li>
+                        {{ i|t3link(0, params|merge({(ppName) : (i + pidFix)})) }}
+                    </li>
+                {% endfor %}
+
+                {% if (showFirstAndLast) %}
+                    <li>
+                        {{ labels.next|default('›')|t3link(0, params|merge({(ppName) : (pointer + 1 + pidFix)})) }}
+                    </li>
+                {% endif %}
+
+                {% if (showPreviousAndNext) %}
+                    <li>
+                        {{ labels.last|default('»')|t3link(0, params|merge({(ppName) : (state.lastPage + pidFix)})) }}
+                    </li>
+                {% endif %}
+
+            {% elseif showAlwaysFirstAndLast %}
+
+                {% if (showFirstAndLast) %}
+                    <li class="disabled">
+                        <span>{{ labels.next|default('›') }}</span>
+                    </li>
+                {% endif %}
+
+                {% if (showPreviousAndNext) %}
+                    <li class="disabled">
+                        <span>{{ labels.last|default('»') }}</span>
+                    </li>
+                {% endif %}
+
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endspaceless %}
+{% endmacro pageBrowser %}
