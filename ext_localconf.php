@@ -14,5 +14,12 @@ if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
 
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][$_EXTKEY] =
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['t3twig'] =
 	'DMK\\T3twig\\Hook\\DataHandler->clearTwigCache';
+
+$GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects'] = array_merge(
+	$GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects'],
+	[
+		'T3TWIG' => \DMK\T3twig\ContentObject\TwigContentObject::class,
+	]
+);
