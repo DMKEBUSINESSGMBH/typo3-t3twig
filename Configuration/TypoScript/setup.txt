@@ -1,6 +1,6 @@
 lib.tx_t3twig {
 	templatepaths {
-		T3twig = EXT:t3twig/Resources/views
+		T3twig = EXT:t3twig/Resources/Private/Template
 	}
 	extensions {
 		twigBase_Debug = Twig_Extension_Debug
