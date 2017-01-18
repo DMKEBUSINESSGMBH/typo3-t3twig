@@ -1,5 +1,5 @@
 <?php
-namespace DMK\T3twig\Twig;
+namespace DMK\T3twig\Twig\Extension;
 
 /***************************************************************
  * Copyright notice
