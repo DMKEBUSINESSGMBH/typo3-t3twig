@@ -175,8 +175,17 @@ class RendererTwig
         if (empty($path)) {
             if (!empty($this->conf['template'])) {
                 $path = $this->conf['template'];
-            } else {
-                $path = reset($this->conf['templatepaths.']);
+            }
+        }
+
+        // if there is no path, put the rnbase template path before
+        if (!empty($path) && strpos($path, '/') === false) {
+            // check the rnbase base path
+            $basePath = $this->getConfigurations()->get('templatePath');
+            // add the first template include path
+            $basePath = $basePath ?: reset($this->conf['templatepaths.']);
+            if (!empty($basePath)) {
+                $path = $basePath . '/' .$path;
             }
         }
 
