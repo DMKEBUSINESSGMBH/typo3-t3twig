@@ -2,7 +2,35 @@
 
 [Table of Contents](../README.md)
 
+
+## ContentObject
+
+There is a ContentObject called `T3TWIG` which you can use in TypoScript.  
+The data from te TS and the current context, usually the page, are aviable at the template.
+
+TypoScript example:
+```
+example = T3TWIG
+example {
+	template = EXT:myext/Resources/Private/Template/Twig/Headline.html.twig 
+	pid = 5
+	title = Test
+}
+```
+
+Content of the Twig template from above:
+```twig
+<h4>{{ header }} - {{ title|t3link(pid) }}</h4>
+```
+
+Result:
+```html
+<h4>CurrentPageTitle - <a href="/index.php?id=5">Test</a></h4>
+```
+
+
 ##rn_base Plugin
+
 First of all you need a [rn_base plugin](https://github.com/digedag/rn_base/blob/master/Documentation/fe_plugins.md) with an action which extends `tx_rnbase_action_BaseIOC`.
 
 Here you have to write all data into the $viewData object via `$viewData->offsetSet('key', 'value')` and `return null`
@@ -85,29 +113,4 @@ class ListDatasetsAction extends \tx_mklib_action_AbstractList
      */
     protected function getTemplateName() { return 'listDatasets'; }
 }
-```
-
-## ContentObject
-
-There is a ContentObject called `T3TWIG` which you can use in TypoScript.  
-The data from te TS and the current context, Usually the page, are aviable in the template.
-
-TypoScript example
-```
-example = T3TWIG
-example {
-	template = EXT:myext/Resources/Private/Template/Twig/Headline.html.twig 
-	pid = 5
-	title = Test
-}
-```
-
-Content of the Twig template from above
-```twig
-<h4>{{ header }} - {{ title|t3link(pid) }}</h4>
-```
-
-Result:
-```html
-<h4>CurrentPageTitle - <a href="/index.php?id=5">Test</a></h4>
 ```
