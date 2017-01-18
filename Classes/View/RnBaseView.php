@@ -1,5 +1,5 @@
 <?php
-namespace DMK\T3twig\Twig\Extension;
+namespace DMK\T3twig\View;
 
 /***************************************************************
  * Copyright notice
@@ -24,66 +24,40 @@ namespace DMK\T3twig\Twig\Extension;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use DMK\T3twig\Twig\EnvironmentTwig;
+use DMK\T3twig\Twig\RendererTwig as Renderer;
 
 /**
- * Class TSParserExtension
+ * Class BaseTwigView
  *
  * @category TYPO3-Extension
  * @package  DMK\T3twig
+ * @author   Eric Hertwig
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
-class RequestExtension extends \Twig_Extension
+class RnBaseView extends \tx_rnbase_view_Base
 {
     /**
-     * @return array
-     */
-    public function getFunctions()
-    {
-        return [
-            new \Twig_SimpleFunction(
-                't3gp',
-                [$this, 'renderGetPost'],
-                ['needs_environment' => true]
-            ),
-        ];
-    }
-
-    /**
-     * @param EnvironmentTwig $env
-     * @param array             $record
-     * @param string            $field
+     * @param string                    $view
+     * @param \tx_rnbase_configurations $configurations
      *
      * @return string
      */
-    public function renderGetPost(
-        EnvironmentTwig $env,
-        $paramName
-    ) {
-        $paths = explode('|', $paramName);
-        $segment = array_shift($paths);
-
-        $param = $env->getParameters()->get($segment);
-
-        while (($segment = array_shift($paths)) !== null) {
-            if (!isset($param[$segment])) {
-                return null;
-            }
-            $param = $param[$segment];
-        }
-
-        return $param;
-    }
-
-    /**
-     * Get Extension name
-     *
-     * @return string
-     */
-    public function getName()
+    public function render($view, &$configurations)
     {
-        return 't3twig_requestExtension';
+        $renderer = Renderer::instance(
+            $configurations,
+            $this->getController()->getConfId(),
+            [
+                'template' => $this->getTemplate($view, '.html.twig'),
+                // this is deprecated and will be removed later
+                'templatepaths.' => $configurations->getExploded('twig_templatepaths.'),
+                'extensions.' => $configurations->getExploded('twig_extensions.'),
+            ]
+        );
+        return $renderer->render(
+            $configurations->getViewData()->getArrayCopy()
+        );
     }
 }

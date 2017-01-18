@@ -25,14 +25,15 @@ namespace DMK\T3twig\Twig\Extension;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use DMK\T3twig\Util\T3twigEnvironment;
+use DMK\T3twig\Twig\EnvironmentTwig;
 
 /**
  * Class LanguageExtension
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig\Twig
+ * @package  DMK\T3twig
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
+ * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
@@ -49,14 +50,14 @@ class LanguageExtension extends \Twig_Extension
     }
 
     /**
-     * @param T3twigEnvironment $env
+     * @param EnvironmentTwig $env
      * @param string            $label
      * @param string            $alt
      * @param bool              $hsc
      *
      * @return mixed
      */
-    public function getTranslation(T3twigEnvironment $env, $label, $alt = '', $hsc = false)
+    public function getTranslation(EnvironmentTwig $env, $label, $alt = '', $hsc = false)
     {
         return $env->getConfigurations()->getLL($label, $alt, $hsc);
     }

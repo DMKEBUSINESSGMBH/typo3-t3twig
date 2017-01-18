@@ -1,5 +1,6 @@
 <?php
-namespace DMK\T3twig\Twig\Extension;
+
+namespace DMK\T3twig\Twig;
 
 /***************************************************************
  * Copyright notice
@@ -24,66 +25,66 @@ namespace DMK\T3twig\Twig\Extension;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use DMK\T3twig\Twig\EnvironmentTwig;
+use DMK\T3twig\Twig\RendererTwig as Renderer;
 
 /**
- * Class TSParserExtension
+ * Class EnvironmentTwig
  *
  * @category TYPO3-Extension
  * @package  DMK\T3twig
+ * @author   Eric Hertwig <dev@dmk-ebusiness.de>
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
-class RequestExtension extends \Twig_Extension
+class EnvironmentTwig extends \Twig_Environment
 {
     /**
-     * @return array
+     * @var Renderer
      */
-    public function getFunctions()
-    {
-        return [
-            new \Twig_SimpleFunction(
-                't3gp',
-                [$this, 'renderGetPost'],
-                ['needs_environment' => true]
-            ),
-        ];
-    }
+    protected $renderer;
 
     /**
-     * @param EnvironmentTwig $env
-     * @param array             $record
-     * @param string            $field
+     * Sets the current renderer
      *
-     * @return string
+     * @param Renderer $view
+     *
+     * @return EnvironmentTwig
      */
-    public function renderGetPost(
-        EnvironmentTwig $env,
-        $paramName
+    public function setRenderer(
+        Renderer $renderer
     ) {
-        $paths = explode('|', $paramName);
-        $segment = array_shift($paths);
 
-        $param = $env->getParameters()->get($segment);
+        $this->renderer = $renderer;
 
-        while (($segment = array_shift($paths)) !== null) {
-            if (!isset($param[$segment])) {
-                return null;
-            }
-            $param = $param[$segment];
-        }
-
-        return $param;
+        return $this;
     }
 
     /**
-     * Get Extension name
+     * The current configurations
+     *
+     * @return \tx_rnbase_configurations
+     */
+    public function getConfigurations()
+    {
+        return $this->renderer->getConfigurations();
+    }
+
+    /**
+     * The current confid
      *
      * @return string
      */
-    public function getName()
+    public function getConfId()
     {
-        return 't3twig_requestExtension';
+        return $this->renderer->getConfId();
+    }
+
+    /**
+     * @return \tx_rnbase_parameters
+     */
+    public function getParameters()
+    {
+        return $this->getConfigurations()->getParameters();
     }
 }

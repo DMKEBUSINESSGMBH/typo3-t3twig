@@ -25,14 +25,15 @@ namespace DMK\T3twig\Twig\Extension;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use DMK\T3twig\Util\T3twigEnvironment;
+use DMK\T3twig\Twig\EnvironmentTwig;
 
 /**
  * Class LinkExtension
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig\Twig
+ * @package  DMK\T3twig
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
+ * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
@@ -45,7 +46,8 @@ class LinkExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFilter(
-                't3link', [$this, 'renderLink'],
+                't3link',
+                [$this, 'renderLink'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
         ];
@@ -55,14 +57,15 @@ class LinkExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction(
-                't3url', [$this, 'renderUrl'],
+                't3url',
+                [$this, 'renderUrl'],
                 ['needs_environment' => true]
             ),
         ];
     }
 
     /**
-     * @param T3twigEnvironment $env
+     * @param EnvironmentTwig $env
      * @param                   $label
      * @param                   $dest
      * @param array             $params
@@ -70,7 +73,7 @@ class LinkExtension extends \Twig_Extension
      *
      * @return array
      */
-    public function renderLink(T3twigEnvironment $env, $label, $dest, $params = [], $tsPath = 'link.')
+    public function renderLink(EnvironmentTwig $env, $label, $dest, $params = [], $tsPath = 'link.')
     {
         $rnBaseLink = $this->makeRnbaseLink($env, $label, $dest, $params, $tsPath);
 
@@ -78,14 +81,14 @@ class LinkExtension extends \Twig_Extension
     }
 
     /**
-     * @param T3twigEnvironment $env
+     * @param EnvironmentTwig $env
      * @param                   $dest
      * @param array             $params
      * @param string            $tsPath
      *
      * @return string
      */
-    public function renderUrl(T3twigEnvironment $env, $dest, $params = [], $tsPath = 'link.')
+    public function renderUrl(EnvironmentTwig $env, $dest, $params = [], $tsPath = 'link.')
     {
         $rnBaseLink = $this->makeRnbaseLink($env, $label = '', $dest, $params, $tsPath);
 
@@ -103,7 +106,7 @@ class LinkExtension extends \Twig_Extension
     }
 
     /**
-     * @param T3twigEnvironment $env
+     * @param EnvironmentTwig $env
      * @param                   $label
      * @param                   $dest
      * @param array             $params
@@ -111,7 +114,7 @@ class LinkExtension extends \Twig_Extension
      *
      * @return \tx_rnbase_util_Link
      */
-    private function makeRnbaseLink(T3twigEnvironment $env, $label, $dest, $params, $tsPath = 'link.')
+    private function makeRnbaseLink(EnvironmentTwig $env, $label, $dest, $params, $tsPath = 'link.')
     {
         $configurations = $env->getConfigurations();
         $confId         = $env->getConfId();
@@ -121,7 +124,7 @@ class LinkExtension extends \Twig_Extension
         $rnBaseLink->initByTS($configurations, $confId.$tsPath, $params);
         // set destination only if set, so 0 for current page can be used
         if (!empty($dest)) {
-        	$rnBaseLink->destination($dest);
+            $rnBaseLink->destination($dest);
         }
 
         if (($extTarget = $configurations->get($confId.$tsPath.'extTarget'))) {

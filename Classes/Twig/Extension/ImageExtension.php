@@ -25,15 +25,16 @@ namespace DMK\T3twig\Twig\Extension;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use DMK\T3twig\Util\T3twigEnvironment;
+use DMK\T3twig\Twig\EnvironmentTwig;
 
 /**
  * Class ImageExtension
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig\Twig
+ * @package  DMK\T3twig
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
- *           Mario Seidel <dev@dmk-ebusiness.de>
+ * @author   Mario Seidel <dev@dmk-ebusiness.de>
+ * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
@@ -47,11 +48,13 @@ class ImageExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFilter('getMediaObjects', [$this, 'getMediaObjects']),
             new \Twig_SimpleFilter(
-                't3images', [$this, 'renderImages'],
+                't3images',
+                [$this, 'renderImages'],
                 ['needs_environment' => true]
             ),
             new \Twig_SimpleFilter(
-                't3imageFromTS', [$this, 'renderImageFromTyposcript'],
+                't3imageFromTS',
+                [$this, 'renderImageFromTyposcript'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
         ];
@@ -65,25 +68,27 @@ class ImageExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFunction('getGenericMediaObjects', [$this, 'getGenericMediaObjects']),
             new \Twig_SimpleFunction(
-                't3genericImages', [$this, 'renderGenericImage'],
+                't3genericImages',
+                [$this, 'renderGenericImage'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
-                't3image', [$this, 'renderImage'],
+                't3image',
+                [$this, 'renderImage'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
         ];
     }
 
     /**
-     * @param T3twigEnvironment                       $env
+     * @param EnvironmentTwig                       $env
      * @param \Tx_Rnbase_Domain_Model_DomainInterface $model
      * @param string                                  $refField
      *
      * @return array
      */
     public function renderImages(
-        T3twigEnvironment $env,
+        EnvironmentTwig $env,
         \Tx_Rnbase_Domain_Model_DomainInterface $model,
         $refField = 'images'
     ) {
@@ -93,14 +98,14 @@ class ImageExtension extends \Twig_Extension
     }
 
     /**
-     * @param T3twigEnvironment $env
+     * @param EnvironmentTwig $env
      * @param                   $image
      * @param                   $options
      *
      * @return array
      */
     public function renderImage(
-        T3twigEnvironment $env,
+        EnvironmentTwig $env,
         $image,
         $options = []
     ) {
@@ -113,7 +118,7 @@ class ImageExtension extends \Twig_Extension
     }
 
     /**
-     * @param T3twigEnvironment $env
+     * @param EnvironmentTwig $env
      * @param                   $table
      * @param                   $uid
      * @param string            $refField
@@ -122,7 +127,7 @@ class ImageExtension extends \Twig_Extension
      * @return array
      */
     public function renderGenericImage(
-        T3twigEnvironment $env,
+        EnvironmentTwig $env,
         $table,
         $uid,
         $refField = 'images',
@@ -135,12 +140,12 @@ class ImageExtension extends \Twig_Extension
 
 
     /**
-     * @param T3twigEnvironment $env
+     * @param EnvironmentTwig $env
      * @param string            $tsPath
      *
      * @return string
      */
-    public function renderImageFromTyposcript(T3twigEnvironment $env, $tsPath)
+    public function renderImageFromTyposcript(EnvironmentTwig $env, $tsPath)
     {
         $configurations = $env->getConfigurations();
 
@@ -188,7 +193,7 @@ class ImageExtension extends \Twig_Extension
     }
 
     /**
-     * @param T3twigEnvironment $env
+     * @param EnvironmentTwig $env
      * @param                   $fileRefs
      * @param                   $tsPathConfig
      *

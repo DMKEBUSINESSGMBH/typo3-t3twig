@@ -25,15 +25,15 @@ namespace DMK\T3twig\Twig\Extension;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use DMK\T3twig\Util\T3twigEnvironment;
+use DMK\T3twig\Twig\EnvironmentTwig;
 
 /**
  * Class TSParserExtension
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig\Twig
+ * @package  DMK\T3twig
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
- * @author   Michael Wagner <dev@dmk-ebusiness.de>
+ * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
@@ -46,7 +46,8 @@ class TSParserExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFilter(
-                't3parseField', [$this, 'parseField'],
+                't3parseField',
+                [$this, 'parseField'],
                 ['needs_environment' => true, 'is_safe' => ['html'],]
             ),
         ];
@@ -59,20 +60,21 @@ class TSParserExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction(
-                't3cObject', [$this, 'renderContentObject'],
+                't3cObject',
+                [$this, 'renderContentObject'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
         ];
     }
 
     /**
-     * @param T3twigEnvironment $env
+     * @param EnvironmentTwig $env
      * @param array             $record
      * @param string            $field
      *
      * @return string
      */
-    public function parseField(T3twigEnvironment $env, $record, $field)
+    public function parseField(EnvironmentTwig $env, $record, $field)
     {
         $configurations = $env->getConfigurations();
         $confId         = $env->getConfId();
@@ -104,7 +106,7 @@ class TSParserExtension extends \Twig_Extension
     /**
      * Creates output based on TypoScript.
      *
-     * @param T3twigEnvironment $env
+     * @param EnvironmentTwig $env
      * @param string            $typoscriptObjectPath
      * @param array             $data
      *
@@ -113,7 +115,7 @@ class TSParserExtension extends \Twig_Extension
      * @return string
      */
     public function renderContentObject(
-        T3twigEnvironment $env,
+        EnvironmentTwig $env,
         $typoscriptObjectPath,
         $data = null
     ) {
