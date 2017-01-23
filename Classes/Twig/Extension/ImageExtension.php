@@ -111,6 +111,12 @@ class ImageExtension extends \Twig_Extension
     ) {
         $configurations = $env->getConfigurations();
 
+        // get Resource Object (non ExtBase version), taken from Fluid\MediaViewHelper
+        if (is_object($image) && is_callable([$image, 'getOriginalResource'])) {
+            // We have a domain model, so we need to fetch the FAL resource object from there
+            $image = $image->getOriginalResource();
+        }
+
         return $configurations->getCObj()->cImage(
             $image,
             $options
