@@ -114,12 +114,60 @@ class LinkExtension extends \Twig_Extension
      *
      * @return \tx_rnbase_util_Link
      */
-    private function makeRnbaseLink(EnvironmentTwig $env, $label, $dest, $params, $tsPath = 'link.')
-    {
-        $configurations = $env->getConfigurations();
-        $confId         = $env->getConfId();
+    private function makeRnbaseLink(
+        EnvironmentTwig $env,
+        $label,
+        $dest,
+        $params,
+        $tsPath = 'link.',
+        array $config = []
+    ) {
+        $primeval = $env->getConfigurations();
+        //  this was recreated, if there are a overrule config
+        $configurations = $primeval;
+        $confId = $env->getConfId();
 
-        $rnBaseLink = $configurations->createLink();
+        // if th ts path is an array then it is the config!
+        if (is_array($tsPath)) {
+            $config = $tsPath;
+            $tsPath = 'link.';
+        }
+
+        // we have aditional configurations, merge them togeter in a new config object
+        if (!empty($config)) {
+            $primeval = $env->getConfigurations();
+            /** @var $configurations \Tx_Rnbase_Configuration_Processor */
+            $configurations = \tx_rnbase::makeInstance(
+                'Tx_Rnbase_Configuration_Processor'
+            );
+            $primevalConf = $primeval->get($confId . $tsPath);
+            if (is_array($primevalConf)) {
+                $config = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                    $primevalConf,
+                    $config
+                );
+            }
+            $config = ['link.' => $config];
+            $configurations->init(
+                $config,
+                $primeval->getCObj(),
+                $primeval->getExtensionKey(),
+                $primeval->getQualifier()
+            );
+
+            $confId = '';
+            $tsPath = 'link.';
+        }
+
+        // wir reduzieren leere parameter
+        if ($configurations->getBool($confId.$tsPath.'skipEmptyParams')) {
+            foreach (array_keys($params, '') as $key) {
+                unset($params[$key]);
+            }
+        }
+
+        /// wir erzeugen den link vom original, falls eine overrule config da ist (keepvars).
+        $rnBaseLink = $primeval->createLink();
         $rnBaseLink->label($label);
         $rnBaseLink->initByTS($configurations, $confId.$tsPath, $params);
         // set destination only if set, so 0 for current page can be used
