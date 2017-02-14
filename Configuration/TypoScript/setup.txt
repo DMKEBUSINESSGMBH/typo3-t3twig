@@ -8,6 +8,7 @@ lib.tx_t3twig {
 		t3twig_languageExtension = DMK\T3twig\Twig\Extension\LanguageExtension
 		t3twig_linkExtension = DMK\T3twig\Twig\Extension\LinkExtension
 		t3twig_requestExtension = DMK\T3twig\Twig\Extension\RequestExtension
+		t3twig_tsFeExtension = DMK\T3twig\Twig\Extension\TsFeExtension
 		t3twig_tsParseExtension = DMK\T3twig\Twig\Extension\TSParserExtension
 	}
 }
