@@ -25,9 +25,6 @@ namespace DMK\T3twig\Twig\Extension;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use DMK\T3twig\Twig\EnvironmentTwig;
-use DMK\T3twig\Twig\TokenParser\PageTitleTokenParser;
-
 /**
  * Class TSParserExtension
  *
