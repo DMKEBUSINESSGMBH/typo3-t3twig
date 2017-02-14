@@ -47,7 +47,7 @@ class RendererTwig
      * @param \tx_rnbase_configurations $configurations
      * @param string $confId
      *
-     * @return \DMK\T3twig\Util\RendererUtil
+     * @return \DMK\T3twig\Twig\RendererTwig
      */
     public static function instance(
         \tx_rnbase_configurations $configurations,
@@ -218,6 +218,7 @@ class RendererTwig
             $this->getExtensions()
         );
 
+        /** @var $template \Twig_Template */
         $template = $twigEnv->loadTemplate(
             basename($templateFullFilePath)
         );
