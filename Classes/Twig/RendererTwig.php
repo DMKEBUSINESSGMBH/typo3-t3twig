@@ -75,10 +75,12 @@ class RendererTwig
         $confId = '',
         array $conf = []
     ) {
-        $this->conf = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-            $conf,
-            \tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.']
-        );
+        if(isset(\tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'])) {
+            $this->conf = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+    		    $conf,
+    	        \tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.']
+            );
+        }
         $this->configurations = $configurations;
         $this->confId = $confId;
     }
@@ -86,7 +88,7 @@ class RendererTwig
     /**
      * The current configurations
      *
-     * @return \tx_rnbase_configurations
+     * @return \Tx_Rnbase_Configuration_ProcessorInterface
      */
     public function getConfigurations()
     {
@@ -112,8 +114,7 @@ class RendererTwig
     {
         // initial use the global paths
         $paths = $this->conf['templatepaths.'];
-
-        // add the paths for the currend reder context
+        // add the paths for the current render context
         $paths = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
             $paths,
             $this->getConfigurations()->getExploded(
@@ -169,7 +170,7 @@ class RendererTwig
      */
     protected function getTemplatePath()
     {
-        $path = $this->getConfigurations()->get($this->getConfId() . 'template');
+        $path = $this->getConfigurations()->get($this->getConfId() . 'template', true);
         $path = $path ?: $this->getConfigurations()->get('template');
 
         if (empty($path)) {
@@ -198,7 +199,6 @@ class RendererTwig
         array $data = null
     ) {
         $templateFullFilePath = $this->getTemplatePath();
-
         $twigLoader = UtilityTwig::getTwigLoaderFilesystem(
             dirname($templateFullFilePath)
         );
