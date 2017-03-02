@@ -27,6 +27,7 @@ namespace DMK\T3twig\ContentObject;
 
 use \TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
 use DMK\T3twig\Twig\RendererTwig as Renderer;
+use DMK\T3twig\Twig\T3TwigException;
 
 /**
  * Class DataHandler
@@ -39,30 +40,28 @@ use DMK\T3twig\Twig\RendererTwig as Renderer;
  */
 class TwigContentObject extends AbstractContentObject
 {
-        /**
+    /**
      * Rendering the cObject, TEMPLATE
      *
      * @param array $conf Array of TypoScript properties
      * @return string Output
      * @see substituteMarkerArrayCached()
+     * @throws T3TwigException
      */
     public function render(
         $conf = []
     ) {
         $content = '';
 
+        $configurations = $this->buildConfigurations($conf);
         $renderer = Renderer::instance(
-            $this->buildConfigurations($conf),
+            $configurations,
             '',
             $conf
         );
+        $contextData = $this->getContext($configurations);
 
-        $content .= $renderer->render(
-            array_merge(
-                (array) $this->getContentObject()->data,
-                $conf
-            )
-        );
+        $content .= $renderer->render($contextData);
 
         return $content;
     }
@@ -72,14 +71,14 @@ class TwigContentObject extends AbstractContentObject
      *
      * @param array $conf
      *
-     * @return \tx_rnbase_configurations
+     * @return \Tx_Rnbase_Configuration_Processor
      */
     private function buildConfigurations(
         array $conf
     ) {
-        /* @var $configurations \tx_rnbase_configurations */
+        /* @var $configurations \Tx_Rnbase_Configuration_ProcessorInterface */
         $configurations = \tx_rnbase::makeInstance(
-            'tx_rnbase_configurations'
+            'Tx_Rnbase_Configuration_Processor'
         );
         $configurations->init(
             $conf,
@@ -89,5 +88,44 @@ class TwigContentObject extends AbstractContentObject
         );
 
         return $configurations;
+    }
+
+    /**
+     * Compile rendered content objects in variables array ready to assign to the view
+     *
+     * @param \Tx_Rnbase_Configuration_Processor $configurations
+     * @return array the variables to be assigned
+     * @throws T3TwigException
+     */
+    protected function getContext($configurations)
+    {
+        $contextData = [];
+    	$contextNames = $configurations->getKeyNames('context.');
+        if($contextNames === NULL) {
+        	// compat with limited features
+        	$contextData = array_merge(
+                (array) $this->getContentObject()->data,
+                $conf
+            );
+        }
+        else {
+            $reservedVariables = ['data', 'current', 'page'];
+        	foreach ($contextNames As $key) {
+                if (!in_array($variableName, $reservedVariables)) {
+                    $contextData[$key] = $configurations->get('context.'.$key, true);
+                } else {
+                    throw new T3TwigException(
+                        'Cannot use reserved name "' . $variableName . '" as variable name in TWIGTEMPLATE.',
+                        1288095720
+                    );
+                }
+            }
+
+        	$contextData['data'] = $this->getContentObject()->data;
+        	$contextData['page'] = \tx_rnbase_util_TYPO3::getTSFE()->page;
+            $contextData['current'] = $this->getContentObject()->data[$this->getContentObject()->currentValKey];
+        }
+
+        return $contextData;
     }
 }

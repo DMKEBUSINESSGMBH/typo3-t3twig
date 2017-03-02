@@ -164,14 +164,14 @@ class RendererTwig
     /**
      * The template path with the tempate for the current renderer
      *
-     * @TODO: trow an exception when the template does not exists
-     *
      * @return string
+     * @throws T3TwigException
      */
     protected function getTemplatePath()
     {
-        $path = $this->getConfigurations()->get($this->getConfId() . 'template', true);
-        $path = $path ?: $this->getConfigurations()->get('template');
+        $path = $this->getConfigurations()->get($this->getConfId() . 'file', true);
+        $path = $path ?: $this->getConfigurations()->get($this->getConfId() . 'template', true);
+        $path = $path ?: $this->getConfigurations()->get('template'); // Warum wird hier ohne confid gesucht??
 
         if (empty($path)) {
             if (!empty($this->conf['template'])) {
@@ -179,6 +179,7 @@ class RendererTwig
             }
         }
 
+        // TODO: Wozu dieser Aufwand??
         // if there is no path, put the rnbase template path before
         if (!empty($path) && strpos($path, '/') === false) {
             // check the rnbase base path
@@ -188,6 +189,9 @@ class RendererTwig
             if (!empty($basePath)) {
                 $path = $basePath . '/' .$path;
             }
+        }
+        if(empty($path)) {
+            throw new T3TwigException('Neither "file" nor "template" configured for twig template.');
         }
 
         return \tx_rnbase_util_Files::getFileAbsFileName(
