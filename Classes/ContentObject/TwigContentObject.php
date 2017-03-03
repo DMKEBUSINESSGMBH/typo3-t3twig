@@ -100,17 +100,17 @@ class TwigContentObject extends AbstractContentObject
     protected function getContext($configurations)
     {
         $contextData = [];
-    	$contextNames = $configurations->getKeyNames('context.');
+        $contextNames = $configurations->getKeyNames('context.');
         if($contextNames === NULL) {
-        	// compat with limited features
-        	$contextData = array_merge(
+            // compat with limited features
+            $contextData = array_merge(
                 (array) $this->getContentObject()->data,
                 $conf
             );
         }
         else {
             $reservedVariables = ['data', 'current', 'page'];
-        	foreach ($contextNames As $key) {
+            foreach ($contextNames As $key) {
                 if (!in_array($variableName, $reservedVariables)) {
                     $contextData[$key] = $configurations->get('context.'.$key, true);
                 } else {
@@ -121,8 +121,8 @@ class TwigContentObject extends AbstractContentObject
                 }
             }
 
-        	$contextData['data'] = $this->getContentObject()->data;
-        	$contextData['page'] = \tx_rnbase_util_TYPO3::getTSFE()->page;
+            $contextData['data'] = $this->getContentObject()->data;
+            $contextData['page'] = \tx_rnbase_util_TYPO3::getTSFE()->page;
             $contextData['current'] = $this->getContentObject()->data[$this->getContentObject()->currentValKey];
         }
 
