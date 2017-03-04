@@ -27,6 +27,7 @@ namespace DMK\T3twig\Twig;
 
 use \TYPO3\CMS\Core\Exception;
 use DMK\T3twig\Twig\EnvironmentTwig;
+use DMK\T3twig\Twig\Loader\T3FileSystem;
 
 /**
  * Class TwigUtil
@@ -49,7 +50,7 @@ class UtilityTwig
      */
     public static function getTwigLoaderFilesystem($templateDir)
     {
-        return new \Twig_Loader_Filesystem($templateDir);
+        return new T3FileSystem($templateDir);
     }
 
     /**

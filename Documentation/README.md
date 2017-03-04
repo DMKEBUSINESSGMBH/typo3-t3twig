@@ -3,6 +3,9 @@
 ##Table of Contents
 
 * [Getting Started](./reference/GettingStarted.md)
+* TYPO3 Integration:
+  * [TWIGTEMPLATE ContentObject](./reference/integration/twigtemplate.md)
+  * [Using Namespaces](./reference/integration/namespaces.md)
 * Macros:
   * [Pagination](./reference/Macros/Pagination.md)
 * Extensions:
