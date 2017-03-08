@@ -101,30 +101,24 @@ class TwigContentObject extends AbstractContentObject
     {
         $contextData = [];
         $contextNames = $configurations->getKeyNames('context.');
-        if($contextNames === NULL) {
-            // compat with limited features
-            $contextData = array_merge(
-                (array) $this->getContentObject()->data,
-                $conf
-            );
+        if(empty($contextNames)) {
+        	$contextNames = $configurations->getKeyNames('variables.');
         }
-        else {
-            $reservedVariables = ['data', 'current', 'page'];
-            foreach ($contextNames As $key) {
-                if (!in_array($variableName, $reservedVariables)) {
-                    $contextData[$key] = $configurations->get('context.'.$key, true);
-                } else {
-                    throw new T3TwigException(
-                        'Cannot use reserved name "' . $variableName . '" as variable name in TWIGTEMPLATE.',
-                        1288095720
-                    );
-                }
+        $reservedVariables = ['data', 'current', 'page'];
+        foreach ($contextNames As $key) {
+            if (!in_array($key, $reservedVariables)) {
+                $contextData[$key] = $configurations->get('context.'.$key, true);
+            } else {
+                throw new T3TwigException(
+                    'Cannot use reserved name "' . $key . '" as variable name in TWIGTEMPLATE.',
+                    1288095720
+                );
             }
-
-            $contextData['data'] = $this->getContentObject()->data;
-            $contextData['page'] = \tx_rnbase_util_TYPO3::getTSFE()->page;
-            $contextData['current'] = $this->getContentObject()->data[$this->getContentObject()->currentValKey];
         }
+
+        $contextData['data'] = $this->getContentObject()->data;
+        $contextData['page'] = \tx_rnbase_util_TYPO3::getTSFE()->page;
+        $contextData['current'] = $this->getContentObject()->data[$this->getContentObject()->currentValKey];
 
         return $contextData;
     }
