@@ -75,7 +75,7 @@ class LinkExtension extends \Twig_Extension
      */
     public function renderLink(EnvironmentTwig $env, $label, $dest, $params = [], $tsPath = 'link.')
     {
-        $rnBaseLink = $this->makeRnbaseLink($env, $label, $dest, $params, $tsPath);
+    	$rnBaseLink = $this->makeRnbaseLink($env, $label, $dest, $params, $tsPath);
 
         return $rnBaseLink->makeTag();
     }
@@ -168,7 +168,7 @@ class LinkExtension extends \Twig_Extension
 
         /// wir erzeugen den link vom original, falls eine overrule config da ist (keepvars).
         $rnBaseLink = $primeval->createLink();
-        $rnBaseLink->label($label);
+        $rnBaseLink->label($label, true);
         $rnBaseLink->initByTS($configurations, $confId.$tsPath, $params);
         // set destination only if set, so 0 for current page can be used
         if (!empty($dest)) {
