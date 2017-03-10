@@ -20,7 +20,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clea
 $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects'] = array_merge(
 	$GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects'],
 	[
-		'T3TWIG' => \DMK\T3twig\ContentObject\TwigContentObject::class,
 		'TWIGTEMPLATE' => \DMK\T3twig\ContentObject\TwigContentObject::class,
 	]
 );
