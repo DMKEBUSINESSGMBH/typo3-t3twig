@@ -37,12 +37,14 @@ namespace DMK\T3twig\Twig\Loader;
  */
 class T3FileSystem extends \Twig_Loader_Filesystem
 {
-    static $sysExtKeys = ['core', 'extbase', 'fluid', 'extensionmanager', 'lang', 'saltedpasswords',
+    private static $sysExtKeys = [
+        'core', 'extbase', 'fluid', 'extensionmanager', 'lang', 'saltedpasswords',
        'backend', 'filelist', 'frontend', 'install', 'recordlist', 'sv', 't3skin', 'documentation',
        'info', 'info_pagetsconfig', 'setup', 'rtehtmlarea', 'rsaauth', 'func', 'wizard_crpages',
        'wizard_sortpages', 'about', 'aboutmodules', 'belog', 'beuser', 'context_help', 'cshmanual',
        'felogin', 'fluid_styled_content', 'form', 'impexp', 'lowlevel', 'reports', 'sys_note',
-       't3editor', 'tstemplate', 'viewpage'];
+       't3editor', 'tstemplate', 'viewpage',
+    ];
 
     public function __construct($paths = array(), $rootPath = null)
     {
@@ -57,21 +59,22 @@ class T3FileSystem extends \Twig_Loader_Filesystem
      */
     protected function addT3Namespaces()
     {
-    	$ignoreKeys = [];
-        $extKeys = array_filter(\tx_rnbase_util_Extensions::getLoadedExtensionListArray(),
+        $extKeys = array_filter(
+            \tx_rnbase_util_Extensions::getLoadedExtensionListArray(),
             function ($v) {
                 return !in_array($v, self::$sysExtKeys);
-            });
-        foreach ($extKeys As $extKey) {
+            }
+        );
+        foreach ($extKeys as $extKey) {
             $path = \tx_rnbase_util_Extensions::extPath($extKey);
             $path .= 'Resources/Private/';
-            if(is_dir($path)) {
+            if (is_dir($path)) {
                 $this->addPath($path, 'EXT:'.$extKey);
             }
         }
         // add fileadmin
         $path = PATH_site.'fileadmin/';
-        if(is_dir($path)) {
+        if (is_dir($path)) {
             $this->addPath($path, 'fileadmin');
         }
     }

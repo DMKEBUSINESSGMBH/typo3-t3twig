@@ -75,7 +75,7 @@ class LinkExtension extends \Twig_Extension
      */
     public function renderLink(EnvironmentTwig $env, $label, $dest, $params = [], $tsPath = 'link.')
     {
-    	$rnBaseLink = $this->makeRnbaseLink($env, $label, $dest, $params, $tsPath);
+        $rnBaseLink = $this->makeRnbaseLink($env, $label, $dest, $params, $tsPath);
 
         return $rnBaseLink->makeTag();
     }

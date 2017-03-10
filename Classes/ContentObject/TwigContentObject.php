@@ -101,11 +101,11 @@ class TwigContentObject extends AbstractContentObject
     {
         $contextData = [];
         $contextNames = $configurations->getKeyNames('context.');
-        if(empty($contextNames)) {
-        	$contextNames = $configurations->getKeyNames('variables.');
+        if (empty($contextNames)) {
+            $contextNames = $configurations->getKeyNames('variables.');
         }
         $reservedVariables = ['data', 'current', 'page'];
-        foreach ($contextNames As $key) {
+        foreach ($contextNames as $key) {
             if (!in_array($key, $reservedVariables)) {
                 $contextData[$key] = $configurations->get('context.'.$key, true);
             } else {

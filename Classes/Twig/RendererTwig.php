@@ -75,10 +75,10 @@ class RendererTwig
         $confId = '',
         array $conf = []
     ) {
-        if(isset(\tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'])) {
+        if (isset(\tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'])) {
             $this->conf = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-    		    $conf,
-    	        \tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.']
+                $conf,
+                \tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.']
             );
         }
         $this->configurations = $configurations;
@@ -171,7 +171,6 @@ class RendererTwig
     {
         $path = $this->getConfigurations()->get($this->getConfId() . 'file', true);
         $path = $path ?: $this->getConfigurations()->get($this->getConfId() . 'template', true);
-        $path = $path ?: $this->getConfigurations()->get('template'); // Warum wird hier ohne confid gesucht??
 
         if (empty($path)) {
             if (!empty($this->conf['template'])) {
@@ -179,7 +178,6 @@ class RendererTwig
             }
         }
 
-        // TODO: Wozu dieser Aufwand??
         // if there is no path, put the rnbase template path before
         if (!empty($path) && strpos($path, '/') === false) {
             // check the rnbase base path
@@ -190,7 +188,8 @@ class RendererTwig
                 $path = $basePath . '/' .$path;
             }
         }
-        if(empty($path)) {
+
+        if (empty($path)) {
             throw new T3TwigException('Neither "file" nor "template" configured for twig template.');
         }
 
