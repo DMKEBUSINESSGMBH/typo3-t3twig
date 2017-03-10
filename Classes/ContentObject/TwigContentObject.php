@@ -104,7 +104,7 @@ class TwigContentObject extends AbstractContentObject
         if (empty($contextNames)) {
             $contextNames = $configurations->getKeyNames('variables.');
         }
-        $reservedVariables = ['data', 'current', 'page'];
+        $reservedVariables = ['data', 'current'];
         foreach ($contextNames as $key) {
             if (!in_array($key, $reservedVariables)) {
                 $contextData[$key] = $configurations->get('context.'.$key, true);
@@ -117,7 +117,6 @@ class TwigContentObject extends AbstractContentObject
         }
 
         $contextData['data'] = $this->getContentObject()->data;
-        $contextData['page'] = \tx_rnbase_util_TYPO3::getTSFE()->page;
         $contextData['current'] = $this->getContentObject()->data[$this->getContentObject()->currentValKey];
 
         return $contextData;
