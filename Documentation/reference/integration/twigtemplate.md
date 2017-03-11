@@ -16,11 +16,11 @@ example {
 		key.data = levelfield:-1, backend_layout_next_level, slide
 		key.override.field = backend_layout
 		default = TEXT
-		default.value = EXT:myext/Resources/Private/Template/Twig/page_default.html.twig
+		default.value = EXT:myext/Resources/Private/Templates/Twig/page_default.html.twig
 		2 = TEXT
-		2.value       = EXT:myext/Resources/Private/Template/Twig/page_main.html.twig
+		2.value       = EXT:myext/Resources/Private/Templates/Twig/page_main.html.twig
 		3 = TEXT
-		3.value       = EXT:myext/Resources/Private/Template/Twig/page_gallery.html.twig
+		3.value       = EXT:myext/Resources/Private/Templates/Twig/page_gallery.html.twig
 	}
 	context {
 		content < styles.content.get
@@ -48,7 +48,7 @@ Content of the Twig template from above:
   </div>
 </div>
 <div class="container">
-  <h4>{{ page.title }} - {{ title|t3link(pid) }}</h4>
+  <h4>{{ tsfe.page.title }} - {{ title|t3link(pid) }}</h4>
 </div>
 ```
 

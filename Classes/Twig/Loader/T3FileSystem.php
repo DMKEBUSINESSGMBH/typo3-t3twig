@@ -67,7 +67,7 @@ class T3FileSystem extends \Twig_Loader_Filesystem
         );
         foreach ($extKeys as $extKey) {
             $path = \tx_rnbase_util_Extensions::extPath($extKey);
-            $path .= 'Resources/Private/';
+            $path .= 'Resources/Private/Templates/';
             if (is_dir($path)) {
                 $this->addPath($path, 'EXT:'.$extKey);
             }
