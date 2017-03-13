@@ -13,5 +13,6 @@
   * [Link Handler](./reference/extensions/Link.md)
   * [Request](./reference/extensions/Request.md)
   * [Translation](./reference/extensions/Translation.md)
+  * [TsFE](./reference/extensions/TsFe.md)
   * [TypoScript Parser](./reference/extensions/TsParser.md)
 
