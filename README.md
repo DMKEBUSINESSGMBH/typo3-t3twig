@@ -6,12 +6,13 @@
 ###What is it for?
 Extend rn_base for using twig templates instead of marker templates
 
+It's also possible to use t3twig as template enginge for Typo3 template development insted of fluid templates.
 ### Installation
 Install TYPO3 via composer. Maybe you can use our [TYPO3-Composer-Webroot Project](https://github.com/DMKEBUSINESSGMBH/typo3-composer-webroot)
 
 From project root you need to run
 ```bash
-composer require dmk/t3twig
+composer require "dmk/t3twig:~1.0"
 ```
 
 ### Documentation
