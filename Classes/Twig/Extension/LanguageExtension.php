@@ -51,9 +51,9 @@ class LanguageExtension extends \Twig_Extension
 
     /**
      * @param EnvironmentTwig $env
-     * @param string            $label
-     * @param string            $alt
-     * @param bool              $hsc
+     * @param string          $label
+     * @param string          $alt
+     * @param bool            $hsc
      *
      * @return mixed
      */

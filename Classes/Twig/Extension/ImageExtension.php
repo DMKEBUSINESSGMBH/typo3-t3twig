@@ -81,7 +81,7 @@ class ImageExtension extends \Twig_Extension
     }
 
     /**
-     * @param EnvironmentTwig                       $env
+     * @param EnvironmentTwig                         $env
      * @param \Tx_Rnbase_Domain_Model_DomainInterface $model
      * @param string                                  $refField
      *
@@ -99,8 +99,8 @@ class ImageExtension extends \Twig_Extension
 
     /**
      * @param EnvironmentTwig $env
-     * @param                   $image
-     * @param                   $options
+     * @param                 image
+     * @param array           $options
      *
      * @return array
      */
@@ -124,7 +124,7 @@ class ImageExtension extends \Twig_Extension
     }
 
     /**
-     * @param EnvironmentTwig $env
+     * @param EnvironmentTwig   $env
      * @param                   $table
      * @param                   $uid
      * @param string            $refField
@@ -147,7 +147,7 @@ class ImageExtension extends \Twig_Extension
 
     /**
      * @param EnvironmentTwig $env
-     * @param string            $tsPath
+     * @param string          $tsPath
      *
      * @return string
      */
@@ -199,7 +199,7 @@ class ImageExtension extends \Twig_Extension
     }
 
     /**
-     * @param EnvironmentTwig $env
+     * @param EnvironmentTwig   $env
      * @param                   $fileRefs
      * @param                   $tsPathConfig
      *

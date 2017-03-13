@@ -39,8 +39,8 @@ use DMK\T3twig\Twig\RendererTwig as Renderer;
 class RnBaseView extends \tx_rnbase_view_Base
 {
     /**
-     * @param string                    $view
-     * @param \tx_rnbase_configurations $configurations
+     * @param string                                      $view
+     * @param \Tx_Rnbase_Configuration_ProcessorInterface $configurations
      *
      * @return string
      */
@@ -50,12 +50,13 @@ class RnBaseView extends \tx_rnbase_view_Base
             $configurations,
             $this->getController()->getConfId(),
             [
-                'template' => $this->getTemplate($view, '.html.twig'),
+                'template'       => $this->getTemplate($view, '.html.twig'),
                 // this is deprecated and will be removed later
                 'templatepaths.' => $configurations->getExploded('twig_templatepaths.'),
-                'extensions.' => $configurations->getExploded('twig_extensions.'),
+                'extensions.'    => $configurations->getExploded('twig_extensions.'),
             ]
         );
+
         return $renderer->render(
             $configurations->getViewData()->getArrayCopy()
         );

@@ -66,12 +66,12 @@ class LinkExtension extends \Twig_Extension
 
     /**
      * @param EnvironmentTwig $env
-     * @param                   $label
-     * @param                   $dest
-     * @param array             $params
-     * @param string            $tsPath
+     * @param                 label
+     * @param                 $dest
+     * @param array           $params
+     * @param string          $tsPath
      *
-     * @return array
+     * @return string
      */
     public function renderLink(EnvironmentTwig $env, $label, $dest, $params = [], $tsPath = 'link.')
     {
@@ -81,7 +81,7 @@ class LinkExtension extends \Twig_Extension
     }
 
     /**
-     * @param EnvironmentTwig $env
+     * @param EnvironmentTwig   $env
      * @param                   $dest
      * @param array             $params
      * @param string            $tsPath
@@ -107,10 +107,11 @@ class LinkExtension extends \Twig_Extension
 
     /**
      * @param EnvironmentTwig $env
-     * @param                   $label
-     * @param                   $dest
-     * @param array             $params
-     * @param string            $tsPath
+     * @param                 $label
+     * @param                 $dest
+     * @param                 $params
+     * @param string          $tsPath
+     * @param array           $config
      *
      * @return \tx_rnbase_util_Link
      */
@@ -125,7 +126,7 @@ class LinkExtension extends \Twig_Extension
         $primeval = $env->getConfigurations();
         //  this was recreated, if there are a overrule config
         $configurations = $primeval;
-        $confId = $env->getConfId();
+        $confId         = $env->getConfId();
 
         // if th ts path is an array then it is the config!
         if (is_array($tsPath)) {
@@ -133,14 +134,14 @@ class LinkExtension extends \Twig_Extension
             $tsPath = 'link.';
         }
 
-        // we have aditional configurations, merge them togeter in a new config object
+        // we have additional configurations, merge them together in a new config object
         if (!empty($config)) {
             $primeval = $env->getConfigurations();
             /** @var $configurations \Tx_Rnbase_Configuration_Processor */
             $configurations = \tx_rnbase::makeInstance(
                 'Tx_Rnbase_Configuration_Processor'
             );
-            $primevalConf = $primeval->get($confId . $tsPath);
+            $primevalConf   = $primeval->get($confId.$tsPath);
             if (is_array($primevalConf)) {
                 $config = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $primevalConf,
@@ -159,14 +160,14 @@ class LinkExtension extends \Twig_Extension
             $tsPath = 'link.';
         }
 
-        // wir reduzieren leere parameter
+        // reduce empty parameters
         if ($configurations->getBool($confId.$tsPath.'skipEmptyParams')) {
             foreach (array_keys($params, '') as $key) {
-                unset($params[$key]);
+                unset($params[ $key ]);
             }
         }
 
-        /// wir erzeugen den link vom original, falls eine overrule config da ist (keepvars).
+        /// create link from original if overrule config exist (keep vars).
         $rnBaseLink = $primeval->createLink();
         $rnBaseLink->label($label, true);
         $rnBaseLink->initByTS($configurations, $confId.$tsPath, $params);

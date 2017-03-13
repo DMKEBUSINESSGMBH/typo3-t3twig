@@ -29,12 +29,12 @@ namespace DMK\T3twig\View;
  *
  * @deprecated use RnBaseView instead!
  *
- * @category TYPO3-Extension
- * @package  DMK\T3twig
- * @author   Eric Hertwig
- * @author   Michael Wagner
- * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ * @category   TYPO3-Extension
+ * @package    DMK\T3twig
+ * @author     Eric Hertwig
+ * @author     Michael Wagner
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @link       https://www.dmk-ebusiness.de/
  */
 class BaseTwigView extends RnBaseView
 {

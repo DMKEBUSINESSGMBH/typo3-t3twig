@@ -47,9 +47,9 @@ class EnvironmentTwig extends \Twig_Environment
     /**
      * Sets the current renderer
      *
-     * @param Renderer $view
+     * @param \DMK\T3twig\Twig\RendererTwig $renderer
      *
-     * @return EnvironmentTwig
+     * @return $this
      */
     public function setRenderer(
         Renderer $renderer
@@ -63,7 +63,7 @@ class EnvironmentTwig extends \Twig_Environment
     /**
      * The current configurations
      *
-     * @return \tx_rnbase_configurations
+     * @return \Tx_Rnbase_Configuration_ProcessorInterface
      */
     public function getConfigurations()
     {
@@ -71,7 +71,7 @@ class EnvironmentTwig extends \Twig_Environment
     }
 
     /**
-     * The current confid
+     * The current confId
      *
      * @return string
      */

@@ -43,14 +43,14 @@ class RendererTwig
     /**
      * An instance of this renderer
      *
-     * @param array $config
-     * @param \tx_rnbase_configurations $configurations
-     * @param string $confId
+     * @param \Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param string                                      $confId
+     * @param array                                       $conf
      *
      * @return \DMK\T3twig\Twig\RendererTwig
      */
     public static function instance(
-        \tx_rnbase_configurations $configurations,
+        \Tx_Rnbase_Configuration_ProcessorInterface $configurations,
         $confId = '',
         array $conf = []
     ) {
@@ -64,14 +64,12 @@ class RendererTwig
     /**
      * Constructor
      *
-     * @param \tx_rnbase_configurations $configurations
-     * @param string $confId
-     * @param array $conf
-     *
-     * @return void
+     * @param \Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param string                                      $confId
+     * @param array                                       $conf
      */
     public function __construct(
-        \tx_rnbase_configurations $configurations,
+        \Tx_Rnbase_Configuration_ProcessorInterface $configurations,
         $confId = '',
         array $conf = []
     ) {
@@ -82,13 +80,13 @@ class RendererTwig
             );
         }
         $this->configurations = $configurations;
-        $this->confId = $confId;
+        $this->confId         = $confId;
     }
 
     /**
      * The current configurations
      *
-     * @return \Tx_Rnbase_Configuration_ProcessorInterface
+     * @return \tx_rnbase_configurations
      */
     public function getConfigurations()
     {
@@ -96,7 +94,7 @@ class RendererTwig
     }
 
     /**
-     * The current confid
+     * The current confId
      *
      * @return string
      */
@@ -118,7 +116,7 @@ class RendererTwig
         $paths = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
             $paths,
             $this->getConfigurations()->getExploded(
-                $this->getConfId() . 'templatepaths.'
+                $this->getConfId().'templatepaths.'
             )
         );
 
@@ -132,6 +130,7 @@ class RendererTwig
 
         return $paths;
     }
+
     /**
      * The extensions to use in twig templates
      *
@@ -142,11 +141,11 @@ class RendererTwig
         // initial use the global paths
         $paths = $this->conf['extensions.'];
 
-        // add the paths for the currend reder context
+        // add the paths for the current render context
         $paths = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
             $paths,
             $this->getConfigurations()->getExploded(
-                $this->getConfId() . 'extensions.'
+                $this->getConfId().'extensions.'
             )
         );
 
@@ -162,15 +161,15 @@ class RendererTwig
     }
 
     /**
-     * The template path with the tempate for the current renderer
+     * The template path with the template for the current renderer
      *
      * @return string
      * @throws T3TwigException
      */
     protected function getTemplatePath()
     {
-        $path = $this->getConfigurations()->get($this->getConfId() . 'file', true);
-        $path = $path ?: $this->getConfigurations()->get($this->getConfId() . 'template', true);
+        $path = $this->getConfigurations()->get($this->getConfId().'file', true);
+        $path = $path ?: $this->getConfigurations()->get($this->getConfId().'template', true);
 
         if (empty($path)) {
             if (!empty($this->conf['template'])) {
@@ -185,7 +184,7 @@ class RendererTwig
             // add the first template include path
             $basePath = $basePath ?: reset($this->conf['templatepaths.']);
             if (!empty($basePath)) {
-                $path = $basePath . '/' .$path;
+                $path = $basePath.'/'.$path;
             }
         }
 
@@ -202,7 +201,7 @@ class RendererTwig
         array $data = null
     ) {
         $templateFullFilePath = $this->getTemplatePath();
-        $twigLoader = UtilityTwig::getTwigLoaderFilesystem(
+        $twigLoader           = UtilityTwig::getTwigLoaderFilesystem(
             dirname($templateFullFilePath)
         );
 
@@ -213,8 +212,7 @@ class RendererTwig
 
 
         $twigEnv = UtilityTwig::getTwigEnvironment($twigLoader)
-            ->setRenderer($this)
-        ;
+                              ->setRenderer($this);
 
         UtilityTwig::injectExtensions(
             $twigEnv,

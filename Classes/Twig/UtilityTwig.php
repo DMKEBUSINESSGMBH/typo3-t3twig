@@ -26,7 +26,6 @@ namespace DMK\T3twig\Twig;
  ***************************************************************/
 
 use \TYPO3\CMS\Core\Exception;
-use DMK\T3twig\Twig\EnvironmentTwig;
 use DMK\T3twig\Twig\Loader\T3FileSystem;
 
 /**
@@ -74,7 +73,7 @@ class UtilityTwig
             $twigLoaderFilesystem,
             [
                 'debug' => $debug,
-                'cache' => PATH_site . 'typo3temp/t3twig',
+                'cache' => PATH_site.'typo3temp/t3twig',
             ]
         );
 
@@ -105,7 +104,7 @@ class UtilityTwig
      * Inject Twig Extensions by TS Config
      *
      * @param EnvironmentTwig $environment
-     * @param array             $extensions
+     * @param array           $extensions
      *
      * @throws \TYPO3\CMS\Core\Exception
      */
@@ -117,7 +116,7 @@ class UtilityTwig
             /** @var \Twig_Extension $extInstance */
             $extInstance = \tx_rnbase::makeInstance($value);
 
-            /** Is it a valide twig extension? */
+            /** Is it a valid twig extension? */
             if (!$extInstance instanceof \Twig_ExtensionInterface) {
                 throw new Exception(
                     sprintf(

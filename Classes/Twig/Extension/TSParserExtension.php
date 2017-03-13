@@ -69,8 +69,8 @@ class TSParserExtension extends \Twig_Extension
 
     /**
      * @param EnvironmentTwig $env
-     * @param array             $record
-     * @param string            $field
+     * @param array           $record
+     * @param string          $field
      *
      * @return string
      */
@@ -107,8 +107,8 @@ class TSParserExtension extends \Twig_Extension
      * Creates output based on TypoScript.
      *
      * @param EnvironmentTwig $env
-     * @param string            $typoscriptObjectPath
-     * @param array             $data
+     * @param string          $typoscriptObjectPath
+     * @param array           $data
      *
      * @throws \Exception
      *

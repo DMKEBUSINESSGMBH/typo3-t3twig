@@ -72,7 +72,7 @@ class TsFeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             return '';
         }
 
-        $GLOBALS['TSFE']->altPageTitle = $value;
+        $GLOBALS['TSFE']->altPageTitle    = $value;
         $GLOBALS['TSFE']->indexedDocTitle = $value;
 
         return sprintf(

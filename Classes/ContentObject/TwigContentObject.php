@@ -44,6 +44,7 @@ class TwigContentObject extends AbstractContentObject
      * Rendering the cObject, TEMPLATE
      *
      * @param array $conf Array of TypoScript properties
+     *
      * @return string Output
      * @see substituteMarkerArrayCached()
      * @throws T3TwigException
@@ -54,12 +55,12 @@ class TwigContentObject extends AbstractContentObject
         $content = '';
 
         $configurations = $this->buildConfigurations($conf);
-        $renderer = Renderer::instance(
+        $renderer       = Renderer::instance(
             $configurations,
             '',
             $conf
         );
-        $contextData = $this->getContext($configurations);
+        $contextData    = $this->getContext($configurations);
 
         $content .= $renderer->render($contextData);
 
@@ -94,12 +95,13 @@ class TwigContentObject extends AbstractContentObject
      * Compile rendered content objects in variables array ready to assign to the view
      *
      * @param \Tx_Rnbase_Configuration_Processor $configurations
+     *
      * @return array the variables to be assigned
      * @throws T3TwigException
      */
     protected function getContext($configurations)
     {
-        $contextData = [];
+        $contextData  = [];
         $contextNames = $configurations->getKeyNames('context.');
         if (empty($contextNames)) {
             $contextNames = $configurations->getKeyNames('variables.');
@@ -107,17 +109,17 @@ class TwigContentObject extends AbstractContentObject
         $reservedVariables = ['data', 'current'];
         foreach ($contextNames as $key) {
             if (!in_array($key, $reservedVariables)) {
-                $contextData[$key] = $configurations->get('context.'.$key, true);
+                $contextData[ $key ] = $configurations->get('context.'.$key, true);
             } else {
                 throw new T3TwigException(
-                    'Cannot use reserved name "' . $key . '" as variable name in TWIGTEMPLATE.',
+                    'Cannot use reserved name "'.$key.'" as variable name in TWIGTEMPLATE.',
                     1288095720
                 );
             }
         }
 
-        $contextData['data'] = $this->getContentObject()->data;
-        $contextData['current'] = $this->getContentObject()->data[$this->getContentObject()->currentValKey];
+        $contextData['data']    = $this->getContentObject()->data;
+        $contextData['current'] = $this->getContentObject()->data[ $this->getContentObject()->currentValKey ];
 
         return $contextData;
     }

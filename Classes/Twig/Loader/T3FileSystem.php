@@ -38,20 +38,53 @@ namespace DMK\T3twig\Twig\Loader;
 class T3FileSystem extends \Twig_Loader_Filesystem
 {
     private static $sysExtKeys = [
-        'core', 'extbase', 'fluid', 'extensionmanager', 'lang', 'saltedpasswords',
-       'backend', 'filelist', 'frontend', 'install', 'recordlist', 'sv', 't3skin', 'documentation',
-       'info', 'info_pagetsconfig', 'setup', 'rtehtmlarea', 'rsaauth', 'func', 'wizard_crpages',
-       'wizard_sortpages', 'about', 'aboutmodules', 'belog', 'beuser', 'context_help', 'cshmanual',
-       'felogin', 'fluid_styled_content', 'form', 'impexp', 'lowlevel', 'reports', 'sys_note',
-       't3editor', 'tstemplate', 'viewpage',
+        'core',
+        'extbase',
+        'fluid',
+        'extensionmanager',
+        'lang',
+        'saltedpasswords',
+        'backend',
+        'filelist',
+        'frontend',
+        'install',
+        'recordlist',
+        'sv',
+        't3skin',
+        'documentation',
+        'info',
+        'info_pagetsconfig',
+        'setup',
+        'rtehtmlarea',
+        'rsaauth',
+        'func',
+        'wizard_crpages',
+        'wizard_sortpages',
+        'about',
+        'aboutmodules',
+        'belog',
+        'beuser',
+        'context_help',
+        'cshmanual',
+        'felogin',
+        'fluid_styled_content',
+        'form',
+        'impexp',
+        'lowlevel',
+        'reports',
+        'sys_note',
+        't3editor',
+        'tstemplate',
+        'viewpage',
     ];
 
-    public function __construct($paths = array(), $rootPath = null)
+    public function __construct($paths = [], $rootPath = null)
     {
         parent::__construct($paths, $rootPath);
         // Now add TYPO3 Extensions
         $this->addT3Namespaces();
     }
+
     /**
      * Add namespaces for TYPO3 extensions under EXT:extName/Resources/Private/
      * and fileadmin.

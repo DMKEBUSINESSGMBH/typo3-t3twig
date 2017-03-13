@@ -52,26 +52,25 @@ class RequestExtension extends \Twig_Extension
     }
 
     /**
-     * @param EnvironmentTwig $env
-     * @param array             $record
-     * @param string            $field
+     * @param \DMK\T3twig\Twig\EnvironmentTwig $env
+     * @param                                  $paramName
      *
-     * @return string
+     * @return mixed|null
      */
     public function renderGetPost(
         EnvironmentTwig $env,
         $paramName
     ) {
-        $paths = explode('|', $paramName);
+        $paths   = explode('|', $paramName);
         $segment = array_shift($paths);
 
         $param = $env->getParameters()->get($segment);
 
         while (($segment = array_shift($paths)) !== null) {
-            if (!isset($param[$segment])) {
+            if (!isset($param[ $segment ])) {
                 return null;
             }
-            $param = $param[$segment];
+            $param = $param[ $segment ];
         }
 
         return $param;
