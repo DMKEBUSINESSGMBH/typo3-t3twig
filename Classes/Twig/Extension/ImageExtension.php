@@ -99,7 +99,7 @@ class ImageExtension extends \Twig_Extension
 
     /**
      * @param EnvironmentTwig $env
-     * @param                 image
+     * @param                 $image
      * @param array           $options
      *
      * @return array
