@@ -1,6 +1,6 @@
-#t3twig Documentation
+# T3TWIG Documentation
 
-##Table of Contents
+## Table of Contents
 
 * [Getting Started](./reference/GettingStarted.md)
 * TYPO3 Integration:
