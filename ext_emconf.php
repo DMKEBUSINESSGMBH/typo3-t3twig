@@ -12,7 +12,7 @@
 
 $EM_CONF[ $_EXTKEY ] = [
     'title'                         => 'T3twig',
-    'description'                   => 'Extend rn_base for using twig templates instead of marker templates',
+    'description'                   => 'TYPO3 extension to render page templates with Twig and extend rn_base for using Twig templates instead of marker ',
     'shy'                           => 0,
     'version'                       => '1.0.0',
     'dependencies'                  => 'cms',
