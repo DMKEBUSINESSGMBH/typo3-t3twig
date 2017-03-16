@@ -7,6 +7,8 @@ This extensions allows you to parse any field you have defined in TS.
 
 Creates output based on TypoScript.
 
+This example shopuld create a link with label "Wohoo" wrapped by a linkt o the page with uid 1.
+
 ```
     lib.testlink = TEXT
     lib.testlink {
@@ -16,7 +18,45 @@ Creates output based on TypoScript.
 ```
 
 ```twig
-    {{ t3cObject('lib.testlink', {'pid': 1, 'label': 'Wohoo'}) }}
+    {{ t3cObject({'ts_path' : 'lib.testlink', 'data' : {'pid': 1, 'label': 'Wohoo'}}) }}
+```
+
+## t3stdWrap
+
+Creates output based on TypoScript.
+
+This example shopuld output `foo`.
+
+```
+    lib.testtext = TEXT
+    lib.testtext {
+        current = 1
+    }
+```
+
+```twig
+    {{ t3stdWrap({'ts_path' : 'lib.testtext', 'current_value': 'foo'}) }}
+```
+
+## t3tsRaw
+
+Reads the raw content of the given typoscript path.
+
+```
+    lib.raw = Foo
+    lib.raw {
+        key = value
+    }
+```
+
+```twig
+    <!-- creates the output "Foo" -->
+    {{ t3stdWrap({'ts_path' : 'lib.raw'}) }}
+```
+
+```twig
+    <!-- dumps the array ["key" => "value"] -->
+    {{ dump(t3stdWrap({'ts_path' : 'lib.raw'})) }}
 ```
 
 ## t3parseField

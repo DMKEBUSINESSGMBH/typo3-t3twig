@@ -37,7 +37,7 @@ use DMK\T3twig\Twig\EnvironmentTwig;
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
-class TSParserExtension extends \Twig_Extension
+class TSParserExtension extends AbstractExtension
 {
     /**
      * @return array
@@ -62,6 +62,16 @@ class TSParserExtension extends \Twig_Extension
             new \Twig_SimpleFunction(
                 't3cObject',
                 [$this, 'renderContentObject'],
+                ['needs_environment' => true, 'is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
+                't3stdWrap',
+                [$this, 'renderStdWrap'],
+                ['needs_environment' => true, 'is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
+                't3tsRaw',
+                [$this, 'renderTsRaw'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
         ];
@@ -107,8 +117,7 @@ class TSParserExtension extends \Twig_Extension
      * Creates output based on TypoScript.
      *
      * @param EnvironmentTwig $env
-     * @param string          $typoscriptObjectPath
-     * @param array           $data
+     * @param array           $arguments
      *
      * @throws \Exception
      *
@@ -116,28 +125,121 @@ class TSParserExtension extends \Twig_Extension
      */
     public function renderContentObject(
         EnvironmentTwig $env,
-        $typoscriptObjectPath,
-        $data = null
+        /* array removed for backward compatibility */ $arguments
     ) {
-        $currentValue = null;
-        if (is_scalar($data)) {
-            $currentValue = (string)$data;
-            $data = [$data];
-        }
-        // @TODO: handle objects!
-
-        $configurations = $env->getConfigurations();
-        $contentObject = $configurations->getCObj();
-
-        // set data
-        if ($data !== null) {
-            $backupData = $contentObject->data;
-            $contentObject->data = $data;
+        // check backward compatibility
+        if (is_scalar($arguments)) {
+            $arguments = ['ts_path' => $arguments];
+            if (func_num_args() === 3) {
+                $data = end(func_get_args());
+                if (is_array($data)) {
+                    $arguments['data'] = $data;
+                }
+            }
         }
 
-        if ($currentValue !== null) {
-            $contentObject->setCurrentVal($currentValue);
+        return $this->prepareTsAndDataAndRenderCallback(
+            $env,
+            $arguments,
+            function ($setup, $lastSegment) use ($env) {
+                return $env->getContentObject()->cObjGetSingle(
+                    $setup[$lastSegment],
+                    $setup[$lastSegment . '.']
+                );
+            }
+        );
+    }
+
+    /**
+     * Creates output based on TypoScript.
+     *
+     * @param EnvironmentTwig $env
+     * @param array           $arguments
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    public function renderStdWrap(
+        EnvironmentTwig $env,
+        array $arguments = []
+    ) {
+        // backward compatibility
+        if (is_scalar($arguments)) {
+            $arguments = ['ts_path' => $arguments];
+            if (func_num_args() === 3) {
+                $data = end(func_get_args());
+                if (is_array($data)) {
+                    $arguments['data'] = $data;
+                }
+            }
         }
+
+        return $this->prepareTsAndDataAndRenderCallback(
+            $env,
+            $arguments,
+            function ($setup, $lastSegment) use ($env) {
+                return $env->getContentObject()->stdWrap(
+                    $setup[$lastSegment],
+                    $setup[$lastSegment . '.']
+                );
+            }
+        );
+    }
+
+    /**
+     * Creates output based on TypoScript.
+     *
+     * @param EnvironmentTwig $env
+     * @param array           $arguments
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    public function renderTsRaw(
+        EnvironmentTwig $env,
+        array $arguments = []
+    ) {
+        return $this->prepareTsAndDataAndRenderCallback(
+            $env,
+            $arguments,
+            function ($setup, $lastSegment) use ($env, $arguments) {
+                if (substr($arguments->getTsPath(), -1) === '.') {
+                    return $setup;
+                }
+                return $setup[$lastSegment];
+            }
+        );
+    }
+
+    /**
+     * Creates output based on TypoScript.
+     *
+     * @param EnvironmentTwig $env
+     * @param array           $arguments
+     * @param callable        $callback
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    protected function prepareTsAndDataAndRenderCallback(
+        EnvironmentTwig $env,
+        array $arguments,
+        $callback
+    ) {
+
+        $arguments = $this->initiateArguments($arguments, $env);
+
+        if (!$arguments->hasTsPath()) {
+            throw new \Exception(
+                'No TypoScript path given. arguments = {"ts_path" : "lib.testlink"}',
+                1489658526
+            );
+        }
+
+        $typoscriptObjectPath = $arguments->getTsPath();
 
         $setup = \tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup;
 
@@ -158,32 +260,29 @@ class TSParserExtension extends \Twig_Extension
 
         // try to get value from configuration directly, if no global ts was found
         if ($setup === false) {
-            $setup = $configurations->get(
+            $setup = $env->getConfigurations()->get(
                 $env->getConfId() . implode('.', $pathSegments) . '.'
             );
         }
 
+        // render the ts
+        if (is_array($setup)) {
+            $content = call_user_func($callback, $setup, $lastSegment);
+        }
+
+        // reset data
+        $this->shutdownArguments($arguments, $env);
+
         // no config found?
-        if (!is_array($setup)) {
+        if (!$arguments->hasSkipTsNotFoundException() && !is_array($setup)) {
             throw new \Exception(
                 sprintf(
-                    'Global TypoScript object path "%s" and plugin context configuration "%s" does not exist',
+                    'Global TypoScript object path "%s" or plugin context configuration "%s" does not exist',
                     htmlspecialchars($typoscriptObjectPath),
                     htmlspecialchars($env->getConfId() . $typoscriptObjectPath)
                 ),
                 1483710972
             );
-        }
-
-        // render the ts
-        $content = $contentObject->cObjGetSingle(
-            $setup[$lastSegment],
-            $setup[$lastSegment . '.']
-        );
-
-        // reset data
-        if (isset($backupData)) {
-            $contentObject->data = $backupData;
         }
 
         return $content;
