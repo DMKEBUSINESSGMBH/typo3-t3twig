@@ -52,22 +52,22 @@ class AbstractExtension extends \Twig_Extension
         $arguments = null,
         EnvironmentTwig $env = null
     ) {
-       $arguments = \Tx_Rnbase_Domain_Model_Data::getInstance($arguments);
+        $arguments = \Tx_Rnbase_Domain_Model_Data::getInstance($arguments);
 
-       if ($env instanceof EnvironmentTwig) {
-           $data = $arguments->getData();
-           $data = $data instanceof \Tx_Rnbase_Domain_Model_Data ? $data->toArray() : null;
-           $currentValue = $arguments->getCurrentValue();
-           if ($data !== null || $currentValue !== null) {
-               $this->setContentObjectData(
-                   $env,
-                   $data,
-                   $currentValue
-               );
-           }
-       }
+        if ($env instanceof EnvironmentTwig) {
+            $data = $arguments->getData();
+            $data = $data instanceof \Tx_Rnbase_Domain_Model_Data ? $data->toArray() : null;
+            $currentValue = $arguments->getCurrentValue();
+            if ($data !== null || $currentValue !== null) {
+                $this->setContentObjectData(
+                    $env,
+                    $data,
+                    $currentValue
+                );
+            }
+        }
 
-       return $arguments;
+        return $arguments;
     }
 
     /**
@@ -82,13 +82,13 @@ class AbstractExtension extends \Twig_Extension
         $arguments = null,
         EnvironmentTwig $env = null
     ) {
-       $arguments = \Tx_Rnbase_Domain_Model_Data::getInstance($arguments);
+        $arguments = \Tx_Rnbase_Domain_Model_Data::getInstance($arguments);
 
-       if ($env instanceof EnvironmentTwig &&  !$arguments->isPropertyEmpty('data')) {
-           $this->restoreContentObjectData($env);
-       }
+        if ($env instanceof EnvironmentTwig &&  !$arguments->isPropertyEmpty('data')) {
+            $this->restoreContentObjectData($env);
+        }
 
-       return $arguments;
+        return $arguments;
     }
 
     /**
