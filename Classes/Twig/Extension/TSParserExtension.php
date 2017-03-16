@@ -205,7 +205,7 @@ class TSParserExtension extends AbstractExtension
             $env,
             $arguments,
             function ($setup, $lastSegment) use ($env, $arguments) {
-                if (substr($arguments->getTsPath(), -1) === '.') {
+                if (substr($arguments['ts_path'], -1) === '.') {
                     return $setup;
                 }
                 return $setup[$lastSegment];
