@@ -73,7 +73,7 @@ class EnvironmentTwig extends \Twig_Environment
     /**
      * The current configurations object
      *
-	 * @return \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
+     * @return \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
     public function getContentObject()
     {
