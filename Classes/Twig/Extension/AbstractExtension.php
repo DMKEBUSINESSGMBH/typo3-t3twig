@@ -44,7 +44,7 @@ class AbstractExtension extends \Twig_Extension
      * Creates a new data instance.
      *
      * @param array|\Tx_Rnbase_Domain_Model_Data $arguments
-     * @param EnvironmentTwig $env
+     * @param EnvironmentTwig                    $env
      *
      * @return \Tx_Rnbase_Domain_Model_Data
      */
@@ -55,8 +55,8 @@ class AbstractExtension extends \Twig_Extension
         $arguments = \Tx_Rnbase_Domain_Model_Data::getInstance($arguments);
 
         if ($env instanceof EnvironmentTwig) {
-            $data = $arguments->getData();
-            $data = $data instanceof \Tx_Rnbase_Domain_Model_Data ? $data->toArray() : null;
+            $data         = $arguments->getData();
+            $data         = $data instanceof \Tx_Rnbase_Domain_Model_Data ? $data->toArray() : null;
             $currentValue = $arguments->getCurrentValue();
             if ($data !== null || $currentValue !== null) {
                 $this->setContentObjectData(
@@ -74,7 +74,7 @@ class AbstractExtension extends \Twig_Extension
      * Creates a new data instance.
      *
      * @param array|\Tx_Rnbase_Domain_Model_Data $arguments
-     * @param EnvironmentTwig $env
+     * @param EnvironmentTwig                    $env
      *
      * @return \Tx_Rnbase_Domain_Model_Data
      */
@@ -84,7 +84,7 @@ class AbstractExtension extends \Twig_Extension
     ) {
         $arguments = \Tx_Rnbase_Domain_Model_Data::getInstance($arguments);
 
-        if ($env instanceof EnvironmentTwig &&  !$arguments->isPropertyEmpty('data')) {
+        if ($env instanceof EnvironmentTwig && !$arguments->isPropertyEmpty('data')) {
             $this->restoreContentObjectData($env);
         }
 
@@ -95,8 +95,8 @@ class AbstractExtension extends \Twig_Extension
      * Sets the data in the current content object and backups the current value.
      *
      * @param EnvironmentTwig $env
-     * @param array $data
-     * @param string $currentValue
+     * @param array           $data
+     * @param string          $currentValue
      *
      * @return void
      */
@@ -108,8 +108,8 @@ class AbstractExtension extends \Twig_Extension
         $contentObject = $env->getContentObject();
 
         if (is_scalar($data)) {
-            $currentValue = $currentValue ?: (string) $data;
-            $data = [$data];
+            $currentValue = $currentValue ?: (string)$data;
+            $data         = [$data];
         }
         // @TODO: handle objects!
 
@@ -131,7 +131,7 @@ class AbstractExtension extends \Twig_Extension
      *
      * @param EnvironmentTwig $env
      *
-     * @return array
+     * @return void
      */
     protected function restoreContentObjectData(
         EnvironmentTwig $env

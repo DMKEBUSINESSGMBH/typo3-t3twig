@@ -90,8 +90,8 @@ class LinkExtension extends AbstractExtension
         \TYPO3\CMS\Core\Utility\GeneralUtility::logDeprecatedFunction();
         $arguments = [
             'destination' => $dest,
-            'params' => $params,
-            'label' => $label,
+            'params'      => $params,
+            'label'       => $label,
         ];
 
         if (is_array($tsPath)) {
@@ -112,7 +112,7 @@ class LinkExtension extends AbstractExtension
      *
      * @return string
      */
-    public function renderLink(EnvironmentTwig $env, $label, array $arguments = array())
+    public function renderLink(EnvironmentTwig $env, $label, array $arguments = [])
     {
         $arguments['label'] = $label;
 
@@ -135,8 +135,8 @@ class LinkExtension extends AbstractExtension
 
         $arguments = [
             'destination' => $dest,
-            'params' => $params,
-            'tsPath' => $tsPath,
+            'params'      => $params,
+            'tsPath'      => $tsPath,
         ];
 
         if (is_array($tsPath)) {
@@ -151,8 +151,8 @@ class LinkExtension extends AbstractExtension
     }
 
     /**
-     * @param EnvironmentTwig   $env
-     * @param array             $arguments
+     * @param EnvironmentTwig $env
+     * @param array           $arguments
      *
      * @return string
      */
@@ -189,7 +189,7 @@ class LinkExtension extends AbstractExtension
         $primeval = $env->getConfigurations();
         //  this was recreated, if there are a overrule config
         $configurations = $primeval;
-        $confId  = $env->getConfId();
+        $confId         = $env->getConfId();
 
         // we have additional configurations, merge them together in a new config object
         if ($arguments->hasConfig()) {

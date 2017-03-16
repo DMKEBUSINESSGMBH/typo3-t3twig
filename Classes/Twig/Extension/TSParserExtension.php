@@ -125,7 +125,8 @@ class TSParserExtension extends AbstractExtension
      */
     public function renderContentObject(
         EnvironmentTwig $env,
-        /* array removed for backward compatibility */ $arguments
+        /* array removed for backward compatibility */
+        $arguments
     ) {
         // check backward compatibility
         if (is_scalar($arguments)) {
@@ -143,8 +144,8 @@ class TSParserExtension extends AbstractExtension
             $arguments,
             function ($setup, $lastSegment) use ($env) {
                 return $env->getContentObject()->cObjGetSingle(
-                    $setup[$lastSegment],
-                    $setup[$lastSegment . '.']
+                    $setup[ $lastSegment ],
+                    $setup[ $lastSegment.'.' ]
                 );
             }
         );
@@ -180,8 +181,8 @@ class TSParserExtension extends AbstractExtension
             $arguments,
             function ($setup, $lastSegment) use ($env) {
                 return $env->getContentObject()->stdWrap(
-                    $setup[$lastSegment],
-                    $setup[$lastSegment . '.']
+                    $setup[ $lastSegment ],
+                    $setup[ $lastSegment.'.' ]
                 );
             }
         );
@@ -205,10 +206,11 @@ class TSParserExtension extends AbstractExtension
             $env,
             $arguments,
             function ($setup, $lastSegment) use ($env, $arguments) {
-                if (substr($arguments['ts_path'], -1) === '.') {
+                if (substr($arguments['ts_path'], - 1) === '.') {
                     return $setup;
                 }
-                return $setup[$lastSegment];
+
+                return $setup[ $lastSegment ];
             }
         );
     }
@@ -251,17 +253,17 @@ class TSParserExtension extends AbstractExtension
 
         // check the ts path and find the setup config
         foreach ($pathSegments as $segment) {
-            if (!array_key_exists(($segment . '.'), $setup)) {
+            if (!array_key_exists(($segment.'.'), $setup)) {
                 $setup = false;
                 break;
             }
-            $setup = $setup[$segment . '.'];
+            $setup = $setup[ $segment.'.' ];
         }
 
         // try to get value from configuration directly, if no global ts was found
         if ($setup === false) {
             $setup = $env->getConfigurations()->get(
-                $env->getConfId() . implode('.', $pathSegments) . '.'
+                $env->getConfId().implode('.', $pathSegments).'.'
             );
         }
 
@@ -279,7 +281,7 @@ class TSParserExtension extends AbstractExtension
                 sprintf(
                     'Global TypoScript object path "%s" or plugin context configuration "%s" does not exist',
                     htmlspecialchars($typoscriptObjectPath),
-                    htmlspecialchars($env->getConfId() . $typoscriptObjectPath)
+                    htmlspecialchars($env->getConfId().$typoscriptObjectPath)
                 ),
                 1483710972
             );
