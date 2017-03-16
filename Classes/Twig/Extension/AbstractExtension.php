@@ -54,8 +54,17 @@ class AbstractExtension extends \Twig_Extension
     ) {
        $arguments = \Tx_Rnbase_Domain_Model_Data::getInstance($arguments);
 
-       if ($env instanceof EnvironmentTwig &&  !$arguments->isPropertyEmpty('data')) {
-           $this->setContentObjectData($env, $arguments->getData()->toArray());
+       if ($env instanceof EnvironmentTwig) {
+           $data = $arguments->getData();
+           $data = $data instanceof \Tx_Rnbase_Domain_Model_Data ? $data->toArray() : null;
+           $currentValue = $arguments->getCurrentValue();
+           if ($data !== null || $currentValue !== null) {
+               $this->setContentObjectData(
+                   $env,
+                   $data,
+                   $currentValue
+               );
+           }
        }
 
        return $arguments;
@@ -110,9 +119,10 @@ class AbstractExtension extends \Twig_Extension
                 $this->contentObjectDataBackup = $contentObject->data;
             }
             $contentObject->data = $data;
-            if ($currentValue !== null) {
-                $contentObject->setCurrentVal($currentValue);
-            }
+        }
+
+        if ($currentValue !== null) {
+            $contentObject->setCurrentVal($currentValue);
         }
     }
 
