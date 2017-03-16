@@ -10,10 +10,13 @@ Renders an URL
 ```twig
 {{
 	t3url(
-		$destination,
-		$params = [],
-		$tsPath = 'link.',
-		$overruleTsConfigArray = {"atagparams." : {"class" : "btn btd-default"}}
+		{
+			'destination' : $destination,
+			'params' : [],
+			'ts_path' : 'link.',
+			'data' : optionalContentObjectData,
+			'config' : {"atagparams." : {"class" : "btn btd-default"}}
+		}
 	)
 }}
 ```
@@ -38,11 +41,14 @@ Renders a full qualified a tag.
 
 ```twig
 {{
-	'Label'|t3link(
-		$destination,
-		$params = [],
-		$tsPath = 'link.',
-		$overruleTsConfigArray = {"atagparams." : {"class" : "btn btd-default"}}
+	'Label'|t3link
+		{
+			'destination' : $destination,
+			'params' : [],
+			'ts_path' : 'link.',
+			'data' : optionalContentObjectData,
+			'config' : {"atagparams." : {"class" : "btn btd-default"}}
+		}
 	)
 }}
 ```

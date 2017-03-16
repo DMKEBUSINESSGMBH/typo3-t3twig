@@ -37,7 +37,7 @@ use DMK\T3twig\Twig\EnvironmentTwig;
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
-class LinkExtension extends \Twig_Extension
+class LinkExtension extends AbstractExtension
 {
     /**
      * @return array
@@ -45,6 +45,11 @@ class LinkExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
+            new \Twig_SimpleFilter(
+                't3linkOld',
+                [$this, 'renderLinkOld'],
+                ['needs_environment' => true, 'is_safe' => ['html']]
+            ),
             new \Twig_SimpleFilter(
                 't3link',
                 [$this, 'renderLink'],
@@ -56,6 +61,11 @@ class LinkExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
+            new \Twig_SimpleFunction(
+                't3urlOld',
+                [$this, 'renderUrlOld'],
+                ['needs_environment' => true]
+            ),
             new \Twig_SimpleFunction(
                 't3url',
                 [$this, 'renderUrl'],
@@ -73,11 +83,38 @@ class LinkExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function renderLink(EnvironmentTwig $env, $label, $dest, $params = [], $tsPath = 'link.')
+    public function renderLinkOld(EnvironmentTwig $env, $label, $dest, $params = [], $tsPath = 'link.')
     {
-        $rnBaseLink = $this->makeRnbaseLink($env, $label, $dest, $params, $tsPath);
+        \TYPO3\CMS\Core\Utility\GeneralUtility::logDeprecatedFunction();
+        $arguments = [
+            'destination' => $dest,
+            'params' => $params,
+            'label' => $label,
+        ];
+
+        if (is_array($tsPath)) {
+            $arguments['config'] = $tsPath;
+        } else {
+            $arguments['tsPath'] = $tsPath;
+        }
+
+        $rnBaseLink = $this->makeRnbaseLink($env, $label, $arguments);
 
         return $rnBaseLink->makeTag();
+    }
+
+    /**
+     * @param EnvironmentTwig $env
+     * @param                 label
+     * @param array           $arguments
+     *
+     * @return string
+     */
+    public function renderLink(EnvironmentTwig $env, $label, array $arguments = array())
+    {
+        $arguments['label'] = $label;
+
+        return $this->makeRnbaseLink($env, $arguments)->makeTag();
     }
 
     /**
@@ -88,11 +125,36 @@ class LinkExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function renderUrl(EnvironmentTwig $env, $dest, $params = [], $tsPath = 'link.')
+    public function renderUrlOld(EnvironmentTwig $env, $dest, $params = [], $tsPath = 'link.')
     {
-        $rnBaseLink = $this->makeRnbaseLink($env, $label = '', $dest, $params, $tsPath);
+        \TYPO3\CMS\Core\Utility\GeneralUtility::logDeprecatedFunction();
+
+        $arguments = [
+            'destination' => $dest,
+            'params' => $params,
+            'tsPath' => $tsPath,
+        ];
+
+        if (is_array($tsPath)) {
+            $arguments['config'] = $tsPath;
+        } else {
+            $arguments['tsPath'] = $tsPath;
+        }
+
+        $rnBaseLink = $this->makeRnbaseLink($env, $arguments);
 
         return $rnBaseLink->makeUrl(false);
+    }
+
+    /**
+     * @param EnvironmentTwig   $env
+     * @param array             $arguments
+     *
+     * @return string
+     */
+    public function renderUrl(EnvironmentTwig $env, array $arguments = [])
+    {
+        return $this->makeRnbaseLink($env, $arguments)->makeUrl(false);
     }
 
     /**
@@ -107,35 +169,26 @@ class LinkExtension extends \Twig_Extension
 
     /**
      * @param EnvironmentTwig $env
-     * @param                 $label
-     * @param                 $dest
-     * @param                 $params
-     * @param string          $tsPath
-     * @param array           $config
+     * @param array           $arguments
      *
      * @return \tx_rnbase_util_Link
      */
     private function makeRnbaseLink(
         EnvironmentTwig $env,
-        $label,
-        $dest,
-        $params,
-        $tsPath = 'link.',
-        array $config = []
+        array $arguments = []
     ) {
+        $arguments = $this->initiateArguments($arguments, $env);
+
+        $params = $arguments->getParams();
+        $tsPath = $arguments->getTsPath();
+
         $primeval = $env->getConfigurations();
         //  this was recreated, if there are a overrule config
         $configurations = $primeval;
-        $confId         = $env->getConfId();
-
-        // if th ts path is an array then it is the config!
-        if (is_array($tsPath)) {
-            $config = $tsPath;
-            $tsPath = 'link.';
-        }
+        $confId  = $env->getConfId();
 
         // we have additional configurations, merge them together in a new config object
-        if (!empty($config)) {
+        if ($arguments->hasConfig()) {
             $primeval = $env->getConfigurations();
             /** @var $configurations \Tx_Rnbase_Configuration_Processor */
             $configurations = \tx_rnbase::makeInstance(
@@ -145,7 +198,7 @@ class LinkExtension extends \Twig_Extension
             if (is_array($primevalConf)) {
                 $config = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $primevalConf,
-                    $config
+                    $arguments->getConfig()
                 );
             }
             $config = ['link.' => $config];
@@ -169,16 +222,18 @@ class LinkExtension extends \Twig_Extension
 
         /// create link from original if overrule config exist (keep vars).
         $rnBaseLink = $primeval->createLink();
-        $rnBaseLink->label($label, true);
+        $rnBaseLink->label($arguments->getLabel(), true);
         $rnBaseLink->initByTS($configurations, $confId.$tsPath, $params);
         // set destination only if set, so 0 for current page can be used
-        if (!empty($dest)) {
-            $rnBaseLink->destination($dest);
+        if ($arguments->hasDestination()) {
+            $rnBaseLink->destination($arguments->getDestination());
         }
 
         if (($extTarget = $configurations->get($confId.$tsPath.'extTarget'))) {
             $rnBaseLink->externalTargetAttribute($extTarget);
         }
+
+        $this->shutdownArguments($arguments, $env);
 
         return $rnBaseLink;
     }
