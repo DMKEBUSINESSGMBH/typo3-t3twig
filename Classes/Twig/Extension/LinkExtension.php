@@ -98,7 +98,7 @@ class LinkExtension extends AbstractExtension
             $arguments['tsPath'] = $tsPath;
         }
 
-        $rnBaseLink = $this->makeRnbaseLink($env, $label, $arguments);
+        $rnBaseLink = $this->makeRnbaseLink($env, $arguments);
 
         return $rnBaseLink->makeTag();
     }
@@ -179,7 +179,7 @@ class LinkExtension extends AbstractExtension
     ) {
         $arguments = $this->initiateArguments($arguments, $env);
 
-        $params = $arguments->getParams();
+        $params = $arguments->getParams()->toArray();
         $tsPath = $arguments->getTsPath();
 
         $primeval = $env->getConfigurations();
@@ -198,7 +198,7 @@ class LinkExtension extends AbstractExtension
             if (is_array($primevalConf)) {
                 $config = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $primevalConf,
-                    $arguments->getConfig()
+                    $arguments->getConfig()->toArray()
                 );
             }
             $config = ['link.' => $config];
@@ -225,7 +225,7 @@ class LinkExtension extends AbstractExtension
         $rnBaseLink->label($arguments->getLabel(), true);
         $rnBaseLink->initByTS($configurations, $confId.$tsPath, $params);
         // set destination only if set, so 0 for current page can be used
-        if ($arguments->hasDestination()) {
+        if (!$arguments->isPropertyEmpty('destination')) {
             $rnBaseLink->destination($arguments->getDestination());
         }
 
