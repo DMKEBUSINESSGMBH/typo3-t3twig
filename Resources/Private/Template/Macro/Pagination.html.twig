@@ -58,19 +58,19 @@
 
                 {% if (showFirstAndLast) %}
                     <li {{ pointer == 1 ? 'class="disabled"' }}>
-                        {{ labels.first|default('«')|t3link(0, params|merge({(ppName) : (1 + pidFix)}), linkConfig) }}
+                        {{ labels.first|default('«')|t3link({'params' : params|merge({(ppName) : (1 + pidFix)}), 'config': linkConfig}) }}
                     </li>
                 {% endif %}
 
                 {% if (showPreviousAndNext) %}
                     <li {{ pointer == 1 ? 'class="disabled"' }}>
-                        {{ labels.prev|default('‹')|t3link(0, params|merge({(ppName) : ((pointer - 1 < firstPageId ? firstPageId : pointer - 1) + pidFix)}), linkConfig) }}
+                        {{ labels.prev|default('‹')|t3link({'params' : params|merge({(ppName) : ((pointer - 1 < firstPageId ? firstPageId : pointer - 1) + pidFix)}), 'config': linkConfig}) }}
                     </li>
                 {% endif %}
 
                 {% for i in range(1, extremePagesLimit) if ( i < pointer - nearbyPagesLimit ) %}
                     <li>
-                        {{ i|t3link(0, params|merge({(ppName) : (i + pidFix)}), linkConfig) }}
+                        {{ i|t3link({'params' : params|merge({(ppName) : (i + pidFix)}), 'config': linkConfig}) }}
                     </li>
                 {% endfor %}
 
@@ -82,7 +82,7 @@
 
                 {% for i in range(pointer - nearbyPagesLimit, pointer - 1) if ( i > 0 ) %}
                     <li>
-                        {{ i|t3link(0, params|merge({(ppName) : (i + pidFix)}), linkConfig) }}
+                        {{ i|t3link({'params' : params|merge({(ppName) : (i + pidFix)}), 'config': linkConfig}) }}
                     </li>
                 {% endfor %}
 
@@ -103,14 +103,14 @@
             {% endif %}
 
             <li class="active">
-                    {{ pointer|default('0')|t3link(0, params|merge({(ppName) : (pointer + pidFix)}), linkConfig) }}
+                    {{ pointer|default('0')|t3link({'params' : params|merge({(ppName) : (pointer + pidFix)}), 'config': linkConfig}) }}
             </li>
 
             {% if pointer < state.lastPage %}
 
                 {% for i in range(pointer + 1, pointer + nearbyPagesLimit) if ( i <= state.lastPage ) %}
                     <li>
-                        {{ i|t3link(0, params|merge({(ppName) : (i + pidFix)}), linkConfig) }}
+                        {{ i|t3link({'params' : params|merge({(ppName) : (i + pidFix)}), 'config': linkConfig}) }}
                     </li>
                 {% endfor %}
 
@@ -122,19 +122,19 @@
 
                 {% for i in range(state.lastPage - extremePagesLimit+1, state.lastPage) if ( i > pointer + nearbyPagesLimit ) %}
                     <li>
-                        {{ i|t3link(0, params|merge({(ppName) : (i + pidFix)}), linkConfig) }}
+                        {{ i|t3link({'params' : params|merge({(ppName) : (i + pidFix)}), 'config': linkConfig}) }}
                     </li>
                 {% endfor %}
 
                 {% if (showFirstAndLast) %}
                     <li>
-                        {{ labels.next|default('›')|t3link(0, params|merge({(ppName) : (pointer + 1 + pidFix)}), linkConfig) }}
+                        {{ labels.next|default('›')|t3link({'params' : params|merge({(ppName) : (pointer + 1 + pidFix)}), 'config': linkConfig}) }}
                     </li>
                 {% endif %}
 
                 {% if (showPreviousAndNext) %}
                     <li>
-                        {{ labels.last|default('»')|t3link(0, params|merge({(ppName) : (state.lastPage + pidFix)}), linkConfig) }}
+                        {{ labels.last|default('»')|t3link({'params' : params|merge({(ppName) : (state.lastPage + pidFix)}), 'config': linkConfig}) }}
                     </li>
                 {% endif %}
 
