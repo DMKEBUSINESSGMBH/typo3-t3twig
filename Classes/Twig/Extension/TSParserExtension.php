@@ -122,15 +122,16 @@ class TSParserExtension extends \Twig_Extension
         $currentValue = null;
         if (is_scalar($data)) {
             $currentValue = (string)$data;
-            $data         = [$data];
+            $data = [$data];
         }
         // @TODO: handle objects!
 
-        $contentObject = $env->getConfigurations()->getCObj();
+        $configurations = $env->getConfigurations();
+        $contentObject = $configurations->getCObj();
 
         // set data
         if ($data !== null) {
-            $backupData          = $contentObject->data;
+            $backupData = $contentObject->data;
             $contentObject->data = $data;
         }
 
@@ -138,7 +139,7 @@ class TSParserExtension extends \Twig_Extension
             $contentObject->setCurrentVal($currentValue);
         }
 
-        $setup = $GLOBALS['TSFE']->tmpl->setup;
+        $setup = \tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup;
 
         $pathSegments = \Tx_Rnbase_Utility_Strings::trimExplode(
             '.',
@@ -148,19 +149,36 @@ class TSParserExtension extends \Twig_Extension
 
         // check the ts path and find the setup config
         foreach ($pathSegments as $segment) {
-            if (!array_key_exists(($segment.'.'), $setup)) {
-                throw new \Exception(
-                    'TypoScript object path "'.htmlspecialchars($typoscriptObjectPath).'" does not exist',
-                    1483710972
-                );
+            if (!array_key_exists(($segment . '.'), $setup)) {
+                $setup = false;
+                break;
             }
-            $setup = $setup[ $segment.'.' ];
+            $setup = $setup[$segment . '.'];
+        }
+
+        // try to get value from configuration directly, if no global ts was found
+        if ($setup === false) {
+            $setup = $configurations->get(
+                $env->getConfId() . implode('.', $pathSegments) . '.'
+            );
+        }
+
+        // no config found?
+        if (!is_array($setup)) {
+            throw new \Exception(
+                sprintf(
+                    'Global TypoScript object path "%s" and plugin context configuration "%s" does not exist',
+                    htmlspecialchars($typoscriptObjectPath),
+                    htmlspecialchars($env->getConfId() . $typoscriptObjectPath)
+                ),
+                1483710972
+            );
         }
 
         // render the ts
         $content = $contentObject->cObjGetSingle(
-            $setup[ $lastSegment ],
-            $setup[ $lastSegment.'.' ]
+            $setup[$lastSegment],
+            $setup[$lastSegment . '.']
         );
 
         // reset data
