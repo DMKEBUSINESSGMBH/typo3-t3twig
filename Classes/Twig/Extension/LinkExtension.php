@@ -81,6 +81,8 @@ class LinkExtension extends AbstractExtension
      * @param array           $params
      * @param string          $tsPath
      *
+     * @deprecated will be removed later
+     *
      * @return string
      */
     public function renderLinkOld(EnvironmentTwig $env, $label, $dest, $params = [], $tsPath = 'link.')
@@ -122,6 +124,8 @@ class LinkExtension extends AbstractExtension
      * @param                   $dest
      * @param array             $params
      * @param string            $tsPath
+     *
+     * @deprecated will be removed later
      *
      * @return string
      */
