@@ -57,8 +57,7 @@ class TwigContentObject extends AbstractContentObject
         $configurations = $this->buildConfigurations($conf);
         $renderer       = Renderer::instance(
             $configurations,
-            '',
-            $conf
+            ''
         );
         $contextData    = $this->getContext($configurations);
 

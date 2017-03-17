@@ -48,15 +48,10 @@ class RnBaseView extends \tx_rnbase_view_Base
     {
         $renderer = Renderer::instance(
             $configurations,
-            $this->getController()->getConfId(),
-            [
-                'template'       => $this->getTemplate($view, '.html.twig'),
-                // this is deprecated and will be removed later
-                'templatepaths.' => $configurations->getExploded('twig_templatepaths.'),
-                'extensions.'    => $configurations->getExploded('twig_extensions.'),
-            ]
+            $this->getController()->getConfId().'template.',
+            // provide fallback template file (always a full filepath)
+            $this->getTemplate($view, '.html.twig')
         );
-
         return $renderer->render(
             $configurations->getViewData()->getArrayCopy()
         );

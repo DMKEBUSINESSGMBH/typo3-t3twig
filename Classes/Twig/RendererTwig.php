@@ -36,7 +36,10 @@ namespace DMK\T3twig\Twig;
  */
 class RendererTwig
 {
+	/** basic conf from lib.tx_t3twig. */
     protected $conf;
+    /** filepath to alternativ fallback template */
+    protected $fallbackTemplate;
     protected $configurations;
     protected $confId;
 
@@ -52,12 +55,12 @@ class RendererTwig
     public static function instance(
         \Tx_Rnbase_Configuration_ProcessorInterface $configurations,
         $confId = '',
-        array $conf = []
+        $templateFile
     ) {
         return new self(
             $configurations,
             $confId,
-            $conf
+            $templateFile
         );
     }
 
@@ -71,16 +74,14 @@ class RendererTwig
     public function __construct(
         \Tx_Rnbase_Configuration_ProcessorInterface $configurations,
         $confId = '',
-        array $conf = []
+        $templateFile
     ) {
         if (isset(\tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'])) {
-            $this->conf = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-                $conf,
-                \tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.']
-            );
+            $this->conf = \tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'];
         }
         $this->configurations = $configurations;
         $this->confId         = $confId;
+        $this->fallbackTemplate = $templateFile;
     }
 
     /**
@@ -120,14 +121,6 @@ class RendererTwig
             )
         );
 
-        // add the paths fro the current config
-        $paths = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-            $paths,
-            $this->getConfigurations()->getExploded(
-                'templatepaths.'
-            )
-        );
-
         return $paths;
     }
 
@@ -149,14 +142,6 @@ class RendererTwig
             )
         );
 
-        // add the paths fro the current config
-        $paths = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-            $paths,
-            $this->getConfigurations()->getExploded(
-                'extensions.'
-            )
-        );
-
         return $paths;
     }
 
@@ -172,21 +157,19 @@ class RendererTwig
         $path = $path ?: $this->getConfigurations()->get($this->getConfId().'template', true);
 
         if (empty($path)) {
-            if (!empty($this->conf['template'])) {
-                $path = $this->conf['template'];
-            }
+            $path = $this->fallbackTemplate;
         }
-
         // if there is no path, put the rnbase template path before
-        if (!empty($path) && strpos($path, '/') === false) {
-            // check the rnbase base path
-            $basePath = $this->getConfigurations()->get('templatePath');
-            // add the first template include path
-            $basePath = $basePath ?: reset($this->conf['templatepaths.']);
-            if (!empty($basePath)) {
-                $path = $basePath.'/'.$path;
-            }
-        }
+        // TODO: In welcher Situation wird das benötigt?
+//         if (!empty($path) && strpos($path, '/') === false) {
+//             // check the rnbase base path
+//             $basePath = $this->getConfigurations()->get('templatePath');
+//             // add the first template include path
+//             $basePath = $basePath ?: reset($this->conf['templatepaths.']);
+//             if (!empty($basePath)) {
+//                 $path = $basePath.'/'.$path;
+//             }
+//         }
 
         if (empty($path)) {
             throw new T3TwigException('Neither "file" nor "template" configured for twig template.');
@@ -224,9 +207,6 @@ class RendererTwig
             basename($templateFullFilePath)
         );
 
-        if (!is_array($data)) {
-            $data = $this->getConfigurations()->getCObj()->data;
-        }
 
         $result = $template->render($data);
 
