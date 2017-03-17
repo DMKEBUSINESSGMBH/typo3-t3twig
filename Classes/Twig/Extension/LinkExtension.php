@@ -183,7 +183,7 @@ class LinkExtension extends AbstractExtension
     ) {
         $arguments = $this->initiateArguments($arguments, $env);
 
-        $params = $arguments->getParams()->toArray();
+        $params = $arguments->getParams() ? $arguments->getParams()->toArray() : [];
         $tsPath = $arguments->getTsPath();
 
         $primeval = $env->getConfigurations();
