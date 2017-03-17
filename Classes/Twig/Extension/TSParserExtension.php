@@ -50,6 +50,11 @@ class TSParserExtension extends AbstractExtension
                 [$this, 'parseField'],
                 ['needs_environment' => true, 'is_safe' => ['html'],]
             ),
+            new \Twig_SimpleFilter(
+                't3ts',
+                [$this, 'applyTS'],
+                ['needs_environment' => true, 'is_safe' => ['html'],]
+            ),
         ];
     }
 
@@ -106,6 +111,47 @@ class TSParserExtension extends AbstractExtension
             $value = $cObj->CASEFUNC($conf[ $field.'.' ]);
         } else {
             $value = $cObj->stdWrap($value, $conf[ $field.'.' ]);
+        }
+
+        $cObj->data = $tmp;
+
+        return $value;
+    }
+
+    /**
+     * @param EnvironmentTwig $env
+     * @param array           $record
+     * @param string          $field
+     *
+     * @return string
+     */
+    public function applyTS(EnvironmentTwig $env, $value, $confId, $options)
+    {
+        $configurations = $env->getConfigurations();
+        $confId         = $env->getConfId().'ts.'.$confId;
+        // Die TS-Config laden
+        $cObjName       = $configurations->get($confId);
+        $cObjConf       = $configurations->get($confId.'.');
+
+        $cObj           = $configurations->getContentObject();
+        $tmp            = $cObj->data;
+
+        if (isset($options['data'])) {
+            if (is_array($options['data']) ) {
+                $cObj->data = $options['data'];
+            }
+            elseif (is_object($options['data']) && $options['data'] instanceof \Tx_Rnbase_Domain_Model_Data) {
+                $cObj->data = $options['data']->getProperty();
+            }
+        }
+
+        // For DATETIME there is a special treatment to treat empty values
+        if ($cObjName) {
+            $cObj->setCurrentVal($value);
+            $value = $cObj->cObjGetSingle($cObjName, $cObjConf);
+            $cObj->setCurrentVal(false);
+        } else {
+            $value = $cObj->stdWrap($value, $cObjConf);
         }
 
         $cObj->data = $tmp;
