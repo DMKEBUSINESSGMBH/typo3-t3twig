@@ -100,9 +100,7 @@ class LinkExtension extends AbstractExtension
             $arguments['tsPath'] = $tsPath;
         }
 
-        $rnBaseLink = $this->makeRnbaseLink($env, $arguments);
-
-        return $rnBaseLink->makeTag();
+        return $this->renderLink($env, $label, $arguments);
     }
 
     /**
@@ -116,7 +114,13 @@ class LinkExtension extends AbstractExtension
     {
         $arguments['label'] = $label;
 
-        return $this->makeRnbaseLink($env, $arguments)->makeTag();
+        return $this->performCommand(
+            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env) {
+                return $this->makeRnbaseLink($env, $arguments)->makeTag();
+            },
+            $env,
+            $arguments
+        );
     }
 
     /**
@@ -145,9 +149,7 @@ class LinkExtension extends AbstractExtension
             $arguments['tsPath'] = $tsPath;
         }
 
-        $rnBaseLink = $this->makeRnbaseLink($env, $arguments);
-
-        return $rnBaseLink->makeUrl(false);
+        return $this->renderUrl($env, $arguments);
     }
 
     /**
@@ -158,7 +160,13 @@ class LinkExtension extends AbstractExtension
      */
     public function renderUrl(EnvironmentTwig $env, array $arguments = [])
     {
-        return $this->makeRnbaseLink($env, $arguments)->makeUrl(false);
+        return $this->performCommand(
+            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env) {
+                return $this->makeRnbaseLink($env, $arguments)->makeUrl(false);
+            },
+            $env,
+            $arguments
+        );
     }
 
     /**
@@ -173,16 +181,14 @@ class LinkExtension extends AbstractExtension
 
     /**
      * @param EnvironmentTwig $env
-     * @param array           $arguments
+     * @param \Tx_Rnbase_Domain_Model_Data $arguments
      *
      * @return \tx_rnbase_util_Link
      */
     private function makeRnbaseLink(
         EnvironmentTwig $env,
-        array $arguments = []
+        \Tx_Rnbase_Domain_Model_Data $arguments
     ) {
-        $arguments = $this->initiateArguments($arguments, $env);
-
         $params = $arguments->getParams() ? $arguments->getParams()->toArray() : [];
         $tsPath = $arguments->getTsPath();
 
@@ -236,8 +242,6 @@ class LinkExtension extends AbstractExtension
         if (($extTarget = $configurations->get($confId.$tsPath.'extTarget'))) {
             $rnBaseLink->externalTargetAttribute($extTarget);
         }
-
-        $this->shutdownArguments($arguments, $env);
 
         return $rnBaseLink;
     }

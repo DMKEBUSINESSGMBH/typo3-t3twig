@@ -18,7 +18,7 @@ This example shopuld create a link with label "Wohoo" wrapped by a linkt o the p
 ```
 
 ```twig
-    {{ t3cObject({'ts_path' : 'lib.testlink', 'data' : {'pid': 1, 'label': 'Wohoo'}}) }}
+    {{ t3cObject('lib.testlink', {'data' : {'pid': 1, 'label': 'Wohoo'}}) }}
 ```
 
 ## t3stdWrap
@@ -35,7 +35,7 @@ This example shopuld output `foo`.
 ```
 
 ```twig
-    {{ t3stdWrap({'ts_path' : 'lib.testtext', 'current_value': 'foo'}) }}
+    {{ t3stdWrap('lib.testtext', {'current_value': 'foo'}) }}
 ```
 
 ## t3tsRaw
@@ -51,12 +51,12 @@ Reads the raw content of the given typoscript path.
 
 ```twig
     <!-- creates the output "Foo" -->
-    {{ t3stdWrap({'ts_path' : 'lib.raw'}) }}
+    {{ t3stdWrap('lib.raw') }}
 ```
 
 ```twig
     <!-- dumps the array ["key" => "value"] -->
-    {{ dump(t3stdWrap({'ts_path' : 'lib.raw'})) }}
+    {{ dump(t3stdWrap('lib.raw')) }}
 ```
 
 ## t3parseField

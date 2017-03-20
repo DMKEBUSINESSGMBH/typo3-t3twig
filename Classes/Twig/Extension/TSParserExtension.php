@@ -120,50 +120,49 @@ class TSParserExtension extends AbstractExtension
 
     /**
      * @param EnvironmentTwig $env
-     * @param array           $record
-     * @param string          $field
+     * @param string $value
+     * @param string $confId
+     * @param array $arguments
      *
      * @return string
      */
-    public function applyTS(EnvironmentTwig $env, $value, $confId, $options)
-    {
-        $configurations = $env->getConfigurations();
-        $confId         = $env->getConfId().'ts.'.$confId;
-        // Die TS-Config laden
-        $cObjName       = $configurations->get($confId);
-        $cObjConf       = $configurations->get($confId.'.');
-
-        $cObj           = $configurations->getContentObject();
-        $tmp            = $cObj->data;
-
-        if (isset($options['data'])) {
-            if (is_array($options['data']) ) {
-                $cObj->data = $options['data'];
-            }
-            elseif (is_object($options['data']) && $options['data'] instanceof \Tx_Rnbase_Domain_Model_Data) {
-                $cObj->data = $options['data']->getProperty();
-            }
+    public function applyTS(
+        EnvironmentTwig $env,
+        $value,
+        $confId,
+        array $arguments = []
+    ) {
+        // set the current value to arguments for initialize, if not set
+        if (!isset($arguments['current_value'])) {
+            $arguments['current_value']= $value;
         }
 
-        // For DATETIME there is a special treatment to treat empty values
-        if ($cObjName) {
-            $cObj->setCurrentVal($value);
-            $value = $cObj->cObjGetSingle($cObjName, $cObjConf);
-            $cObj->setCurrentVal(false);
-        } else {
-            $value = $cObj->stdWrap($value, $cObjConf);
-        }
+        return $this->performCommand(
+            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $value, $confId) {
+                // dont throw exception, if ts path does not exists
+                $arguments->setSkipTsNotFoundException(true);
 
-        $cObj->data = $tmp;
+                list ($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
 
-        return $value;
+                $conf = empty($setup[$tsPath . '.']) ? [] : $setup[$tsPath . '.'];
+
+                if (!isset($setup[$tsPath])) {
+                    return $env->getContentObject()->stdWrap($value, $conf);
+                }
+
+                return $env->getContentObject()->cObjGetSingle($setup[$tsPath], $conf);
+            },
+            $env,
+            $arguments
+        );
     }
 
     /**
      * Creates output based on TypoScript.
      *
      * @param EnvironmentTwig $env
-     * @param array           $arguments
+     * @param string $confId
+     * @param array $arguments
      *
      * @throws \Exception
      *
@@ -171,29 +170,21 @@ class TSParserExtension extends AbstractExtension
      */
     public function renderContentObject(
         EnvironmentTwig $env,
-        /* array removed for backward compatibility */
-        $arguments
+        $confId,
+        array $arguments = []
     ) {
-        // check backward compatibility
-        if (is_scalar($arguments)) {
-            $arguments = ['ts_path' => $arguments];
-            if (func_num_args() === 3) {
-                $data = end(func_get_args());
-                if (is_array($data)) {
-                    $arguments['data'] = $data;
-                }
-            }
-        }
+        return $this->performCommand(
+            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $confId) {
 
-        return $this->prepareTsAndDataAndRenderCallback(
-            $env,
-            $arguments,
-            function ($setup, $lastSegment) use ($env) {
+                list ($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+
                 return $env->getContentObject()->cObjGetSingle(
-                    $setup[ $lastSegment ],
-                    $setup[ $lastSegment.'.' ]
+                    $setup[$tsPath],
+                    $setup[$tsPath . '.']
                 );
-            }
+            },
+            $env,
+            $arguments
         );
     }
 
@@ -201,7 +192,8 @@ class TSParserExtension extends AbstractExtension
      * Creates output based on TypoScript.
      *
      * @param EnvironmentTwig $env
-     * @param array           $arguments
+     * @param string $confId
+     * @param array $arguments
      *
      * @throws \Exception
      *
@@ -209,28 +201,21 @@ class TSParserExtension extends AbstractExtension
      */
     public function renderStdWrap(
         EnvironmentTwig $env,
+        $confId,
         array $arguments = []
     ) {
-        // backward compatibility
-        if (is_scalar($arguments)) {
-            $arguments = ['ts_path' => $arguments];
-            if (func_num_args() === 3) {
-                $data = end(func_get_args());
-                if (is_array($data)) {
-                    $arguments['data'] = $data;
-                }
-            }
-        }
+        return $this->performCommand(
+            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $confId) {
 
-        return $this->prepareTsAndDataAndRenderCallback(
-            $env,
-            $arguments,
-            function ($setup, $lastSegment) use ($env) {
+                list ($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+
                 return $env->getContentObject()->stdWrap(
-                    $setup[ $lastSegment ],
-                    $setup[ $lastSegment.'.' ]
+                    $setup[$tsPath],
+                    $setup[$tsPath . '.']
                 );
-            }
+            },
+            $env,
+            $arguments
         );
     }
 
@@ -238,7 +223,8 @@ class TSParserExtension extends AbstractExtension
      * Creates output based on TypoScript.
      *
      * @param EnvironmentTwig $env
-     * @param array           $arguments
+     * @param string $confId
+     * @param array $arguments
      *
      * @throws \Exception
      *
@@ -246,48 +232,55 @@ class TSParserExtension extends AbstractExtension
      */
     public function renderTsRaw(
         EnvironmentTwig $env,
+        $confId,
         array $arguments = []
     ) {
-        return $this->prepareTsAndDataAndRenderCallback(
-            $env,
-            $arguments,
-            function ($setup, $lastSegment) use ($env, $arguments) {
-                if (substr($arguments['ts_path'], - 1) === '.') {
+        return $this->performCommand(
+            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $confId) {
+
+                list ($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+
+                if (empty($confId) && $arguments->hasTsPath()) {
+                    $confId = $arguments->getTsPath();
+                }
+
+                if (substr($confId, - 1) === '.') {
                     return $setup;
                 }
 
-                return $setup[ $lastSegment ];
-            }
+                return $setup[$tsPath];
+            },
+            $env,
+            $arguments
         );
     }
 
     /**
-     * Creates output based on TypoScript.
+     * Try to wind the setup of the given conf id
      *
      * @param EnvironmentTwig $env
-     * @param array           $arguments
-     * @param callable        $callback
+     * @param unknown $typoscriptObjectPath
+     * @param \Tx_Rnbase_Domain_Model_Data $arguments
      *
      * @throws \Exception
      *
-     * @return string
+     * @return array
      */
-    protected function prepareTsAndDataAndRenderCallback(
+    protected function findSetup(
         EnvironmentTwig $env,
-        array $arguments,
-        $callback
+        $typoscriptObjectPath,
+        \Tx_Rnbase_Domain_Model_Data $arguments
     ) {
+        if (empty($typoscriptObjectPath) && $arguments->hasTsPath()) {
+            $typoscriptObjectPath = $arguments->getTsPath();
+        }
 
-        $arguments = $this->initiateArguments($arguments, $env);
-
-        if (!$arguments->hasTsPath()) {
+        if (empty($typoscriptObjectPath)) {
             throw new \Exception(
                 'No TypoScript path given. arguments = {"ts_path" : "lib.testlink"}',
                 1489658526
             );
         }
-
-        $typoscriptObjectPath = $arguments->getTsPath();
 
         $setup = \tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup;
 
@@ -299,27 +292,19 @@ class TSParserExtension extends AbstractExtension
 
         // check the ts path and find the setup config
         foreach ($pathSegments as $segment) {
-            if (!array_key_exists(($segment.'.'), $setup)) {
+            if (!array_key_exists(($segment . '.'), $setup)) {
                 $setup = false;
                 break;
             }
-            $setup = $setup[ $segment.'.' ];
+            $setup = $setup[$segment . '.'];
         }
 
         // try to get value from configuration directly, if no global ts was found
-        if ($setup === false) {
+        if (empty($pathSegments) || $setup === false) {
             $setup = $env->getConfigurations()->get(
-                $env->getConfId().implode('.', $pathSegments).'.'
+                $env->getConfId() . 'ts.' . (empty($pathSegments) ? '' : implode('.', $pathSegments) . '.')
             );
         }
-
-        // render the ts
-        if (is_array($setup)) {
-            $content = call_user_func($callback, $setup, $lastSegment);
-        }
-
-        // reset data
-        $this->shutdownArguments($arguments, $env);
 
         // no config found?
         if (!$arguments->hasSkipTsNotFoundException() && !is_array($setup)) {
@@ -327,13 +312,13 @@ class TSParserExtension extends AbstractExtension
                 sprintf(
                     'Global TypoScript object path "%s" or plugin context configuration "%s" does not exist',
                     htmlspecialchars($typoscriptObjectPath),
-                    htmlspecialchars($env->getConfId().$typoscriptObjectPath)
+                    htmlspecialchars($env->getConfId() . 'ts.' . $typoscriptObjectPath)
                 ),
                 1483710972
             );
         }
 
-        return $content;
+        return [$lastSegment, $setup];
     }
 
     /**

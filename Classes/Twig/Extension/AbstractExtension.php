@@ -38,7 +38,51 @@ use DMK\T3twig\Twig\EnvironmentTwig;
  */
 class AbstractExtension extends \Twig_Extension
 {
-    private $contentObjectDataBackup = null;
+    /**
+     * Initiate the arguments,
+     * sets the content object data
+     * and performs the command.
+     *
+     * @param callable $callable
+     * @param EnvironmentTwig $env
+     * @param array $arguments
+     *
+     * @throws \Exception
+     *
+     * @return mixed
+     */
+    protected function performCommand(
+        $callable,
+        EnvironmentTwig $env = null,
+        $arguments = null
+    ) {
+        $cObj = $env->getContentObject();
+        $exception = null;
+
+        // backup content object data
+        $cObjData = $cObj->data;
+
+        // initialize
+        $arguments = $this->initiateArguments($arguments, $env);
+
+        try {
+            // perform command
+            $return = call_user_func($callable, $arguments);
+        } catch (\Exception $exception) {
+            // the exception is thrown after the shutdown
+        }
+
+        // restore content object data
+        $cObj->data = $cObjData;
+        $cObj->setCurrentVal(false);
+
+        // throw exception, if command thows one
+        if ($exception instanceof \Exception) {
+            throw $exception;
+        }
+
+        return $return;
+    }
 
     /**
      * Creates a new data instance.
@@ -55,37 +99,11 @@ class AbstractExtension extends \Twig_Extension
         $arguments = \Tx_Rnbase_Domain_Model_Data::getInstance($arguments);
 
         if ($env instanceof EnvironmentTwig) {
-            $data         = $arguments->getData();
-            $data         = $data instanceof \Tx_Rnbase_Domain_Model_Data ? $data->toArray() : null;
-            $currentValue = $arguments->getCurrentValue();
-            if ($data !== null || $currentValue !== null) {
-                $this->setContentObjectData(
-                    $env,
-                    $data,
-                    $currentValue
-                );
-            }
-        }
-
-        return $arguments;
-    }
-
-    /**
-     * Creates a new data instance.
-     *
-     * @param array|\Tx_Rnbase_Domain_Model_Data $arguments
-     * @param EnvironmentTwig                    $env
-     *
-     * @return \Tx_Rnbase_Domain_Model_Data
-     */
-    protected function shutdownArguments(
-        $arguments = null,
-        EnvironmentTwig $env = null
-    ) {
-        $arguments = \Tx_Rnbase_Domain_Model_Data::getInstance($arguments);
-
-        if ($env instanceof EnvironmentTwig && !$arguments->isPropertyEmpty('data')) {
-            $this->restoreContentObjectData($env);
+            $this->setContentObjectData(
+                $env,
+                $arguments->getData(),
+                $arguments->getCurrentValue()
+            );
         }
 
         return $arguments;
@@ -102,43 +120,27 @@ class AbstractExtension extends \Twig_Extension
      */
     protected function setContentObjectData(
         EnvironmentTwig $env,
-        $data,
+        $data = null,
         $currentValue = null
     ) {
         $contentObject = $env->getContentObject();
 
-        if (is_scalar($data)) {
-            $currentValue = $currentValue ?: (string)$data;
-            $data         = [$data];
+        if ($data === null) {
+            // nothing todo, if there are no data to set
+        } elseif (is_scalar($data)) {
+            $currentValue = $currentValue ?: (string) $data;
+            $data = [$data];
+        } elseif ($data instanceof \Tx_Rnbase_Domain_Model_Data) {
+            $data = $data->toArray();
         }
-        // @TODO: handle objects!
 
         // set data
         if ($data !== null) {
-            if ($this->contentObjectDataBackup === null) {
-                $this->contentObjectDataBackup = $contentObject->data;
-            }
             $contentObject->data = $data;
         }
 
         if ($currentValue !== null) {
             $contentObject->setCurrentVal($currentValue);
-        }
-    }
-
-    /**
-     * Restores the content object data from the backup
-     *
-     * @param EnvironmentTwig $env
-     *
-     * @return void
-     */
-    protected function restoreContentObjectData(
-        EnvironmentTwig $env
-    ) {
-        if (!empty($this->contentObjectDataBackup)) {
-            $env->getContentObject()->data = $this->contentObjectDataBackup;
-            $this->contentObjectDataBackup = null;
         }
     }
 }
