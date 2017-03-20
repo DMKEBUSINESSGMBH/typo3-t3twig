@@ -46,11 +46,6 @@ class TSParserExtension extends AbstractExtension
     {
         return [
             new \Twig_SimpleFilter(
-                't3parseField',
-                [$this, 'parseField'],
-                ['needs_environment' => true, 'is_safe' => ['html'],]
-            ),
-            new \Twig_SimpleFilter(
                 't3ts',
                 [$this, 'applyTS'],
                 ['needs_environment' => true, 'is_safe' => ['html'],]
@@ -80,42 +75,6 @@ class TSParserExtension extends AbstractExtension
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
         ];
-    }
-
-    /**
-     * @param EnvironmentTwig $env
-     * @param array           $record
-     * @param string          $field
-     *
-     * @return string
-     */
-    public function parseField(EnvironmentTwig $env, $record, $field)
-    {
-        $configurations = $env->getConfigurations();
-        $confId         = $env->getConfId();
-        $conf           = $configurations->get($confId);
-        $cObj           = $configurations->getCObj();
-        $tmp            = $cObj->data;
-        $value          = $record[ $field ];
-
-        $cObj->data = $record;
-
-        // For DATETIME there is a special treatment to treat empty values
-        if ($conf[ $field ] == 'DATETIME' && $conf[ $field.'.' ]['ifEmpty'] && !$value) {
-            $value = $conf[ $field.'.' ]['ifEmpty'];
-        } elseif ($conf[ $field ]) {
-            $cObj->setCurrentVal($value);
-            $value = $cObj->cObjGetSingle($conf[ $field ], $conf[ $field.'.' ]);
-            $cObj->setCurrentVal(false);
-        } elseif ($conf[ $field ] == 'CASE') {
-            $value = $cObj->CASEFUNC($conf[ $field.'.' ]);
-        } else {
-            $value = $cObj->stdWrap($value, $conf[ $field.'.' ]);
-        }
-
-        $cObj->data = $tmp;
-
-        return $value;
     }
 
     /**
