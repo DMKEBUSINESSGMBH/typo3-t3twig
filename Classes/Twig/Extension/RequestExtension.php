@@ -35,7 +35,7 @@ use DMK\T3twig\Twig\EnvironmentTwig;
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
-class RequestExtension extends \Twig_Extension
+class RequestExtension extends AbstractExtension
 {
     /**
      * @return array
@@ -53,27 +53,46 @@ class RequestExtension extends \Twig_Extension
 
     /**
      * @param \DMK\T3twig\Twig\EnvironmentTwig $env
-     * @param                                  $paramName
+     * @param string $paramName
+     * @param array $arguments
      *
      * @return mixed|null
      */
     public function renderGetPost(
         EnvironmentTwig $env,
-        $paramName
+        $paramName,
+        array $arguments = []
     ) {
-        $paths   = explode('|', $paramName);
-        $segment = array_shift($paths);
+        return $this->performCommand(
+            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $paramName) {
+                $paths = explode('|', $paramName);
+                $segment = array_shift($paths);
 
-        $param = $env->getParameters()->get($segment);
+                if ($arguments->getGlobal()) {
+                    $param = \tx_rnbase_parameters::getPostOrGetParameter($segment);
+                } else {
+                    $param = $env->getParameters()->get($segment);
+                }
 
-        while (($segment = array_shift($paths)) !== null) {
-            if (!isset($param[ $segment ])) {
-                return null;
-            }
-            $param = $param[ $segment ];
-        }
+                while (($segment = array_shift($paths)) !== null) {
+                    if (!isset($param[$segment])) {
+                        return null;
+                    }
+                    $param = $param[$segment];
+                }
 
-        return $param;
+                // reduce empty parameters
+                if (is_array($param) && $arguments->getNoEmpty()) {
+                    foreach (array_keys($param, '') as $key) {
+                        unset($param[$key]);
+                    }
+                }
+
+                return $param;
+            },
+            $env,
+            $arguments
+        );
     }
 
     /**
