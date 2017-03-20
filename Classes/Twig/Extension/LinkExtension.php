@@ -195,7 +195,7 @@ class LinkExtension extends AbstractExtension
         $primeval = $env->getConfigurations();
         //  this was recreated, if there are a overrule config
         $configurations = $primeval;
-        $confId         = $env->getConfId();
+        $confId = $env->getConfId() . 'ts.';
 
         // we have additional configurations, merge them together in a new config object
         if ($arguments->hasConfig()) {
