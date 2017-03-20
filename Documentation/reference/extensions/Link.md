@@ -15,7 +15,7 @@ Renders an URL
 			'params' : [],
 			'ts_path' : 'link.',
 			'data' : optionalContentObjectData,
-			'config' : {"atagparams." : {"class" : "btn btd-default"}}
+			'ts_config' : {"atagparams" : {"class" : "btn btd-default"}}
 		}
 	)
 }}
@@ -47,7 +47,7 @@ Renders a full qualified a tag.
 			'params' : [],
 			'ts_path' : 'link.',
 			'data' : optionalContentObjectData,
-			'config' : {"atagparams." : {"class" : "btn btd-default"}}
+			'ts_config' : {"atagparams" : {"class" : "btn btd-default"}}
 		}
 	)
 }}

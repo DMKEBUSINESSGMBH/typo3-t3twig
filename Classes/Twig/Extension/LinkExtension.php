@@ -198,17 +198,18 @@ class LinkExtension extends AbstractExtension
         $confId = $env->getConfId() . 'ts.';
 
         // we have additional configurations, merge them together in a new config object
-        if ($arguments->hasConfig()) {
+        if ($arguments->hasTsConfig()) {
             $primeval = $env->getConfigurations();
             /** @var $configurations \Tx_Rnbase_Configuration_Processor */
             $configurations = \tx_rnbase::makeInstance(
                 'Tx_Rnbase_Configuration_Processor'
             );
+            $config = $arguments->getTsConfig();
             $primevalConf   = $primeval->get($confId.$tsPath);
             if (is_array($primevalConf)) {
                 $config = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $primevalConf,
-                    $arguments->getConfig()->toArray()
+                    $config
                 );
             }
             $config = ['link.' => $config];

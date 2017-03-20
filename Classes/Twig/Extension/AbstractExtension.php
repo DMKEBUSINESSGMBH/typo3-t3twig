@@ -106,6 +106,15 @@ class AbstractExtension extends \Twig_Extension
             );
         }
 
+        // convert ts config from  array to ts array
+        if ($arguments->hasTsConfig()) {
+            $arguments->setTsConfig(
+                \Tx_Rnbase_Utility_TypoScript::convertPlainArrayToTypoScriptArray(
+                    $arguments->getTsConfig()->toArray()
+                )
+            );
+        }
+
         return $arguments;
     }
 
