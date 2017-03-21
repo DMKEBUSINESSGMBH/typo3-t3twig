@@ -107,7 +107,7 @@ class ImageExtension extends \Twig_Extension
     public function renderImage(
         EnvironmentTwig $env,
         $image,
-        $options = []
+        array $conf = []
     ) {
         $configurations = $env->getConfigurations();
 
@@ -117,9 +117,14 @@ class ImageExtension extends \Twig_Extension
             $image = $image->getOriginalResource();
         }
 
+        // convert  array { 'file' : { } } to ts with dot { 'file.' : { } }
+        $conf = \Tx_Rnbase_Utility_TypoScript::convertPlainArrayToTypoScriptArray(
+            $conf
+        );
+
         return $configurations->getCObj()->cImage(
             $image,
-            $options
+            $conf
         );
     }
 
