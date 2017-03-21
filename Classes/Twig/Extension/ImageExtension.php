@@ -38,7 +38,7 @@ use DMK\T3twig\Twig\EnvironmentTwig;
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
-class ImageExtension extends \Twig_Extension
+class ImageExtension extends AbstractExtension
 {
     /**
      * @return array
@@ -99,17 +99,20 @@ class ImageExtension extends \Twig_Extension
 
     /**
      * @param EnvironmentTwig $env
-     * @param                 $image
-     * @param array           $options
+     * @param mixed $image
+     * @param array $arguments
      *
      * @return array
      */
     public function renderImage(
         EnvironmentTwig $env,
         $image,
-        array $conf = []
+        array $arguments = []
     ) {
-        $configurations = $env->getConfigurations();
+        // backward compatibility, create the ts_config key
+        if (!isset($arguments['ts_config'])) {
+            $arguments['ts_config'] = $arguments;
+        }
 
         // get Resource Object (non ExtBase version), taken from Fluid\MediaViewHelper
         if (is_object($image) && is_callable([$image, 'getOriginalResource'])) {
@@ -117,14 +120,15 @@ class ImageExtension extends \Twig_Extension
             $image = $image->getOriginalResource();
         }
 
-        // convert  array { 'file' : { } } to ts with dot { 'file.' : { } }
-        $conf = \Tx_Rnbase_Utility_TypoScript::convertPlainArrayToTypoScriptArray(
-            $conf
-        );
-
-        return $configurations->getCObj()->cImage(
-            $image,
-            $conf
+        return $this->performCommand(
+            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $image) {
+                return $env->getContentObject()->cImage(
+                    $image,
+                    $arguments->getTsConfig()
+                );
+            },
+            $env,
+            $arguments
         );
     }
 
