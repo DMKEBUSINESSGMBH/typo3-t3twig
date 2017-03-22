@@ -46,17 +46,6 @@ class ImageExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('getMediaObjects', [$this, 'getMediaObjects']),
-            new \Twig_SimpleFilter(
-                't3images',
-                [$this, 'renderImages'],
-                ['needs_environment' => true]
-            ),
-            new \Twig_SimpleFilter(
-                't3imageFromTS',
-                [$this, 'renderImageFromTyposcript'],
-                ['needs_environment' => true, 'is_safe' => ['html']]
-            ),
         ];
     }
 
@@ -66,11 +55,9 @@ class ImageExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('getGenericMediaObjects', [$this, 'getGenericMediaObjects']),
             new \Twig_SimpleFunction(
-                't3genericImages',
-                [$this, 'renderGenericImage'],
-                ['needs_environment' => true, 'is_safe' => ['html']]
+                't3fetchReferences',
+                [$this, 'fetchReferences']
             ),
             new \Twig_SimpleFunction(
                 't3image',
@@ -78,23 +65,6 @@ class ImageExtension extends AbstractExtension
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
         ];
-    }
-
-    /**
-     * @param EnvironmentTwig                         $env
-     * @param \Tx_Rnbase_Domain_Model_DomainInterface $model
-     * @param string                                  $refField
-     *
-     * @return array
-     */
-    public function renderImages(
-        EnvironmentTwig $env,
-        \Tx_Rnbase_Domain_Model_DomainInterface $model,
-        $refField = 'images'
-    ) {
-        $fileRefs = \tx_rnbase_util_TSFAL::fetchReferences($model->getTableName(), $model->getUid(), $refField);
-
-        return $this->renderReferences($env, $fileRefs, $refField);
     }
 
     /**
@@ -133,103 +103,17 @@ class ImageExtension extends AbstractExtension
     }
 
     /**
-     * @param EnvironmentTwig   $env
-     * @param                   $table
-     * @param                   $uid
-     * @param string            $refField
-     * @param string            $tsPathConfig
+     * Fetch all file references for the given table and uid
      *
-     * @return array
-     */
-    public function renderGenericImage(
-        EnvironmentTwig $env,
-        $table,
-        $uid,
-        $refField = 'images',
-        $tsPathConfig = 'images'
-    ) {
-        $fileRefs = \tx_rnbase_util_TSFAL::fetchReferences($table, $uid, $refField);
-
-        return $this->renderReferences($env, $fileRefs, $tsPathConfig);
-    }
-
-
-    /**
-     * @param EnvironmentTwig $env
-     * @param string          $tsPath
-     *
-     * @return string
-     */
-    public function renderImageFromTyposcript(EnvironmentTwig $env, $tsPath)
-    {
-        $configurations = $env->getConfigurations();
-
-        return $configurations->getCObj()->cImage(
-            $configurations->get($tsPath.'.file'),
-            $configurations->get($tsPath.'.')
-        );
-    }
-
-    /**
-     * Fetches FAL records and return as array of tx_rnbase_model_media
-     *
-     * @param \Tx_Rnbase_Domain_Model_DomainInterface $model
-     * @param                                         $refField
-     *
-     * @return array[tx_rnbase_model_media]
-     */
-    public function getMediaObjects(\Tx_Rnbase_Domain_Model_DomainInterface $model, $refField = 'images')
-    {
-        return $this->fetchFiles($model->getTableName(), $model->getUid(), $refField);
-    }
-
-    /**
-     * @param        $table
-     * @param        $uid
+     * @param string $table
+     * @param string $uid
      * @param string $refField
      *
-     * @return array
+	 * @return array[\TYPO3\CMS\Core\Resource\FileReference]
      */
-    public function getGenericMediaObjects($table, $uid, $refField = 'images')
+    public function fetchReferences($table, $uid, $refField = 'images')
     {
-        return $this->fetchFiles($table, $uid, $refField);
-    }
-
-    /**
-     * @param $table
-     * @param $uid
-     * @param $refField
-     *
-     * @return array
-     */
-    protected function fetchFiles($table, $uid, $refField)
-    {
-        return \tx_rnbase_util_TSFAL::fetchFiles($table, $uid, $refField);
-    }
-
-    /**
-     * @param EnvironmentTwig   $env
-     * @param                   $fileRefs
-     * @param                   $tsPathConfig
-     *
-     * @return array
-     */
-    protected function renderReferences($env, $fileRefs, $tsPathConfig)
-    {
-        $configurations = $env->getConfigurations();
-        $confId         = $env->getConfId();
-        $images         = [];
-        $cObj           = $configurations->getCObj();
-
-        foreach ($fileRefs as $fileRef) {
-            $cObj->setCurrentFile($fileRef);
-            $images[] = $cObj->cImage(
-                $fileRef,
-                $configurations->getExploded($confId.$tsPathConfig.'.')
-            );
-        }
-
-        return $images;
+        return \tx_rnbase_util_TSFAL::fetchReferences($table, $uid, $refField);
     }
 
     /**
