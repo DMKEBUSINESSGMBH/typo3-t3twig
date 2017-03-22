@@ -46,11 +46,6 @@ class LinkExtension extends AbstractExtension
     {
         return [
             new \Twig_SimpleFilter(
-                't3linkOld',
-                [$this, 'renderLinkOld'],
-                ['needs_environment' => true, 'is_safe' => ['html']]
-            ),
-            new \Twig_SimpleFilter(
                 't3link',
                 [$this, 'renderLink'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
@@ -62,45 +57,11 @@ class LinkExtension extends AbstractExtension
     {
         return [
             new \Twig_SimpleFunction(
-                't3urlOld',
-                [$this, 'renderUrlOld'],
-                ['needs_environment' => true]
-            ),
-            new \Twig_SimpleFunction(
                 't3url',
                 [$this, 'renderUrl'],
                 ['needs_environment' => true]
             ),
         ];
-    }
-
-    /**
-     * @param EnvironmentTwig $env
-     * @param                 label
-     * @param                 $dest
-     * @param array           $params
-     * @param string          $tsPath
-     *
-     * @deprecated will be removed later
-     *
-     * @return string
-     */
-    public function renderLinkOld(EnvironmentTwig $env, $label, $dest, $params = [], $tsPath = 'link.')
-    {
-        \TYPO3\CMS\Core\Utility\GeneralUtility::logDeprecatedFunction();
-        $arguments = [
-            'destination' => $dest,
-            'params'      => $params,
-            'label'       => $label,
-        ];
-
-        if (is_array($tsPath)) {
-            $arguments['config'] = $tsPath;
-        } else {
-            $arguments['tsPath'] = $tsPath;
-        }
-
-        return $this->renderLink($env, $label, $arguments);
     }
 
     /**
@@ -121,35 +82,6 @@ class LinkExtension extends AbstractExtension
             $env,
             $arguments
         );
-    }
-
-    /**
-     * @param EnvironmentTwig   $env
-     * @param                   $dest
-     * @param array             $params
-     * @param string            $tsPath
-     *
-     * @deprecated will be removed later
-     *
-     * @return string
-     */
-    public function renderUrlOld(EnvironmentTwig $env, $dest, $params = [], $tsPath = 'link.')
-    {
-        \TYPO3\CMS\Core\Utility\GeneralUtility::logDeprecatedFunction();
-
-        $arguments = [
-            'destination' => $dest,
-            'params'      => $params,
-            'tsPath'      => $tsPath,
-        ];
-
-        if (is_array($tsPath)) {
-            $arguments['config'] = $tsPath;
-        } else {
-            $arguments['tsPath'] = $tsPath;
-        }
-
-        return $this->renderUrl($env, $arguments);
     }
 
     /**
