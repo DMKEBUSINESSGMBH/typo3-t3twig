@@ -27,4 +27,4 @@ This will output the following pagination (bootstrap based):
 
 
 For more options, individual labels see
-[Macro/Pagination.html.twig](../../../Resources/views/Macro/Pagination.html.twig)
+[Macro/Pagination.html.twig](../../../Resources/Private/Template/Macro/Pagination.html.twig)
