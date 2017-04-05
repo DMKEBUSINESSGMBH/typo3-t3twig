@@ -7,7 +7,7 @@
 It is important to include static TS resource **T3Twig (t3twig)** under **Include static (from extensions)**.
 
 
-##rn_base Plugin
+## rn_base Plugin
 
 First of all you need a [rn_base plugin](https://github.com/digedag/rn_base/blob/master/Documentation/fe_plugins.md) with an action which extends `tx_rnbase_action_BaseIOC`.
 

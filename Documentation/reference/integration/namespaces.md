@@ -2,14 +2,14 @@
 
 [Table of Contents](../../README.md)
 
-##Include templates
+## Include templates
 The fileloader for TYPO3 will register a namespace for each TYPO3 extension with an existing folder `Resources/Private/Templates/`. 
 So if your extension **myext** has a file under `EXT:myext/Resources/Private/Templates/base.html.twig`, the correct resource
 name in Twig will be `@EXT:myext/base.html-twig`.
 
 You can also use the namespace `@fileadmin` to access templates from TYPO3 fileadmin folder.
 
-##Usage example
+## Usage example
 Basetemplate under EXT:ext1/Resources/Private/Templates/Layout/layout.html.twig
 ```twig
 <div id="content">{% block content %}{% endblock %}</div>
