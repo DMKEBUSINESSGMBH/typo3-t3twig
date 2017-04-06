@@ -4,6 +4,7 @@ lib.tx_t3twig {
 	}
 	extensions {
 		twigBase_Debug = Twig_Extension_Debug
+		t3twig_dateExtension = DMK\T3twig\Twig\Extension\DateExtension
 		t3twig_mediaObject = DMK\T3twig\Twig\Extension\ImageExtension
 		t3twig_languageExtension = DMK\T3twig\Twig\Extension\LanguageExtension
 		t3twig_linkExtension = DMK\T3twig\Twig\Extension\LinkExtension
