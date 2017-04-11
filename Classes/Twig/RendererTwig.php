@@ -210,11 +210,22 @@ class RendererTwig
      * @param array $data
      *
      * @return string The filan template
+     * @throws T3TwigException
+     * @throws \Exception
+     * @throws \TYPO3\CMS\Core\Exception
+     * @throws \Throwable
+     * @throws \Twig_Error_Runtime
      */
     public function render(
         array $data = null
     ) {
         $templateFullFilePath = $this->getTemplatePath();
+
+        if (!is_file($templateFullFilePath)) {
+            throw new T3TwigException(
+                'Template file not found or empty: ' . $templateFullFilePath
+            );
+        }
         $twigLoader = UtilityTwig::getTwigLoaderFilesystem(
             dirname($templateFullFilePath)
         );
