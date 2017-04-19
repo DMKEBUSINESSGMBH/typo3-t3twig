@@ -133,7 +133,7 @@ class RendererTwig
     protected function getTemplatePaths()
     {
         // initial use the global paths
-        $paths = $this->conf['templatepaths.'];
+        $paths = $this->conf['templatepaths.'] ?: [];
         // add the paths for the current render context
         $paths = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
             $paths,
@@ -153,7 +153,7 @@ class RendererTwig
     protected function getExtensions()
     {
         // initial use the global paths
-        $paths = $this->conf['extensions.'];
+        $paths = $this->conf['extensions.'] ?: [];
 
         // add the paths for the current render context
         $paths = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
