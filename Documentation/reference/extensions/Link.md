@@ -41,7 +41,7 @@ Renders a full qualified a tag.
 
 ```twig
 {{
-	'Label'|t3link
+	'Label'|t3link(
 		{
 			'destination' : $destination,
 			'params' : [],
