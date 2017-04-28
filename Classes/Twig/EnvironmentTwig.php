@@ -54,7 +54,6 @@ class EnvironmentTwig extends \Twig_Environment
     public function setRenderer(
         Renderer $renderer
     ) {
-
         $this->renderer = $renderer;
 
         return $this;

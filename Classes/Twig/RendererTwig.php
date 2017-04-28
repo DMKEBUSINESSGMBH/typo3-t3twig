@@ -37,10 +37,10 @@ namespace DMK\T3twig\Twig;
 class RendererTwig
 {
     /**
-    * Basic conf from lib.tx_t3twig.
-    *
-    * @var array
-    */
+     * Basic conf from lib.tx_t3twig.
+     *
+     * @var array
+     */
     protected $conf;
 
     /**
@@ -244,7 +244,9 @@ class RendererTwig
             $this->getExtensions()
         );
 
-        /** @var $template \Twig_Template */
+        /**
+ * @var $template \Twig_Template
+*/
         $template = $twigEnv->loadTemplate(
             basename($templateFullFilePath)
         );

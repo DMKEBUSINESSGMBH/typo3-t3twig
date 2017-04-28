@@ -82,17 +82,17 @@ class DateExtension extends AbstractExtension
         // some conversion for windows systems
         if (TYPO3_OS === 'WIN') {
             $mapping = array(
-                '%C' => sprintf("%02d", date("Y", $date) / 100),
+                '%C' => sprintf('%02d', date('Y', $date) / 100),
                 '%D' => '%m/%d/%y',
-                '%e' => sprintf("%' 2d", date("j", $date)),
+                '%e' => sprintf("%' 2d", date('j', $date)),
                 '%G' => '%Y',
                 '%h' => '%b',
                 '%n' => "\n",
-                '%r' => date("h:i:s", $date) . " %p",
-                '%R' => date("H:i", $date),
+                '%r' => date('h:i:s', $date) . ' %p',
+                '%R' => date('H:i', $date),
                 '%t' => "\t",
                 '%T' => '%H:%M:%S',
-                '%u' => ($w = date("w", $date)) ? $w : 7
+                '%u' => ($w = date('w', $date)) ? $w : 7
             );
             $format = str_replace(
                 array_keys($mapping),

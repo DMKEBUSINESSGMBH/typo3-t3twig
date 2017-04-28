@@ -1,21 +1,21 @@
 lib.tx_t3twig {
-	templatepaths {
-		T3twig = EXT:t3twig/Resources/Private/Template
-	}
-	extensions {
-		twigBase_Debug = Twig_Extension_Debug
-		t3twig_dateExtension = DMK\T3twig\Twig\Extension\DateExtension
-		t3twig_mediaObject = DMK\T3twig\Twig\Extension\ImageExtension
-		t3twig_languageExtension = DMK\T3twig\Twig\Extension\LanguageExtension
-		t3twig_linkExtension = DMK\T3twig\Twig\Extension\LinkExtension
-		t3twig_requestExtension = DMK\T3twig\Twig\Extension\RequestExtension
-		t3twig_tsFeExtension = DMK\T3twig\Twig\Extension\TsFeExtension
-		t3twig_tsParseExtension = DMK\T3twig\Twig\Extension\TSParserExtension
-	}
+    templatepaths {
+        T3twig = EXT:t3twig/Resources/Private/Template
+    }
+    extensions {
+        twigBase_Debug = Twig_Extension_Debug
+        t3twig_dateExtension = DMK\T3twig\Twig\Extension\DateExtension
+        t3twig_mediaObject = DMK\T3twig\Twig\Extension\ImageExtension
+        t3twig_languageExtension = DMK\T3twig\Twig\Extension\LanguageExtension
+        t3twig_linkExtension = DMK\T3twig\Twig\Extension\LinkExtension
+        t3twig_requestExtension = DMK\T3twig\Twig\Extension\RequestExtension
+        t3twig_tsFeExtension = DMK\T3twig\Twig\Extension\TsFeExtension
+        t3twig_tsParseExtension = DMK\T3twig\Twig\Extension\TSParserExtension
+    }
 }
 
 #### fallback for older usage only
 lib.tx_t3twig {
-	twig_extensions = < lib.tx_t3twig.extensions
-	twig_templatepaths = < lib.tx_t3twig.templatepaths
+    twig_extensions = < lib.tx_t3twig.extensions
+    twig_templatepaths = < lib.tx_t3twig.templatepaths
 }

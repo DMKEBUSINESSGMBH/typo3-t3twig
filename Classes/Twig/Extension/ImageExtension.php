@@ -109,7 +109,7 @@ class ImageExtension extends AbstractExtension
      * @param string $uid
      * @param string $refField
      *
-	 * @return array[\TYPO3\CMS\Core\Resource\FileReference]
+     * @return array[\TYPO3\CMS\Core\Resource\FileReference]
      */
     public function fetchReferences($table, $uid, $refField = 'images')
     {

@@ -52,6 +52,7 @@ class RnBaseView extends \tx_rnbase_view_Base
             // provide fallback template file (always a full filepath)
             $this->getTemplate($view, '.html.twig')
         );
+
         return $renderer->render(
             $configurations->getViewData()->getArrayCopy()
         );

@@ -113,10 +113,14 @@ class UtilityTwig
         array $extensions
     ) {
         foreach ($extensions as $extension => $value) {
-            /** @var \Twig_Extension $extInstance */
+            /**
+ * @var \Twig_Extension $extInstance
+*/
             $extInstance = \tx_rnbase::makeInstance($value);
 
-            /** Is it a valid twig extension? */
+            /**
+ * Is it a valid twig extension?
+*/
             if (!$extInstance instanceof \Twig_ExtensionInterface) {
                 throw new Exception(
                     sprintf(
@@ -126,7 +130,9 @@ class UtilityTwig
                 );
             }
 
-            /** Is extension already enabled? */
+            /**
+ * Is extension already enabled?
+*/
             if ($environment->hasExtension($extInstance->getName())) {
                 continue;
             }

@@ -9,15 +9,15 @@ Renders an URL
 
 ```twig
 {{
-	t3url(
-		{
-			'destination' : $destination,
-			'params' : [],
-			'ts_path' : 'link.',
-			'data' : optionalContentObjectData,
-			'ts_config' : {"atagparams" : {"class" : "btn btd-default"}}
-		}
-	)
+    t3url(
+        {
+            'destination' : $destination,
+            'params' : [],
+            'ts_path' : 'link.',
+            'data' : optionalContentObjectData,
+            'ts_config' : {"atagparams" : {"class" : "btn btd-default"}}
+        }
+    )
 }}
 ```
 
@@ -41,15 +41,15 @@ Renders a full qualified a tag.
 
 ```twig
 {{
-	'Label'|t3link(
-		{
-			'destination' : $destination,
-			'params' : [],
-			'ts_path' : 'link.',
-			'data' : optionalContentObjectData,
-			'ts_config' : {"atagparams" : {"class" : "btn btd-default"}}
-		}
-	)
+    'Label'|t3link(
+        {
+            'destination' : $destination,
+            'params' : [],
+            'ts_path' : 'link.',
+            'data' : optionalContentObjectData,
+            'ts_config' : {"atagparams" : {"class" : "btn btd-default"}}
+        }
+    )
 }}
 ```
 

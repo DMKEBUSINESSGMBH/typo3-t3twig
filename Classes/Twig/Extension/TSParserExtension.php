@@ -93,7 +93,7 @@ class TSParserExtension extends AbstractExtension
     ) {
         // set the current value to arguments for initialize, if not set
         if (!isset($arguments['current_value'])) {
-            $arguments['current_value']= $value;
+            $arguments['current_value'] = $value;
         }
 
         return $this->performCommand(
@@ -101,7 +101,7 @@ class TSParserExtension extends AbstractExtension
                 // dont throw exception, if ts path does not exists
                 $arguments->setSkipTsNotFoundException(true);
 
-                list ($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+                list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
 
                 $conf = empty($setup[$tsPath . '.']) ? [] : $setup[$tsPath . '.'];
 
@@ -134,8 +134,7 @@ class TSParserExtension extends AbstractExtension
     ) {
         return $this->performCommand(
             function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $confId) {
-
-                list ($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+                list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
 
                 return $env->getContentObject()->cObjGetSingle(
                     $setup[$tsPath],
@@ -165,8 +164,7 @@ class TSParserExtension extends AbstractExtension
     ) {
         return $this->performCommand(
             function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $confId) {
-
-                list ($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+                list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
 
                 return $env->getContentObject()->stdWrap(
                     $setup[$tsPath],
@@ -196,8 +194,7 @@ class TSParserExtension extends AbstractExtension
     ) {
         return $this->performCommand(
             function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $confId) {
-
-                list ($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+                list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
 
                 if (empty($confId) && $arguments->hasTsPath()) {
                     $confId = $arguments->getTsPath();
