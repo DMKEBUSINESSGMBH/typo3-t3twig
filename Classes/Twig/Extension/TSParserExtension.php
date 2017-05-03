@@ -50,6 +50,11 @@ class TSParserExtension extends AbstractExtension
                 [$this, 'applyTS'],
                 ['needs_environment' => true, 'is_safe' => ['html'],]
             ),
+            new \Twig_SimpleFilter(
+                't3rte',
+                [$this, 'applyRte'],
+                ['needs_environment' => true, 'is_safe' => ['html'],]
+            ),
         ];
     }
 
@@ -110,6 +115,44 @@ class TSParserExtension extends AbstractExtension
                 }
 
                 return $env->getContentObject()->cObjGetSingle($setup[$tsPath], $conf);
+            },
+            $env,
+            $arguments
+        );
+    }
+
+    /**
+     * @param EnvironmentTwig $env
+     * @param string $value
+     * @param string $confId
+     * @param array $arguments
+     *
+     * @return string
+     */
+    public function applyRte(
+        EnvironmentTwig $env,
+        $value,
+        $confId,
+        array $arguments = []
+    ) {
+        // set the current value to arguments for initialize, if not set
+        if (!isset($arguments['current_value'])) {
+            $arguments['current_value'] = $value;
+        }
+
+        return $this->performCommand(
+            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $value, $confId) {
+                // dont throw exception, if ts path does not exists
+                $arguments->setSkipTsNotFoundException(true);
+
+                if (!$confId) {
+                    $confId = 'lib.parseFunc_RTE';
+                }
+                list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+
+                $conf = empty($setup[$tsPath . '.']) ? [] : $setup[$tsPath . '.'];
+
+                return $env->getContentObject()->parseFunc($value, $conf);
             },
             $env,
             $arguments

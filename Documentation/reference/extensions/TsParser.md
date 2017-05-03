@@ -58,3 +58,12 @@ Reads the raw content of the given typoscript path.
     <!-- dumps the array ["key" => "value"] -->
     {{ dump(t3stdWrap('lib.raw')) }}
 ```
+
+## t3rte
+
+Renders a string by passing it to a TYPO3 parseFunc.
+
+```twig
+    <!-- Renders the Field "bodytext" as RTE -->
+    {{ item.bodytext|t3rte('lib.parseFunc_RTE') }}
+```
