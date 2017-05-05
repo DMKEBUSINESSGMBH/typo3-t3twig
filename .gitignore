@@ -8,3 +8,7 @@
 ### md renderings
 *.md.html
 /.php_cs.cache
+
+### Travis Builds
+/.Build
+composer.lock
