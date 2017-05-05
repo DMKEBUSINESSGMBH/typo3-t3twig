@@ -1,21 +1,25 @@
 {
-    "name" : "dmk/t3twig",
-    "description" : "Extend rn_base for using twig templates instead of marker templates",
-"version" : "1.2.0",
-    "type" : "typo3-cms-extension",
-    "keywords" : ["TYPO3 CMS", "twig", "template"],
-    "homepage" : "http://www.dmk-ebusiness.de/",
-    "license" : "GPL-2.0+",
-    "authors" : [
+    "name": "dmk/t3twig",
+    "description": "Extend rn_base for using twig templates instead of marker templates",
+    "version": "1.2.0",
+    "type": "typo3-cms-extension",
+    "keywords": [
+        "TYPO3 CMS",
+        "twig",
+        "template"
+    ],
+    "homepage": "http://www.dmk-ebusiness.de/",
+    "license": "GPL-2.0+",
+    "authors": [
         {
-            "name" : "Eric Hertwig",
-            "email" : "eric.hertwig@dmk-ebusiness.de",
-            "role" : "Developer"
+            "name": "Eric Hertwig",
+            "email": "eric.hertwig@dmk-ebusiness.de",
+            "role": "Developer"
         },
         {
-            "name" : "René Nitzsche",
-            "email" : "nitzsche@dmk-ebusiness.de",
-            "role" : "Developer"
+            "name": "René Nitzsche",
+            "email": "nitzsche@dmk-ebusiness.de",
+            "role": "Developer"
         },
         {
             "name": "Michael Wagner",
