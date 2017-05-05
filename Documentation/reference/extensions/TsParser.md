@@ -61,9 +61,18 @@ Reads the raw content of the given typoscript path.
 
 ## t3rte
 
+Renders a string by passing it to the TYPO3 parseFunc_RTE.
+
+```twig
+    <!-- Renders the Field "bodytext" as RTE -->
+    {{ item.bodytext|t3rte() }}
+```
+
+## t3parseFunc
+
 Renders a string by passing it to a TYPO3 parseFunc.
 
 ```twig
     <!-- Renders the Field "bodytext" as RTE -->
-    {{ item.bodytext|t3rte('lib.parseFunc_RTE') }}
+    {{ t3parseFunc('lib.parseFunc_RTE', {'current_value' : item.bodytext}) }}
 ```

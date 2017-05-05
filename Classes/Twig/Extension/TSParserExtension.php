@@ -40,6 +40,8 @@ use DMK\T3twig\Twig\EnvironmentTwig;
 class TSParserExtension extends AbstractExtension
 {
     /**
+     * Twig Filters
+     *
      * @return array
      */
     public function getFilters()
@@ -47,7 +49,7 @@ class TSParserExtension extends AbstractExtension
         return [
             new \Twig_SimpleFilter(
                 't3ts',
-                [$this, 'applyTS'],
+                [$this, 'applyTs'],
                 ['needs_environment' => true, 'is_safe' => ['html'],]
             ),
             new \Twig_SimpleFilter(
@@ -59,6 +61,8 @@ class TSParserExtension extends AbstractExtension
     }
 
     /**
+     * Twig Functions
+     *
      * @return array
      */
     public function getFunctions()
@@ -79,10 +83,17 @@ class TSParserExtension extends AbstractExtension
                 [$this, 'renderTsRaw'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
+            new \Twig_SimpleFunction(
+                't3parseFunc',
+                [$this, 'renderParseFunc'],
+                ['needs_environment' => true, 'is_safe' => ['html']]
+            ),
         ];
     }
 
     /**
+     * Creates output based on TypoScript.
+     *
      * @param EnvironmentTwig $env
      * @param string $value
      * @param string $confId
@@ -90,7 +101,7 @@ class TSParserExtension extends AbstractExtension
      *
      * @return string
      */
-    public function applyTS(
+    public function applyTs(
         EnvironmentTwig $env,
         $value,
         $confId,
@@ -122,6 +133,8 @@ class TSParserExtension extends AbstractExtension
     }
 
     /**
+     * Creates output based on parseFunc_RTE.
+     *
      * @param EnvironmentTwig $env
      * @param string $value
      * @param string $confId
@@ -132,27 +145,34 @@ class TSParserExtension extends AbstractExtension
     public function applyRte(
         EnvironmentTwig $env,
         $value,
+        $confId = 'lib.parseFunc_RTE',
+        array $arguments = []
+    ) {
+        $arguments['current_value'] = $value;
+
+        return $this->renderParseFunc($env, $confId, $arguments);
+    }
+
+    /**
+     * Creates output based on TypoScript parseFunc.
+     *
+     * @param EnvironmentTwig $env
+     * @param string $confId
+     * @param array $arguments
+     *
+     * @return string
+     */
+    public function renderParseFunc(
+        EnvironmentTwig $env,
         $confId,
         array $arguments = []
     ) {
-        // set the current value to arguments for initialize, if not set
-        if (!isset($arguments['current_value'])) {
-            $arguments['current_value'] = $value;
-        }
-
         return $this->performCommand(
-            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $value, $confId) {
-                // dont throw exception, if ts path does not exists
-                $arguments->setSkipTsNotFoundException(true);
-
-                if (!$confId) {
-                    $confId = 'lib.parseFunc_RTE';
-                }
+            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $confId) {
                 list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
-
                 $conf = empty($setup[$tsPath . '.']) ? [] : $setup[$tsPath . '.'];
 
-                return $env->getContentObject()->parseFunc($value, $conf);
+                return $env->getContentObject()->parseFunc($arguments->getCurrentValue(), $conf);
             },
             $env,
             $arguments
@@ -258,7 +278,7 @@ class TSParserExtension extends AbstractExtension
      * Try to wind the setup of the given conf id
      *
      * @param EnvironmentTwig $env
-     * @param unknown $typoscriptObjectPath
+     * @param string $typoscriptObjectPath
      * @param \Tx_Rnbase_Domain_Model_Data $arguments
      *
      * @throws \Exception
