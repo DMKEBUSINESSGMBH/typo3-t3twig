@@ -1,7 +1,7 @@
 {
     "name": "dmk/t3twig",
     "description": "Extend rn_base for using twig templates instead of marker templates",
-    "version": "1.2.0",
+    "version": "2.0.0",
     "type": "typo3-cms-extension",
     "keywords": [
         "TYPO3 CMS",
@@ -28,8 +28,8 @@
         }
     ],
     "require": {
-        "typo3/cms": ">=7.6.16 <=8.7.99",
-        "digedag/rn-base": ">=1.2.5",
+        "typo3/cms": "~7.6.16 || ~8.7",
+        "digedag/rn-base": ">=1.4",
         "twig/twig": "~1.0"
     },
     "autoload": {
