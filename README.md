@@ -12,7 +12,7 @@ Install TYPO3 via composer. Maybe you can use our [TYPO3-Composer-Webroot Projec
 
 From project root you need to run
 ```bash
-composer require "dmk/t3twig:~1.0"
+composer require "dmk/t3twig:~2.0"
 ```
 
 ### Documentation
