@@ -2,6 +2,10 @@
 
 # Changes
 
+## v2.0.0
+ * TYPO3 8.7 LTS Support
+ * new parseFunc and RTE functions
+
 ## v1.1.0
  * new getter for content object in twig enviroment
  * new support to set the context data in content object to use fields in ts
