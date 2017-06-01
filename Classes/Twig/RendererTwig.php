@@ -187,7 +187,7 @@ class RendererTwig
             // check the rnbase base path
             $basePath = $this->getConfigurations()->get('templatePath');
             // add the first template include path
-            $basePath = $basePath ?: reset($this->conf['templatepaths.']);
+            $basePath = $basePath ?: reset((array) $this->conf['templatepaths.']);
             if (!empty($basePath)) {
                 $path = $basePath.'/'.$path;
             }
