@@ -20,5 +20,8 @@ Sets the title tag for the current page.
 This way you can add a JavaScript file.
 
 ```twig
-    {{ pageRenderer.addJsFooterLibrary('googleApi', 'https://maps.googleapis.com/maps/api/js?sensor=false', 'text/javascript', false, false, '', true, '|', true) }}
+    {{ pageRenderer.addJsFooterLibrary(
+        'googleApi', 'https://maps.googleapis.com/maps/api/js?sensor=false',
+        'text/javascript', false, false, '', true, '|', true
+    ) }}
 ```
