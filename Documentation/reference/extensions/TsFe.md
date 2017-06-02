@@ -16,7 +16,7 @@ Sets the title tag for the current page.
     {{ tsfePagetitle(tsfe.indexedDocTitle ~ ' | News: ' ~ news.title) }}
 ```
 
-##Page Renderer
+## Page Renderer
 This way you can add a JavaScript file.
 
 ```twig
