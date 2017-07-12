@@ -28,8 +28,8 @@ Returns an array of [\tx_rnbase_model_media objects](https://github.com/digedag/
                         'file': {
                             'maxH' : 635
                         },
-                        'altText' : image.titel,
-                        'titleText' : image.titel
+                        'altText' : image.alternative,
+                        'titleText' : image.title
                     }
                 )
             }}
