@@ -52,14 +52,26 @@ class LanguageExtension extends \Twig_Extension
     /**
      * @param EnvironmentTwig $env
      * @param string          $label
+     * @param array           $placeholders
      * @param string          $alt
-     * @param bool            $hsc
      *
      * @return mixed
      */
-    public function getTranslation(EnvironmentTwig $env, $label, $alt = '', $hsc = false)
+    public function getTranslation(EnvironmentTwig $env, $label, array $placeholders=[], $alt = '')
     {
-        return $env->getConfigurations()->getLL($label, $alt, $hsc);
+        $label = $env->getConfigurations()->getLL($label, $alt, false);
+
+        if (!empty($placeholders)) {
+            $s = [];
+            $r = [];
+            foreach ($placeholders as $search => $replace) {
+                $s[] = '/'.$search.'/';
+                $r[] = $replace;
+            }
+            $label = preg_replace($s, $r, $label);
+        }
+
+        return $label;
     }
 
     /**
