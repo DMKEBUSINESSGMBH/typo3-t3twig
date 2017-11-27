@@ -1,4 +1,3 @@
-
 # Translation
 
 This extensions allows you to render translated labels in your plugin.
@@ -24,10 +23,11 @@ plugin.tx_myplugin {
     </meta>
     <data type="array">
         <languageKey index="default" type="array">
-            <label index="lable_error">An error has occurred</label>
+            <label index="label_error">An error has occurred</label>
         </languageKey>
         <languageKey index="de" type="array">
-            <label index="lable_error">Ein Fehler ist aufgetreten!</label>
+            <label index="label_error">An error has occurred!</label>
+            <label index="label_error_placeholder">Error %number% has occurred!</label>
         </languageKey>
     </data>
 </T3locallang>
@@ -35,5 +35,11 @@ plugin.tx_myplugin {
 ```
 
 ```twig
-{{ 'lable_error'|t3trans }}
+{{ 'label_error'|t3trans }}
 ```
+
+[Optional] Replace placeholders
+```twig
+{{ 'label_error_placeholder'|t3trans({'%number%':4}) }}
+```
+Output: Error 4 has occurred!
