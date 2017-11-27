@@ -54,7 +54,7 @@ class LanguageExtension extends \Twig_Extension
      * @param string          $label
      * @param array           $placeholders
      *
-     * @return mixed
+     * @return string
      */
     public function getTranslation(EnvironmentTwig $env, $label, array $placeholders=[])
     {
