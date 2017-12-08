@@ -1,0 +1,27 @@
+site_name: DMK TYPO3 Twig
+site_url: https://www.dmk-ebusiness.de/loesungen/t3twig/
+site_description: TYPO3 extension to render page templates with Twig and extend rn_base for using Twig templates instead of marker templates.
+site_author: DMK E-BUSINESS GmbH
+
+repo_url: https://github.com/DMKEBUSINESSGMBH/typo3-t3twig/
+edit_uri: ""
+
+pages:
+    - README: README.md
+    - Table of Contents: Documentation/README.md
+    - Getting Started: Documentation/reference/GettingStarted.md
+    - TYPO3 Integration:
+        - TWIGTEMPLATE ContentObject: Documentation/reference/integration/twigtemplate.md
+        - Using Namespaces: Documentation/reference/integration/namespaces.md
+    - Macros: Documentation/reference/Macros/Pagination.md
+    - Extensions:
+        - Image Handler: Documentation/reference/extensions/Image.md
+        - Link Handler: Documentation/reference/extensions/Link.md
+        - Request: Documentation/reference/extensions/Request.md
+        - Translation: Documentation/reference/extensions/Translation.md
+        - TsFE: Documentation/reference/extensions/TsFe.md
+        - TypoScript Parser: Documentation/reference/extensions/TsParser.md
+        - 3rd Party Extensions: Documentation/reference/extensions/ThirdParty.md
+
+plugins:
+    - search
