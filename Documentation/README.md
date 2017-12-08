@@ -9,10 +9,12 @@
 * Macros:
   * [Pagination](./reference/Macros/Pagination.md)
 * Extensions:
-  * [Image Handler](./reference/extensions/Image.md)
-  * [Link Handler](./reference/extensions/Link.md)
-  * [Request](./reference/extensions/Request.md)
-  * [Translation](./reference/extensions/Translation.md)
-  * [TsFE](./reference/extensions/TsFe.md)
-  * [TypoScript Parser](./reference/extensions/TsParser.md)
+  * Included:
+      * [Image Handler](./reference/extensions/Image.md)
+      * [Link Handler](./reference/extensions/Link.md)
+      * [Request](./reference/extensions/Request.md)
+      * [Translation](./reference/extensions/Translation.md)
+      * [TsFE](./reference/extensions/TsFe.md)
+      * [TypoScript Parser](./reference/extensions/TsParser.md)
+  * [3rd Party](./reference/extensions/ThirdParty.md)
 
