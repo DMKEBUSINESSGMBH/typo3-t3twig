@@ -7,7 +7,7 @@ repo_url: https://github.com/DMKEBUSINESSGMBH/typo3-t3twig/
 edit_uri: ""
 
 pages:
-    - README: README.md
+    - Home: README.md
     - Table of Contents: Documentation/README.md
     - Getting Started: Documentation/reference/GettingStarted.md
     - TYPO3 Integration:

@@ -32,6 +32,9 @@
         "digedag/rn-base": ">=1.4",
         "twig/twig": "~1.0"
     },
+    "suggest": {
+        "twig/extensions": "Common additional features for Twig that do not directly belong in core. See @Documentation/reference/extensions/ThirdParty.md"
+    },
     "autoload": {
         "psr-4": {
             "DMK\\T3twig\\": "Classes"
