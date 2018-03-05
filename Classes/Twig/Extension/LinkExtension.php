@@ -133,8 +133,8 @@ class LinkExtension extends AbstractExtension
         if ($arguments->hasTsConfig()) {
             $primeval = $env->getConfigurations();
             /**
- * @var $configurations \Tx_Rnbase_Configuration_Processor
-*/
+             * @var $configurations \Tx_Rnbase_Configuration_Processor
+             */
             $configurations = \tx_rnbase::makeInstance(
                 'Tx_Rnbase_Configuration_Processor'
             );

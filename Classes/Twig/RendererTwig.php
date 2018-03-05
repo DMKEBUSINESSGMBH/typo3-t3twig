@@ -245,8 +245,8 @@ class RendererTwig
         );
 
         /**
- * @var $template \Twig_Template
-*/
+         * @var $template \Twig_Template
+         */
         $template = $twigEnv->loadTemplate(
             basename($templateFullFilePath)
         );
