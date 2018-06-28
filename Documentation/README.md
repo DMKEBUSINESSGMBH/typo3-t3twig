@@ -10,6 +10,7 @@
   * [Pagination](./reference/Macros/Pagination.md)
 * Extensions:
   * Included:
+      * [Date](./reference/extensions/Date.md)
       * [Image Handler](./reference/extensions/Image.md)
       * [Link Handler](./reference/extensions/Link.md)
       * [Request](./reference/extensions/Request.md)
