@@ -5,7 +5,7 @@ This extensions adds some date functions for TWIG
 
 ## t3strftime
 
-The TWIG build in date function uses `DateTimeInterface::format` which dows not support locales.
+The TWIG build in date function uses `DateTimeInterface::format` which does not support locales.
 
 `t3strftime` uses the [strftime](http://php.net/manual/en/function.strftime.php) method, wich supports locales.
 So you can render day or month as names in your language.
