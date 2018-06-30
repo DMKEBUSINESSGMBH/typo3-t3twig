@@ -23,3 +23,8 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects'] = array_merge(
         'TWIGTEMPLATE' => \DMK\T3twig\ContentObject\TwigContentObject::class,
     ]
 );
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['cObjTypeAndClass']['TWIGTEMPLATE'] = [
+    'TWIGTEMPLATE',
+    \DMK\T3twig\ContentObject\TwigContentObject::class
+];
