@@ -47,8 +47,10 @@ class TwigContentObject extends AbstractContentObject
         }
 
     }
-    public function cObjGetSingleExt($name, array $configuration, $TyposcriptKey, $contentObject)
+    public function cObjGetSingleExt($name, array $configuration, $typoscriptKey, $contentObject)
     {
+        $this->cObj = $contentObject;
+
         return $this->render($configuration);
     }
     /**
