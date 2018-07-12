@@ -44,7 +44,7 @@ In the template you can access the all the data from the viewdata like this:
 <ul>
     {% for item in result.items %}
         <li>
-            <h4>{{ item.record.title|t3link(item.record.pid) }}</h4>
+            <h4>{{ item.record.title|t3link({destination: item.record.pid}) }}</h4>
             <p>{{ item.record.content }}</p>
         </li>
     {% endfor %}

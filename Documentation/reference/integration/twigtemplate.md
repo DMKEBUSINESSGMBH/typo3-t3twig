@@ -48,7 +48,7 @@ Content of the Twig template from above:
   </div>
 </div>
 <div class="container">
-  <h4>{{ tsfe.page.title }} - {{ title|t3link(pid) }}</h4>
+  <h4>{{ tsfe.page.title }} - {{ title|t3link({destination: pid}) }}</h4>
 </div>
 ```
 

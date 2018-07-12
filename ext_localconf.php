@@ -23,3 +23,11 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects'] = array_merge(
         'TWIGTEMPLATE' => \DMK\T3twig\ContentObject\TwigContentObject::class,
     ]
 );
+
+if (!tx_rnbase_util_TYPO3::isTYPO76OrHigher()) {
+    // Register ContentObject in 6.2
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['cObjTypeAndClass']['TWIGTEMPLATE'] = [
+        'TWIGTEMPLATE',
+        \DMK\T3twig\ContentObject\TwigContentObject::class
+    ];
+}

@@ -40,6 +40,27 @@ use DMK\T3twig\Twig\T3TwigException;
  */
 class TwigContentObject extends AbstractContentObject
 {
+    public function __construct($cObject = null)
+    {
+        if($cObject) {
+            parent::__construct($cObject);
+        }
+
+    }
+    /**
+     *
+     * @param string $name
+     * @param array $configuration
+     * @param string $typoscriptKey
+     * @param ContentObjectRenderer $contentObject
+     * @return string
+     */
+    public function cObjGetSingleExt($name, array $configuration, $typoscriptKey, $contentObject)
+    {
+        $this->cObj = $contentObject;
+
+        return $this->render($configuration);
+    }
     /**
      * Rendering the cObject, TEMPLATE
      *

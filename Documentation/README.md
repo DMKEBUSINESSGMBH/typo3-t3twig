@@ -2,6 +2,7 @@
 
 ## Table of Contents
 
+* [Install guide](./reference/install.md)
 * [Getting Started](./reference/GettingStarted.md)
 * TYPO3 Integration:
   * [TWIGTEMPLATE ContentObject](./reference/integration/twigtemplate.md)
