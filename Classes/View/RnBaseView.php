@@ -44,7 +44,7 @@ class RnBaseView extends \tx_rnbase_view_Base
      *
      * @return string
      */
-    public function render($view, &$configurations)
+    public function render($view, $configurations)
     {
         $renderer = Renderer::instance(
             $configurations,
