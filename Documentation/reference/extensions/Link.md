@@ -12,7 +12,7 @@ Renders an URL
     t3url(
         {
             'destination' : $destination,
-            'params' : [],
+            'params' : {},
             'ts_path' : 'link.',
             'data' : optionalContentObjectData,
             'ts_config' : {"atagparams" : {"class" : "btn btd-default"}}
@@ -22,6 +22,8 @@ Renders an URL
 ```
 
 In the `$params` array you can  hand over some parameters which are added as get variables to your url
+
+**ts_path** is relative to `actionpath.template.ts.` when using in plugins.
 
 The `$destination` could contain one of the following values:
 * pageId
@@ -44,7 +46,7 @@ Renders a full qualified a tag.
     'Label'|t3link(
         {
             'destination' : $destination,
-            'params' : [],
+            'params' : {'someparam':'somevalue'},
             'ts_path' : 'link.',
             'data' : optionalContentObjectData,
             'ts_config' : {"atagparams" : {"class" : "btn btd-default"}}
