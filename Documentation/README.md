@@ -18,5 +18,6 @@
       * [Translation](./reference/extensions/Translation.md)
       * [TsFE](./reference/extensions/TsFe.md)
       * [TypoScript Parser](./reference/extensions/TsParser.md)
+      * [DBRelation](./reference/extensions/DBRelation.md)
   * [3rd Party](./reference/extensions/ThirdParty.md)
 
