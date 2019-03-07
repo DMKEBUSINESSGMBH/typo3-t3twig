@@ -65,10 +65,14 @@ class DBRelationExtension extends \Twig_Extension
      */
     public function lookupRelation(EnvironmentTwig $env, \Tx_Rnbase_Domain_Model_Base $entity, array $arguments = [])
     {
-        $confId = $env->getConfId() . 'relations.' . $arguments['relation'] . '.';
+        $confId = $env->getConfId() . 'relations.' . htmlspecialchars($arguments['relation']) . '.';
 
         $alias = $env->getConfigurations()->get($confId . 'join.alias');
         $field = $env->getConfigurations()->get($confId . 'join.field');
+        if (! $alias || ! $field) {
+            throw new \Exception('Verify configuration for relation \'' . htmlspecialchars($arguments['relation']) . '\'.
+                            Table alias or field not found. Full typoscript path: ' . $confId);
+        }
 
         $fields = $options = [];
         $fields[$alias . '.' . $field][OP_EQ_INT] = $entity->getUid();
