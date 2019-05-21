@@ -1,0 +1,44 @@
+
+<div style="background: rgb(0, 99, 175); color: white; padding: 20px;">
+    <h2> {{ title }}</h2>
+    {{
+        t3image(
+            'EXT:t3twig/ext_icon.png',
+            {
+                'params' : 'style="float:left; margin: 0 10px 10px 0;"'
+            }
+        )
+    }}
+    <p>
+        {{ description }}
+        <br />
+        {{
+            'Dies ist ein Hyperlink'|t3link(
+            {
+                'destination' : url,
+                'ts_config' : {
+                    "extTarget" : '_blank',
+                    "atagparams" : {
+                        "style" : "color: white; text-decoration: underline; font-weight: bold;"
+                    }
+                }
+            }
+            )
+        }}
+        <br />
+    </p>
+    <div style="clear:both;"></div>
+    <h4 style="margin-top: 20px;">Usage:</h4>
+    <pre>
+&lt;html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+	  xmlns:t="http://typo3.org/ns/DMK\T3twig\ViewHelpers"&gt;
+
+&lt;t:renderTwig 
+	template="EXT:t3twig/Resources/Private/Template/ExampleVH.html.twig" 
+	context="{title: 'Twig-ViewHelper', description: 'Render Twig templates from within Fluid!'}" 
+	settings="{settings}"
+ /&gt;
+</pre>
+</div>
+
+

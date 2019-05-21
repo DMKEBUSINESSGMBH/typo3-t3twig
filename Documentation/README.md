@@ -6,6 +6,7 @@
 * [Getting Started](./reference/GettingStarted.md)
 * TYPO3 Integration:
   * [TWIGTEMPLATE ContentObject](./reference/integration/twigtemplate.md)
+  * [Fluid ViewHelper](./reference/integration/twigviewhelper.md)
   * [Using Namespaces](./reference/integration/namespaces.md)
 * Macros:
   * [Pagination](./reference/Macros/Pagination.md)
