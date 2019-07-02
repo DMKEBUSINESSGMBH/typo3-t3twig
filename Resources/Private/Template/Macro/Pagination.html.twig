@@ -128,13 +128,13 @@
 
                 {% if (showFirstAndLast) %}
                     <li>
-                        {{ labels.next|default('›')|t3link({'params' : params|merge({(ppName) : (pointer + 1 + pidFix)}), 'ts_config': linkConfig}) }}
+                        {{ labels.last|default('»')|t3link({'params' : params|merge({(ppName) : (state.lastPage + pidFix)}), 'ts_config': linkConfig}) }}
                     </li>
                 {% endif %}
 
                 {% if (showPreviousAndNext) %}
                     <li>
-                        {{ labels.last|default('»')|t3link({'params' : params|merge({(ppName) : (state.lastPage + pidFix)}), 'ts_config': linkConfig}) }}
+                        {{ labels.next|default('›')|t3link({'params' : params|merge({(ppName) : (pointer + 1 + pidFix)}), 'ts_config': linkConfig}) }}
                     </li>
                 {% endif %}
 
@@ -142,13 +142,13 @@
 
                 {% if (showFirstAndLast) %}
                     <li class="disabled">
-                        <span>{{ labels.next|default('›') }}</span>
+                        <span>{{ labels.last|default('»') }}</span>
                     </li>
                 {% endif %}
 
                 {% if (showPreviousAndNext) %}
                     <li class="disabled">
-                        <span>{{ labels.last|default('»') }}</span>
+                        <span>{{ labels.next|default('›') }}</span>
                     </li>
                 {% endif %}
 
