@@ -77,6 +77,8 @@ class ExtbaseView implements ViewInterface
     public function assign($key, $value)
     {
         $this->configuration->getViewData()->offsetSet($key, $value);
+
+        return $this;
     }
 
     /**
