@@ -22,14 +22,11 @@ class TYPO3Cache implements CacheInterface
 
     public function generateKey($name, $className)
     {
-        return implode(
-            '_',
-            [
-                strtr(get_class($this->delegate),'\\','-'),
-                str_replace('.', '_', $name),
-                $className
-            ]
-        );
+        $cacheKey = implode('_', [get_class($this->delegate), $name, $className]);
+        // strip all unallowed characters
+        $cacheKey = preg_replace('/[^A-Za-z0-9-_]/', '_', $cacheKey);
+
+        return $cacheKey;
     }
 
     public function write($key, $content)
