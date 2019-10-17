@@ -41,7 +41,7 @@ class TYPO3Cache implements CacheInterface
 
     public function getTimestamp($key)
     {
-        if ($this->delegate->has($key)) {
+        if (!$this->delegate->has($key)) {
             return 0;
         }
 
