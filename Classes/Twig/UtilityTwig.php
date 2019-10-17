@@ -25,10 +25,8 @@ namespace DMK\T3twig\Twig;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use DMK\T3twig\Cache\TYPO3Cache;
 use \TYPO3\CMS\Core\Exception;
 use DMK\T3twig\Twig\Loader\T3FileSystem;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class TwigUtil
@@ -66,8 +64,6 @@ class UtilityTwig
         \Twig_Loader_Filesystem $twigLoaderFilesystem,
         $debug = true
     ) {
-        $cache = GeneralUtility::makeInstance(TYPO3Cache::class);
-
         /**
          * Some ToDos
          *
@@ -77,7 +73,7 @@ class UtilityTwig
             $twigLoaderFilesystem,
             [
                 'debug' => $debug,
-                'cache' => $cache,
+                'cache' => PATH_site.'typo3temp/t3twig',
             ]
         );
 
