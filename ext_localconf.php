@@ -31,3 +31,12 @@ if (!tx_rnbase_util_TYPO3::isTYPO76OrHigher()) {
         \DMK\T3twig\ContentObject\TwigContentObject::class
     ];
 }
+
+
+if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['t3twig'])) {
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['t3twig'] = [
+        'frontend' => \TYPO3\CMS\Core\Cache\Frontend\PhpFrontend::class,
+        'backend' => \TYPO3\CMS\Core\Cache\Backend\FileBackend::class,
+        'groups' => ['system']
+    ];
+}
