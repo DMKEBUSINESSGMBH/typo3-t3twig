@@ -29,6 +29,7 @@ use DMK\T3twig\Cache\TYPO3Cache;
 use \TYPO3\CMS\Core\Exception;
 use DMK\T3twig\Twig\Loader\T3FileSystem;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class TwigUtil
@@ -66,7 +67,8 @@ class UtilityTwig
         \Twig_Loader_Filesystem $twigLoaderFilesystem,
         $debug = true
     ) {
-        $cache = GeneralUtility::makeInstance(TYPO3Cache::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $cache = $objectManager->get(TYPO3Cache::class);
 
         /**
          * Some ToDos

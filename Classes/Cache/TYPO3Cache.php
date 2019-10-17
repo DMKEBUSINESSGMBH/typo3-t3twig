@@ -22,12 +22,19 @@ class TYPO3Cache implements CacheInterface
 
     public function generateKey($name, $className)
     {
-        return implode('', [get_class($this->delegate), $name, $className]);
+        return implode(
+            '_',
+            [
+                strtr(get_class($this->delegate),'\\','-'),
+                str_replace('.', '_', $name),
+                $className
+            ]
+        );
     }
 
     public function write($key, $content)
     {
-        $this->delegate->set($key, $content);
+        $this->delegate->set($key, '#'.$content);
     }
 
     public function load($key)
