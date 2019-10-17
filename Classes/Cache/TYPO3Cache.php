@@ -24,7 +24,7 @@ class TYPO3Cache implements CacheInterface
     {
         $cacheKey = implode('_', [get_class($this->delegate), $name, $className]);
         // strip all unallowed characters
-        $cacheKey = preg_replace('/[^A-Za-z0-9-_\\-]/', '_', $cacheKey);
+        $cacheKey = preg_replace('/[^A-Za-z0-9-_]/', '_', $cacheKey);
 
         return $cacheKey;
     }
