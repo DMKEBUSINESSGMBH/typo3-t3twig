@@ -28,14 +28,15 @@ namespace DMK\T3twig\Twig\Extension;
 use DMK\T3twig\Twig\EnvironmentTwig;
 
 /**
- * Class LinkExtension
+ * Class LinkExtension.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class LinkExtension extends AbstractExtension
 {
@@ -67,7 +68,7 @@ class LinkExtension extends AbstractExtension
     /**
      * @param EnvironmentTwig $env
      * @param                 label
-     * @param array           $arguments
+     * @param array $arguments
      *
      * @return string
      */
@@ -102,7 +103,7 @@ class LinkExtension extends AbstractExtension
     }
 
     /**
-     * Get Extension name
+     * Get Extension name.
      *
      * @return string
      */
@@ -112,7 +113,7 @@ class LinkExtension extends AbstractExtension
     }
 
     /**
-     * @param EnvironmentTwig $env
+     * @param EnvironmentTwig              $env
      * @param \Tx_Rnbase_Domain_Model_Data $arguments
      *
      * @return \tx_rnbase_util_Link
@@ -127,19 +128,19 @@ class LinkExtension extends AbstractExtension
         $primeval = $env->getConfigurations();
         //  this was recreated, if there are a overrule config
         $configurations = $primeval;
-        $confId = $env->getConfId() . 'ts.';
+        $confId = $env->getConfId().'ts.';
 
         // we have additional configurations, merge them together in a new config object
         if ($arguments->hasTsConfig()) {
             $primeval = $env->getConfigurations();
             /**
-             * @var $configurations \Tx_Rnbase_Configuration_Processor
+             * @var \Tx_Rnbase_Configuration_Processor
              */
             $configurations = \tx_rnbase::makeInstance(
                 'Tx_Rnbase_Configuration_Processor'
             );
             $config = $arguments->getTsConfig();
-            $primevalConf   = $primeval->get($confId.$tsPath);
+            $primevalConf = $primeval->get($confId.$tsPath);
             if (is_array($primevalConf)) {
                 $config = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $primevalConf,
@@ -161,7 +162,7 @@ class LinkExtension extends AbstractExtension
         // reduce empty parameters
         if ($configurations->getBool($confId.$tsPath.'skipEmptyParams')) {
             foreach (array_keys($params, '') as $key) {
-                unset($params[ $key ]);
+                unset($params[$key]);
             }
         }
 

@@ -25,17 +25,18 @@ namespace DMK\T3twig\Hook;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\SingletonInterface;
 
 /**
- * Class DataHandler
+ * Class DataHandler.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class DataHandler implements SingletonInterface
 {
@@ -43,6 +44,7 @@ class DataHandler implements SingletonInterface
      * @param array $parameters
      *
      * @return bool
+     *
      * @throws \Exception
      */
     public function clearTwigCache(array $parameters = [])
@@ -54,7 +56,7 @@ class DataHandler implements SingletonInterface
 
     /**
      * remove cache directory
-     * http://stackoverflow.com/a/31008113
+     * http://stackoverflow.com/a/31008113 .
      *
      * @param      $source
      * @param bool $removeOnlyChildren
@@ -65,7 +67,7 @@ class DataHandler implements SingletonInterface
         $source,
         $removeOnlyChildren = true
     ) {
-        if (empty($source) || file_exists($source) === false) {
+        if (empty($source) || false === file_exists($source)) {
             throw new \Exception("File does not exist: '$source'");
         }
 
@@ -85,20 +87,20 @@ class DataHandler implements SingletonInterface
 
         foreach ($files as $fileInfo) {
             if ($fileInfo->isDir()) {
-                if (self::recursivelyRemoveDirectory($fileInfo->getRealPath()) === false) {
+                if (false === self::recursivelyRemoveDirectory($fileInfo->getRealPath())) {
                     throw new \Exception("Failed to remove directory '{$fileInfo->getRealPath()}'");
                 }
                 if (false === rmdir($fileInfo->getRealPath())) {
                     throw new \Exception("Failed to remove empty directory '{$fileInfo->getRealPath()}'");
                 }
             } else {
-                if (unlink($fileInfo->getRealPath()) === false) {
+                if (false === unlink($fileInfo->getRealPath())) {
                     throw new \Exception("Failed to remove file '{$fileInfo->getRealPath()}'");
                 }
             }
         }
 
-        if ($removeOnlyChildren === false) {
+        if (false === $removeOnlyChildren) {
             if (false === rmdir($source)) {
                 throw new \Exception("Cannot remove directory '$source'");
             }

@@ -1,4 +1,5 @@
 <?php
+
 namespace DMK\T3twig\View;
 
 /***************************************************************
@@ -30,14 +31,15 @@ use Sys25\RnBase\Frontend\Request\RequestInterface;
 use Sys25\RnBase\Frontend\View\AbstractView;
 
 /**
- * Class BaseTwigView
+ * Class BaseTwigView.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Eric Hertwig
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class RnBaseTwigView extends AbstractView implements ViewInterface
 {
@@ -63,17 +65,15 @@ class RnBaseTwigView extends AbstractView implements ViewInterface
     }
 
     /**
-     * Set the path of the template directory
+     * Set the path of the template directory.
      *
      * You can make use the syntax EXT:myextension/somepath.
      * It will be evaluated to the absolute path by tx_rnbase_util_Files::getFileAbsFileName()
      *
      * @param string path to the directory containing the php templates
-     * @return void
      */
     public function setTemplatePath($pathToTemplates)
     {
         $this->pathToTemplates = $pathToTemplates;
     }
-
 }

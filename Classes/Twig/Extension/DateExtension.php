@@ -28,13 +28,14 @@ namespace DMK\T3twig\Twig\Extension;
 use DMK\T3twig\Twig\EnvironmentTwig;
 
 /**
- * Class DateExtension
+ * Class DateExtension.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class DateExtension extends AbstractExtension
 {
@@ -53,12 +54,12 @@ class DateExtension extends AbstractExtension
     }
 
     /**
-     * Formats a date with strftime
+     * Formats a date with strftime.
      *
-     * @param EnvironmentTwig $env
+     * @param EnvironmentTwig         $env
      * @param string|int|DateInterval $date
-     * @param string $format
-     * @param array $arguments
+     * @param string                  $format
+     * @param array                   $arguments
      *
      * @return string
      */
@@ -68,7 +69,7 @@ class DateExtension extends AbstractExtension
         $format = null,
         array $arguments = []
     ) {
-        if ($format === null) {
+        if (null === $format) {
             $formats = $env->getExtension('Twig_Extension_Core')->getDateFormat();
             $format = $date instanceof DateInterval ? $formats[1] : $formats[0];
         }
@@ -81,19 +82,19 @@ class DateExtension extends AbstractExtension
 
         // some conversion for windows systems
         if (TYPO3_OS === 'WIN') {
-            $mapping = array(
+            $mapping = [
                 '%C' => sprintf('%02d', date('Y', $date) / 100),
                 '%D' => '%m/%d/%y',
                 '%e' => sprintf("%' 2d", date('j', $date)),
                 '%G' => '%Y',
                 '%h' => '%b',
                 '%n' => "\n",
-                '%r' => date('h:i:s', $date) . ' %p',
+                '%r' => date('h:i:s', $date).' %p',
                 '%R' => date('H:i', $date),
                 '%t' => "\t",
                 '%T' => '%H:%M:%S',
-                '%u' => ($w = date('w', $date)) ? $w : 7
-            );
+                '%u' => ($w = date('w', $date)) ? $w : 7,
+            ];
             $format = str_replace(
                 array_keys($mapping),
                 array_values($mapping),
@@ -111,7 +112,7 @@ class DateExtension extends AbstractExtension
     }
 
     /**
-     * Get Extension name
+     * Get Extension name.
      *
      * @return string
      */

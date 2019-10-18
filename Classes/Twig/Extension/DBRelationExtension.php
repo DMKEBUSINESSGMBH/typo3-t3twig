@@ -1,7 +1,8 @@
 <?php
+
 namespace DMK\T3twig\Twig\Extension;
 
-/**
+/*
  * *************************************************************
  * Copyright notice
  *
@@ -28,19 +29,18 @@ namespace DMK\T3twig\Twig\Extension;
 use DMK\T3twig\Twig\EnvironmentTwig;
 
 /**
- * Class TSParserExtension
+ * Class TSParserExtension.
  *
  * @category TYPO3-Extension
- * @package DMK\T3twig
+ *
  * @author René Nitzsche
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link https://www.dmk-ebusiness.de/
+ *
+ * @see https://www.dmk-ebusiness.de/
  */
 class DBRelationExtension extends \Twig_Extension
 {
-
     /**
-     *
      * @return array
      */
     public function getFunctions()
@@ -48,37 +48,41 @@ class DBRelationExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFunction('t3dbrel', [
                 $this,
-                'lookupRelation'
+                'lookupRelation',
             ], [
-                'needs_environment' => true
-            ])
+                'needs_environment' => true,
+            ]),
         ];
     }
 
     /**
-     *
      * @param \DMK\T3twig\Twig\EnvironmentTwig $env
-     * @param string $paramName
-     * @param array $arguments
+     * @param string                           $paramName
+     * @param array                            $arguments
      *
      * @return mixed|null
      */
     public function lookupRelation(EnvironmentTwig $env, \Tx_Rnbase_Domain_Model_Base $entity, array $arguments = [])
     {
-        $confId = $env->getConfId() . 'relations.' . htmlspecialchars($arguments['relation']) . '.';
+        $confId = $env->getConfId().'relations.'.htmlspecialchars($arguments['relation']).'.';
 
-        $alias = $env->getConfigurations()->get($confId . 'join.alias');
-        $field = $env->getConfigurations()->get($confId . 'join.field');
-        if (! $alias || ! $field) {
-            throw new \Exception('Verify configuration for relation \'' . htmlspecialchars($arguments['relation']) . '\'.
-                            Table alias or field not found. Full typoscript path: ' . $confId);
+        $alias = $env->getConfigurations()->get($confId.'join.alias');
+        $field = $env->getConfigurations()->get($confId.'join.field');
+        if (!$alias || !$field) {
+            throw new \Exception(
+                sprintf(
+                    "Verify config for relation '%s' Table alias or field not found. Full typoscript path: %s",
+                    htmlspecialchars($arguments['relation']),
+                    $confId
+                )
+            );
         }
 
         $fields = $options = [];
-        $fields[$alias . '.' . $field][OP_EQ_INT] = $entity->getUid();
+        $fields[$alias.'.'.$field][OP_EQ_INT] = $entity->getUid();
 
-        \tx_rnbase_util_SearchBase::setConfigFields($fields, $env->getConfigurations(), $confId . 'fields.');
-        \tx_rnbase_util_SearchBase::setConfigOptions($options, $env->getConfigurations(), $confId . 'options.');
+        \tx_rnbase_util_SearchBase::setConfigFields($fields, $env->getConfigurations(), $confId.'fields.');
+        \tx_rnbase_util_SearchBase::setConfigOptions($options, $env->getConfigurations(), $confId.'options.');
 
         if ($otherOptions = isset($arguments['options']) ? $arguments['options'] : []) {
             $options = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($options, $otherOptions);
@@ -88,13 +92,14 @@ class DBRelationExtension extends \Twig_Extension
             $fields = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($fields, $otherFields);
         }
 
-        $searcher = \tx_rnbase::makeInstance($env->getConfigurations()->get($confId . 'callback.class'));
-        $method = $env->getConfigurations()->get($confId . 'callback.method');
+        $searcher = \tx_rnbase::makeInstance($env->getConfigurations()->get($confId.'callback.class'));
+        $method = $env->getConfigurations()->get($confId.'callback.method');
+
         return $searcher->$method($fields, $options);
     }
 
     /**
-     * Get Extension name
+     * Get Extension name.
      *
      * @return string
      */

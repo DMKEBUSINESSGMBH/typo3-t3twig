@@ -52,7 +52,7 @@ class TYPO3Cache implements CacheInterface
         );
 
         // Ignore errors, because they may not be relevant at this point.
-        set_error_handler(function() {});
+        set_error_handler(function () {});
         $time = filemtime($path);
         restore_error_handler();
 

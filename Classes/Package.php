@@ -25,33 +25,34 @@ namespace t3twig;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
- * Special package class to enable install under TYPO3 6.2
+ * Special package class to enable install under TYPO3 6.2.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   René Nitzsche
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class Package extends \TYPO3\CMS\Core\Package\Package
 {
     /**
-     * Check whether the given package requirement (like "typo3/flow" or "php") is a composer package or not
+     * Check whether the given package requirement (like "typo3/flow" or "php") is a composer package or not.
      *
      * @param string $requirement the composer requirement string
-     * @return boolean TRUE if $requirement is a composer package (contains a slash), FALSE otherwise
+     *
+     * @return bool TRUE if $requirement is a composer package (contains a slash), FALSE otherwise
      */
-    protected function packageRequirementIsComposerPackage($requirement) {
-
-        if(!\tx_rnbase_util_TYPO3::isTYPO76OrHigher()) {
+    protected function packageRequirementIsComposerPackage($requirement)
+    {
+        if (!\tx_rnbase_util_TYPO3::isTYPO76OrHigher()) {
             // ignore composer dependencies starting with twig/
-            if(preg_match('/^twig\//', $requirement) === 1) {
+            if (1 === preg_match('/^twig\//', $requirement)) {
                 return false;
             }
         }
+
         return parent::packageRequirementIsComposerPackage($requirement);
     }
-
 }

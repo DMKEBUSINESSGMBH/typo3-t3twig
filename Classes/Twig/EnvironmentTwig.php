@@ -28,14 +28,15 @@ namespace DMK\T3twig\Twig;
 use DMK\T3twig\Twig\RendererTwig as Renderer;
 
 /**
- * Class EnvironmentTwig
+ * Class EnvironmentTwig.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class EnvironmentTwig extends \Twig_Environment
 {
@@ -45,7 +46,7 @@ class EnvironmentTwig extends \Twig_Environment
     protected $renderer;
 
     /**
-     * Sets the current renderer
+     * Sets the current renderer.
      *
      * @param \DMK\T3twig\Twig\RendererTwig $renderer
      *
@@ -60,7 +61,7 @@ class EnvironmentTwig extends \Twig_Environment
     }
 
     /**
-     * The current configurations
+     * The current configurations.
      *
      * @return \Tx_Rnbase_Configuration_ProcessorInterface
      */
@@ -70,7 +71,7 @@ class EnvironmentTwig extends \Twig_Environment
     }
 
     /**
-     * The current configurations object
+     * The current configurations object.
      *
      * @return \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
@@ -80,7 +81,7 @@ class EnvironmentTwig extends \Twig_Environment
     }
 
     /**
-     * The current confId
+     * The current confId.
      *
      * @return string
      */

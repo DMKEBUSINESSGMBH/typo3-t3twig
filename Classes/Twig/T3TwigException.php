@@ -25,17 +25,18 @@ namespace DMK\T3twig\Twig;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \TYPO3\CMS\Core\Exception;
+use TYPO3\CMS\Core\Exception;
 
 /**
- * Class TwigUtil
+ * Class TwigUtil.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class T3TwigException extends \Exception
 {

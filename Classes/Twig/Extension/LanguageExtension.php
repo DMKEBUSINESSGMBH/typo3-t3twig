@@ -28,14 +28,15 @@ namespace DMK\T3twig\Twig\Extension;
 use DMK\T3twig\Twig\EnvironmentTwig;
 
 /**
- * Class LanguageExtension
+ * Class LanguageExtension.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class LanguageExtension extends \Twig_Extension
 {
@@ -56,7 +57,7 @@ class LanguageExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function getTranslation(EnvironmentTwig $env, $label, array $placeholders=[])
+    public function getTranslation(EnvironmentTwig $env, $label, array $placeholders = [])
     {
         return strtr(
             $env->getConfigurations()->getLL($label),
@@ -65,7 +66,7 @@ class LanguageExtension extends \Twig_Extension
     }
 
     /**
-     * Get Extension name
+     * Get Extension name.
      *
      * @return string
      */
