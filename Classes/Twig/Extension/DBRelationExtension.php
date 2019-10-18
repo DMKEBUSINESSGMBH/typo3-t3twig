@@ -64,7 +64,7 @@ class DBRelationExtension extends \Twig_Extension
      */
     public function lookupRelation(EnvironmentTwig $env, \Tx_Rnbase_Domain_Model_Base $entity, array $arguments = [])
     {
-        $confId = $env->getConfId().'relations.'.htmlspecialchars($arguments['relation']).'.';
+        $confId = sprintf('%srelations.%s.', $env->getConfId(), htmlspecialchars($arguments['relation']));
 
         $alias = $env->getConfigurations()->get($confId.'join.alias');
         $field = $env->getConfigurations()->get($confId.'join.field');

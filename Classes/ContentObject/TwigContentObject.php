@@ -92,7 +92,7 @@ class TwigContentObject extends AbstractContentObject
     }
 
     /**
-     * Builds the  configuration object based on the conf.
+     * Builds the configuration object based on the conf.
      *
      * @param array $conf
      *
