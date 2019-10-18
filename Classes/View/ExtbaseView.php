@@ -1,4 +1,5 @@
 <?php
+
 namespace DMK\T3twig\View;
 
 /***************************************************************
@@ -32,14 +33,15 @@ use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Service\TypoScriptService;
 
 /**
- * Class ExtbaseView
+ * Class ExtbaseView.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Eric Hertwig
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class ExtbaseView implements ViewInterface
 {
@@ -54,10 +56,10 @@ class ExtbaseView implements ViewInterface
     protected $configuration;
 
     /**
-     * Sets the current controller context
+     * Sets the current controller context.
      *
      * @param ControllerContext $controllerContext Controller context which is available inside the view
-     * @return void
+     *
      * @api
      */
     public function setControllerContext(ControllerContext $controllerContext)
@@ -67,11 +69,13 @@ class ExtbaseView implements ViewInterface
 
     /**
      * Add a variable to the view data collection.
-     * Can be chained, so $this->view->assign(..., ...)->assign(..., ...); is possible
+     * Can be chained, so $this->view->assign(..., ...)->assign(..., ...); is possible.
      *
-     * @param string $key Key of variable
-     * @param mixed $value Value of object
+     * @param string $key   Key of variable
+     * @param mixed  $value Value of object
+     *
      * @return \TYPO3\CMS\Extbase\Mvc\View\ViewInterface an instance of $this, to enable chaining
+     *
      * @api
      */
     public function assign($key, $value)
@@ -82,10 +86,12 @@ class ExtbaseView implements ViewInterface
     }
 
     /**
-     * Add multiple variables to the view data collection
+     * Add multiple variables to the view data collection.
      *
      * @param array $values array in the format array(key1 => value1, key2 => value2)
+     *
      * @return \TYPO3\CMS\Extbase\Mvc\View\ViewInterface an instance of $this, to enable chaining
+     *
      * @api
      */
     public function assignMultiple(array $values)
@@ -101,7 +107,9 @@ class ExtbaseView implements ViewInterface
      * Tells if the view implementation can render the view for the given context.
      *
      * @param ControllerContext $controllerContext
+     *
      * @return bool TRUE if the view has something useful to display, otherwise FALSE
+     *
      * @api
      */
     public function canRender(ControllerContext $controllerContext)
@@ -113,16 +121,17 @@ class ExtbaseView implements ViewInterface
     }
 
     /**
-     * Renders the view
+     * Renders the view.
      *
      * @return string The rendered view
+     *
      * @api
      */
     public function render()
     {
         $renderer = Renderer::instance(
             $this->configuration,
-            $this->controllerContext->getRequest()->getControllerActionName() . '.'
+            $this->controllerContext->getRequest()->getControllerActionName().'.'
         );
 
         return $renderer->render($this->configuration->getViewData()->getArrayCopy());
@@ -131,7 +140,6 @@ class ExtbaseView implements ViewInterface
     /**
      * Initializes this view.
      *
-     * @return void
      * @api
      */
     public function initializeView()
@@ -139,7 +147,7 @@ class ExtbaseView implements ViewInterface
     }
 
     /**
-     * Builds the  configuration object based on the conf
+     * Builds the  configuration object based on the conf.
      *
      * @param array $conf
      *

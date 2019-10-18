@@ -28,15 +28,16 @@ namespace DMK\T3twig\Twig\Extension;
 use DMK\T3twig\Twig\EnvironmentTwig;
 
 /**
- * Class ImageExtension
+ * Class ImageExtension.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
  * @author   Mario Seidel <dev@dmk-ebusiness.de>
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class ImageExtension extends AbstractExtension
 {
@@ -69,8 +70,8 @@ class ImageExtension extends AbstractExtension
 
     /**
      * @param EnvironmentTwig $env
-     * @param mixed $image
-     * @param array $arguments
+     * @param mixed           $image
+     * @param array           $arguments
      *
      * @return array
      */
@@ -103,7 +104,7 @@ class ImageExtension extends AbstractExtension
     }
 
     /**
-     * Fetch all file references for the given table and uid
+     * Fetch all file references for the given table and uid.
      *
      * @param string $table
      * @param string $uid
@@ -117,7 +118,7 @@ class ImageExtension extends AbstractExtension
     }
 
     /**
-     * Get Extension name
+     * Get Extension name.
      *
      * @return string
      */

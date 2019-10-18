@@ -26,13 +26,14 @@ namespace DMK\T3twig\Twig\Extension;
  ***************************************************************/
 
 /**
- * Class TSParserExtension
+ * Class TSParserExtension.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class TsFeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -51,7 +52,8 @@ class TsFeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see Twig_Extension::getGlobals()
      */
     public function getGlobals()
@@ -73,7 +75,7 @@ class TsFeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             return '';
         }
 
-        $GLOBALS['TSFE']->altPageTitle    = $value;
+        $GLOBALS['TSFE']->altPageTitle = $value;
         $GLOBALS['TSFE']->indexedDocTitle = $value;
 
         return sprintf(
@@ -83,7 +85,7 @@ class TsFeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
-     * Get Extension name
+     * Get Extension name.
      *
      * @return string
      */

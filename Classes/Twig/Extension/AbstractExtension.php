@@ -28,13 +28,14 @@ namespace DMK\T3twig\Twig\Extension;
 use DMK\T3twig\Twig\EnvironmentTwig;
 
 /**
- * Class ImageExtension
+ * Class ImageExtension.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class AbstractExtension extends \Twig_Extension
 {
@@ -43,9 +44,9 @@ class AbstractExtension extends \Twig_Extension
      * sets the content object data
      * and performs the command.
      *
-     * @param callable $callable
+     * @param callable        $callable
      * @param EnvironmentTwig $env
-     * @param array $arguments
+     * @param array           $arguments
      *
      * @throws \Exception
      *
@@ -124,8 +125,6 @@ class AbstractExtension extends \Twig_Extension
      * @param EnvironmentTwig $env
      * @param array           $data
      * @param string          $currentValue
-     *
-     * @return void
      */
     protected function setContentObjectData(
         EnvironmentTwig $env,
@@ -134,7 +133,7 @@ class AbstractExtension extends \Twig_Extension
     ) {
         $contentObject = $env->getContentObject();
 
-        if ($data === null) {
+        if (null === $data) {
             // nothing todo, if there are no data to set
         } elseif (is_scalar($data)) {
             $currentValue = $currentValue ?: (string) $data;
@@ -144,11 +143,11 @@ class AbstractExtension extends \Twig_Extension
         }
 
         // set data
-        if ($data !== null) {
+        if (null !== $data) {
             $contentObject->data = $data;
         }
 
-        if ($currentValue !== null) {
+        if (null !== $currentValue) {
             $contentObject->setCurrentVal($currentValue);
         }
     }

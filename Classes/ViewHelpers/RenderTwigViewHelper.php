@@ -1,4 +1,5 @@
 <?php
+
 namespace DMK\T3twig\ViewHelpers;
 
 use DMK\T3twig\Twig\RendererTwig as Renderer;
@@ -20,17 +21,15 @@ use DMK\T3twig\Twig\RendererTwig as Renderer;
  * <output>
  * The rendered twig output.
  * </output>
- *
  */
 class RenderTwigViewHelper extends BaseViewHelper
 {
     protected $escapeOutput = false;
-    /**
-     */
+
     public function initializeArguments()
     {
-         $this->registerArgument('template', 'string', 'Path to twig template', true);
-         $this->registerArgument('settings', 'array', 'TS settings', false, false);
+        $this->registerArgument('template', 'string', 'Path to twig template', true);
+        $this->registerArgument('settings', 'array', 'TS settings', false, false);
     }
 
     public function render(array $context = [])
@@ -40,7 +39,7 @@ class RenderTwigViewHelper extends BaseViewHelper
         $tsfe = \tx_rnbase_util_TYPO3::getTSFE();
 
         $configurations = $this->buildConfigurations($settings, $tsfe->cObj);
-        $renderer       = Renderer::instance(
+        $renderer = Renderer::instance(
             $configurations,
             '',
             $template
@@ -51,13 +50,14 @@ class RenderTwigViewHelper extends BaseViewHelper
     }
 
     /**
-     * Builds the  configuration object based on the conf
+     * Builds the  configuration object based on the conf.
      *
      * @param array $conf
      *
      * @return \Sys25\RnBase\Configuration\ConfigurationInterface
      */
-    private function buildConfigurations(array $conf, $cObj) {
+    private function buildConfigurations(array $conf, $cObj)
+    {
         /* @var $configurations \Sys25\RnBase\Configuration\ConfigurationInterface */
         $configurations = \tx_rnbase::makeInstance(
             'Tx_Rnbase_Configuration_Processor'

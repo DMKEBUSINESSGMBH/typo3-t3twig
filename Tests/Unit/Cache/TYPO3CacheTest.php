@@ -73,8 +73,16 @@ class TYPO3CacheTest extends TestCase
     public static function getKeyData()
     {
         return [
-            ['foo', '\Twig_Template', 'Double_TYPO3_CMS_Core_Cache_Frontend_PhpFrontend_P11_foo__Twig_Template'],
-            ['@foo.html.twig', '\Twig\Template', 'Double_TYPO3_CMS_Core_Cache_Frontend_PhpFrontend_P13__foo_html_twig__Twig_Template']
+            [
+                'foo',
+                '\Twig_Template',
+                'Double_TYPO3_CMS_Core_Cache_Frontend_PhpFrontend_P11_foo__Twig_Template',
+            ],
+            [
+                '@foo.html.twig',
+                '\Twig\Template',
+                'Double_TYPO3_CMS_Core_Cache_Frontend_PhpFrontend_P13__foo_html_twig__Twig_Template',
+            ],
         ];
     }
 }

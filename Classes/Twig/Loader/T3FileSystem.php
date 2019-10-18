@@ -25,15 +25,15 @@ namespace DMK\T3twig\Twig\Loader;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
- * Class TwigUtil
+ * Class TwigUtil.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   René Nitzsche
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class T3FileSystem extends \Twig_Loader_Filesystem
 {
@@ -88,7 +88,7 @@ class T3FileSystem extends \Twig_Loader_Filesystem
     /**
      * Add namespaces for TYPO3 extensions under EXT:extName/Resources/Private/
      * and fileadmin.
-     * Template can be loaded with @EXT:extName/MyTemplate.html.twig
+     * Template can be loaded with @EXT:extName/MyTemplate.html.twig.
      */
     protected function addT3Namespaces()
     {

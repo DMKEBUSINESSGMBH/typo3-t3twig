@@ -26,25 +26,26 @@ namespace DMK\T3twig\Twig;
  ***************************************************************/
 
 use DMK\T3twig\Cache\TYPO3Cache;
-use \TYPO3\CMS\Core\Exception;
+use TYPO3\CMS\Core\Exception;
 use DMK\T3twig\Twig\Loader\T3FileSystem;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
- * Class TwigUtil
+ * Class TwigUtil.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class UtilityTwig
 {
     /**
-     * Returns an instance of twig loader filesystem
+     * Returns an instance of twig loader filesystem.
      *
      * @param string $templateDir template directory
      *
@@ -56,7 +57,7 @@ class UtilityTwig
     }
 
     /**
-     * Returns an instance of twig environment
+     * Returns an instance of twig environment.
      *
      * @param \Twig_Loader_Filesystem $twigLoaderFilesystem twig loader filesystem
      * @param bool                    $debug                enable debug
@@ -71,7 +72,7 @@ class UtilityTwig
         $cache = $objectManager->get(TYPO3Cache::class);
 
         /**
-         * Some ToDos
+         * Some ToDos.
          *
          * @TODO: take care of debug configuration
          */
@@ -87,7 +88,7 @@ class UtilityTwig
     }
 
     /**
-     * Inject twig template paths with namespace
+     * Inject twig template paths with namespace.
      *
      * @param \Twig_Loader_Filesystem $twigLoaderFilesystem
      * @param array                   $paths
@@ -107,7 +108,7 @@ class UtilityTwig
     }
 
     /**
-     * Inject Twig Extensions by TS Config
+     * Inject Twig Extensions by TS Config.
      *
      * @param EnvironmentTwig $environment
      * @param array           $extensions
@@ -120,11 +121,11 @@ class UtilityTwig
     ) {
         foreach ($extensions as $extension => $value) {
             /**
-             * @var \Twig_Extension $extInstance
+             * @var \Twig_Extension
              */
             $extInstance = \tx_rnbase::makeInstance($value);
 
-            /**
+            /*
              * Is it a valid twig extension?
              */
             if (!$extInstance instanceof \Twig_ExtensionInterface) {
@@ -136,7 +137,7 @@ class UtilityTwig
                 );
             }
 
-            /**
+            /*
              * Is extension already enabled?
              */
             if ($environment->hasExtension($extInstance->getName())) {

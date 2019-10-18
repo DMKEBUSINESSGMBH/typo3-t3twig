@@ -1,4 +1,5 @@
 <?php
+
 namespace DMK\T3twig\Twig\Extension;
 
 /***************************************************************
@@ -27,13 +28,14 @@ namespace DMK\T3twig\Twig\Extension;
 use DMK\T3twig\Twig\EnvironmentTwig;
 
 /**
- * Class TSParserExtension
+ * Class TSParserExtension.
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Michael Wagner
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 class RequestExtension extends AbstractExtension
 {
@@ -53,8 +55,8 @@ class RequestExtension extends AbstractExtension
 
     /**
      * @param \DMK\T3twig\Twig\EnvironmentTwig $env
-     * @param string $paramName
-     * @param array $arguments
+     * @param string                           $paramName
+     * @param array                            $arguments
      *
      * @return mixed|null
      */
@@ -74,7 +76,7 @@ class RequestExtension extends AbstractExtension
                     $param = $env->getParameters()->get($segment);
                 }
 
-                while (($segment = array_shift($paths)) !== null) {
+                while (null !== ($segment = array_shift($paths))) {
                     if (!isset($param[$segment])) {
                         return null;
                     }
@@ -96,7 +98,7 @@ class RequestExtension extends AbstractExtension
     }
 
     /**
-     * Get Extension name
+     * Get Extension name.
      *
      * @return string
      */
