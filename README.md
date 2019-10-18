@@ -1,6 +1,9 @@
 # README
 
-[![Latest Stable Version](https://poser.pugx.org/dmk/t3twig/v/stable)](https://packagist.org/packages/dmk/t3twig) [![Latest Unstable Version](https://poser.pugx.org/dmk/t3twig/v/unstable)](https://packagist.org/packages/dmk/t3twig) [![Total Downloads](https://poser.pugx.org/dmk/t3twig/downloads)](https://packagist.org/packages/dmk/t3twig) [![License](https://poser.pugx.org/dmk/t3twig/license)](https://packagist.org/packages/dmk/t3twig)
+[![Latest Stable Version](https://img.shields.io/packagist/v/dmk/t3twig.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/t3twig)
+[![Total Downloads](https://img.shields.io/packagist/dt/dmk/t3twig.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/t3twig)
+[![Build Status](https://img.shields.io/travis/DMKEBUSINESSGMBH/typo3-t3twig/master.svg?maxAge=3600&style=flat-square)](https://travis-ci.org/DMKEBUSINESSGMBH/typo3-t3twig)
+[![License](https://img.shields.io/packagist/l/dmk/t3twig.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/t3twig)
 
 ## t3twig - Twig support for TYPO3 with rn_base plugins
 ### What is it for?
