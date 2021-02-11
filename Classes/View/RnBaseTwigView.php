@@ -26,9 +26,9 @@ namespace DMK\T3twig\View;
  ***************************************************************/
 
 use DMK\T3twig\Twig\RendererTwig as Renderer;
-use Sys25\RnBase\Frontend\View\ViewInterface;
 use Sys25\RnBase\Frontend\Request\RequestInterface;
 use Sys25\RnBase\Frontend\View\AbstractView;
+use Sys25\RnBase\Frontend\View\ViewInterface;
 
 /**
  * Class BaseTwigView.

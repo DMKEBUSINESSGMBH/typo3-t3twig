@@ -296,10 +296,7 @@ class TSParserExtension extends AbstractExtension
         }
 
         if (empty($typoscriptObjectPath)) {
-            throw new \Exception(
-                'No TypoScript path given. arguments = {"ts_path" : "lib.testlink"}',
-                1489658526
-            );
+            throw new \Exception('No TypoScript path given. arguments = {"ts_path" : "lib.testlink"}', 1489658526);
         }
 
         $setup = \tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup;
@@ -328,14 +325,7 @@ class TSParserExtension extends AbstractExtension
 
         // no config found?
         if (!$arguments->hasSkipTsNotFoundException() && !is_array($setup)) {
-            throw new \Exception(
-                sprintf(
-                    'Global TypoScript object path "%s" or plugin context configuration "%s" does not exist',
-                    htmlspecialchars($typoscriptObjectPath),
-                    htmlspecialchars($env->getConfId().'ts.'.$typoscriptObjectPath)
-                ),
-                1483710972
-            );
+            throw new \Exception(sprintf('Global TypoScript object path "%s" or plugin context configuration "%s" does not exist', htmlspecialchars($typoscriptObjectPath), htmlspecialchars($env->getConfId().'ts.'.$typoscriptObjectPath)), 1483710972);
         }
 
         return [$lastSegment, $setup];

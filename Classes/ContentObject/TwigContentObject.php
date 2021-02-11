@@ -25,9 +25,9 @@ namespace DMK\T3twig\ContentObject;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
 use DMK\T3twig\Twig\RendererTwig as Renderer;
 use DMK\T3twig\Twig\T3TwigException;
+use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
 
 /**
  * Class DataHandler.
@@ -136,10 +136,7 @@ class TwigContentObject extends AbstractContentObject
             if (!in_array($key, $reservedVariables)) {
                 $contextData[$key] = $configurations->get('context.'.$key, true);
             } else {
-                throw new T3TwigException(
-                    'Cannot use reserved name "'.$key.'" as variable name in TWIGTEMPLATE.',
-                    1288095720
-                );
+                throw new T3TwigException('Cannot use reserved name "'.$key.'" as variable name in TWIGTEMPLATE.', 1288095720);
             }
         }
 

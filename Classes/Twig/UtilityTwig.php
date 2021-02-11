@@ -26,8 +26,8 @@ namespace DMK\T3twig\Twig;
  ***************************************************************/
 
 use DMK\T3twig\Cache\TYPO3Cache;
-use TYPO3\CMS\Core\Exception;
 use DMK\T3twig\Twig\Loader\T3FileSystem;
+use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
@@ -129,12 +129,7 @@ class UtilityTwig
              * Is it a valid twig extension?
              */
             if (!$extInstance instanceof \Twig_ExtensionInterface) {
-                throw new Exception(
-                    sprintf(
-                        'Twig extension must be an instance of Twig_ExtensionInterface; "%s" given.',
-                        is_object($extInstance) ? get_class($extInstance) : gettype($extInstance)
-                    )
-                );
+                throw new Exception(sprintf('Twig extension must be an instance of Twig_ExtensionInterface; "%s" given.', is_object($extInstance) ? get_class($extInstance) : gettype($extInstance)));
             }
 
             /*

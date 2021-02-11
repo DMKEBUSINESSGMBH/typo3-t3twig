@@ -69,13 +69,7 @@ class DBRelationExtension extends \Twig_Extension
         $alias = $env->getConfigurations()->get($confId.'join.alias');
         $field = $env->getConfigurations()->get($confId.'join.field');
         if (!$alias || !$field) {
-            throw new \Exception(
-                sprintf(
-                    "Verify config for relation '%s' Table alias or field not found. Full typoscript path: %s",
-                    htmlspecialchars($arguments['relation']),
-                    $confId
-                )
-            );
+            throw new \Exception(sprintf("Verify config for relation '%s' Table alias or field not found. Full typoscript path: %s", htmlspecialchars($arguments['relation']), $confId));
         }
 
         $fields = $options = [];

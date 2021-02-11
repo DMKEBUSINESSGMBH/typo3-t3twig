@@ -196,9 +196,7 @@ class RendererTwig
         }
 
         if (empty($path)) {
-            throw new T3TwigException(
-                'Neither "file" nor "template" configured for twig template.'
-            );
+            throw new T3TwigException('Neither "file" nor "template" configured for twig template.');
         }
 
         return \tx_rnbase_util_Files::getFileAbsFileName(
@@ -225,9 +223,7 @@ class RendererTwig
         $templateFullFilePath = $this->getTemplatePath();
 
         if (!is_file($templateFullFilePath)) {
-            throw new T3TwigException(
-                'Template file not found or empty: '.$templateFullFilePath
-            );
+            throw new T3TwigException('Template file not found or empty: '.$templateFullFilePath);
         }
         $twigLoader = UtilityTwig::getTwigLoaderFilesystem(
             dirname($templateFullFilePath)
