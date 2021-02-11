@@ -1,9 +1,9 @@
 # README
 
-![TYPO3 compatibility](https://img.shields.io/badge/TYPO3-7.6%20%7C%208.7%20%7C%209.5-orange?maxAge=3600&style=flat-square&logo=typo3)
+![TYPO3 compatibility](https://img.shields.io/badge/TYPO3-8.7%20%7C%209.5-orange?maxAge=3600&style=flat-square&logo=typo3)
 [![Latest Stable Version](https://img.shields.io/packagist/v/dmk/t3twig.svg?maxAge=3600&style=flat-square&logo=composer)](https://packagist.org/packages/dmk/t3twig)
 [![Total Downloads](https://img.shields.io/packagist/dt/dmk/t3twig.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/t3twig)
-[![Build Status](https://img.shields.io/travis/DMKEBUSINESSGMBH/typo3-t3twig/master.svg?maxAge=3600&style=flat-square&logo=travis)](https://travis-ci.com/DMKEBUSINESSGMBH/typo3-t3twig)
+[![Build Status](https://img.shields.io/github/workflow/status/DMKEBUSINESSGMBH/typo3-t3twig/PHP-CI.svg?maxAge=3600&style=flat-square&logo=github-actions)](https://github.com/DMKEBUSINESSGMBH/typo3-t3twig/actions?query=workflow%3APHP-CI)
 [![License](https://img.shields.io/packagist/l/dmk/t3twig.svg?maxAge=3600&style=flat-square&logo=gnu)](https://packagist.org/packages/dmk/t3twig)
 
 ## t3twig - Twig support for TYPO3 with rn_base plugins
