@@ -67,21 +67,21 @@ class TYPO3CacheTest extends TestCase
      */
     public function testGenerateKey($name, $class, $expected)
     {
-        self::assertSame($expected, $this->twigCache->generateKey($name, $class));
+        self::assertRegExp($expected, $this->twigCache->generateKey($name, $class));
     }
 
     public static function getKeyData()
     {
         return [
             [
-                'foo',
-                '\Twig_Template',
-                'Double_TYPO3_CMS_Core_Cache_Frontend_PhpFrontend_P11_foo__Twig_Template',
+                'name' => 'foo',
+                'class' => '\Twig_Template',
+                'expected' => '/Double_TYPO3_CMS_Core_Cache_Frontend_PhpFrontend_P(.*)_foo__Twig_Template/',
             ],
             [
-                '@foo.html.twig',
-                '\Twig\Template',
-                'Double_TYPO3_CMS_Core_Cache_Frontend_PhpFrontend_P13__foo_html_twig__Twig_Template',
+                'name' => '@foo.html.twig',
+                'class' => '\Twig\Template',
+                'expected' => '/Double_TYPO3_CMS_Core_Cache_Frontend_PhpFrontend_P(.*)_foo_html_twig__Twig_Template/',
             ],
         ];
     }
