@@ -60,7 +60,7 @@ jobs:
         name: "PHP QS"
 
         runs-on: "ubuntu-latest"
-        
+
         needs: "php-lint"
 
         strategy:
@@ -136,6 +136,15 @@ jobs:
                         php-version: "7.3"
                     -
                         typo3-version: "^9.5"
+                        php-version: "7.4"
+                    -
+                        typo3-version: "^10.4"
+                        php-version: "7.2"
+                    -
+                        typo3-version: "^10.4"
+                        php-version: "7.3"
+                    -
+                        typo3-version: "^10.4"
                         php-version: "7.4"
 
         steps:
