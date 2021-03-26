@@ -2,6 +2,8 @@
 
 namespace DMK\T3twig\Twig\Extension;
 
+use Twig\Extension\GlobalsInterface;
+
 /***************************************************************
  * Copyright notice
  *
@@ -35,7 +37,7 @@ namespace DMK\T3twig\Twig\Extension;
  *
  * @see     https://www.dmk-ebusiness.de/
  */
-class TsFeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class TsFeExtension extends \Twig_Extension implements GlobalsInterface
 {
     /**
      * @return array

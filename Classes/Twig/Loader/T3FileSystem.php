@@ -2,6 +2,8 @@
 
 namespace DMK\T3twig\Twig\Loader;
 
+use TYPO3\CMS\Core\Core\Environment;
+
 /***************************************************************
  * Copyright notice
  *
@@ -106,7 +108,7 @@ class T3FileSystem extends \Twig_Loader_Filesystem
             }
         }
         // add fileadmin
-        $path = PATH_site.'fileadmin/';
+        $path = Environment::getPublicPath().'/fileadmin/';
         if (is_dir($path)) {
             $this->addPath($path, 'fileadmin');
         }

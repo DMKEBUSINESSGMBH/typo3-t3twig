@@ -3,6 +3,7 @@
 namespace DMK\T3twig\ViewHelpers;
 
 use DMK\T3twig\Twig\RendererTwig as Renderer;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * This file is part of the "t3twig" Extension for TYPO3 CMS.
@@ -22,7 +23,7 @@ use DMK\T3twig\Twig\RendererTwig as Renderer;
  * The rendered twig output.
  * </output>
  */
-class RenderTwigViewHelper extends BaseViewHelper
+class RenderTwigViewHelper extends AbstractViewHelper
 {
     protected $escapeOutput = false;
 

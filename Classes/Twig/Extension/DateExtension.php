@@ -26,6 +26,7 @@ namespace DMK\T3twig\Twig\Extension;
  ***************************************************************/
 
 use DMK\T3twig\Twig\EnvironmentTwig;
+use TYPO3\CMS\Core\Core\Environment;
 
 /**
  * Class DateExtension.
@@ -81,7 +82,7 @@ class DateExtension extends AbstractExtension
         $date = $date->format('U');
 
         // some conversion for windows systems
-        if (TYPO3_OS === 'WIN') {
+        if (Environment::isWindows()) {
             $mapping = [
                 '%C' => sprintf('%02d', date('Y', $date) / 100),
                 '%D' => '%m/%d/%y',

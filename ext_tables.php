@@ -14,4 +14,4 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/', 'T3Twig');
+tx_rnbase_util_Extensions::addStaticFile('t3twig', 'Configuration/TypoScript/', 'T3Twig');

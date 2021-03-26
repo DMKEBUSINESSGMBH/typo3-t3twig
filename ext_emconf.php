@@ -9,7 +9,7 @@
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     https://www.dmk-ebusiness.de/
  */
-$EM_CONF[$_EXTKEY] = [
+$EM_CONF['t3twig'] = [
     'title' => 'T3twig',
     'description' => 'TYPO3 extension to render page templates with Twig and extend rn_base for using Twig templates '
                       .'instead of marker ',
@@ -34,12 +34,11 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'rn_base' => '1.4.0-',
-            'typo3' => '8.7.32-10.4.99',
+            'typo3' => '9.5.24-10.4.99',
         ],
         'conflicts' => [],
         'suggests' => []
     ],
     '_md5_values_when_last_written' => '',
     'suggests' => [],
-    'createDirs' => 'typo3temp/t3twig/',
 ];
