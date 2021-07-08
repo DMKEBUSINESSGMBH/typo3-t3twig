@@ -31,9 +31,10 @@ class RenderTwigViewHelper extends AbstractViewHelper
     {
         $this->registerArgument('template', 'string', 'Path to twig template', true);
         $this->registerArgument('settings', 'array', 'TS settings', false, false);
+        $this->registerArgument('context', 'array', 'context', false, []);
     }
 
-    public function render(array $context = [])
+    public function render()
     {
         $template = $this->arguments['template'];
         $settings = $this->arguments['settings'];
@@ -45,7 +46,7 @@ class RenderTwigViewHelper extends AbstractViewHelper
             '',
             $template
         );
-        $content = $renderer->render($context);
+        $content = $renderer->render($this->arguments['context']);
 
         return $content;
     }
