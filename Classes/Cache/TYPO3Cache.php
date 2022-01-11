@@ -8,7 +8,7 @@ use TYPO3\CMS\Core\Cache\Frontend\PhpFrontend;
 
 class TYPO3Cache implements CacheInterface
 {
-    const CACHE_TYPE = 't3twig';
+    public const CACHE_TYPE = 't3twig';
 
     /**
      * @var PhpFrontend

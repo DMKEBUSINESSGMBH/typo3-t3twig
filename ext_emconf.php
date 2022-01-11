@@ -4,10 +4,11 @@
  * Extension Manager/Repository config file for ext "t3twig".
  *
  * @category TYPO3-Extension
- * @package  DMK\T3twig
+ *
  * @author   Eric Hertwig <dev@dmk-ebusiness.de>
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link     https://www.dmk-ebusiness.de/
+ *
+ * @see     https://www.dmk-ebusiness.de/
  */
 $EM_CONF['t3twig'] = [
     'title' => 'T3twig',
@@ -36,7 +37,7 @@ $EM_CONF['t3twig'] = [
             'typo3' => '9.5.24-10.4.99',
         ],
         'conflicts' => [],
-        'suggests' => []
+        'suggests' => [],
     ],
     '_md5_values_when_last_written' => '',
     'suggests' => [],
