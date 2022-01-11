@@ -32,7 +32,7 @@ $EM_CONF['t3twig'] = [
     'CGLcompliance_note' => '',
     'constraints' => [
         'depends' => [
-            'rn_base' => '1.4.0-',
+            'rn_base' => '1.13.0-',
             'typo3' => '9.5.24-10.4.99',
         ],
         'conflicts' => [],
