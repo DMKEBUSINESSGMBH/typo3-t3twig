@@ -26,11 +26,11 @@ namespace DMK\T3twig\View;
  ***************************************************************/
 
 use DMK\T3twig\Twig\RendererTwig as Renderer;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
-use TYPO3\CMS\Extbase\Service\TypoScriptService;
 
 /**
  * Class ExtbaseView.
@@ -51,7 +51,7 @@ class ExtbaseView implements ViewInterface
     protected $controllerContext;
 
     /**
-     * @var \Tx_Rnbase_Configuration_Processor
+     * @var \Sys25\RnBase\Configuration\Processor
      */
     protected $configuration;
 
@@ -151,7 +151,7 @@ class ExtbaseView implements ViewInterface
      *
      * @param array $conf
      *
-     * @return \Tx_Rnbase_Configuration_Processor
+     * @return \Sys25\RnBase\Configuration\Processor
      */
     private function buildConfigurations()
     {
@@ -166,9 +166,9 @@ class ExtbaseView implements ViewInterface
         $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
         $conf = $typoScriptService->convertPlainArrayToTypoScriptArray($conf);
 
-        /* @var $configurations \Tx_Rnbase_Configuration_Processor */
-        $configurations = \tx_rnbase::makeInstance(
-            'Tx_Rnbase_Configuration_Processor'
+        /* @var $configurations \Sys25\RnBase\Configuration\Processor */
+        $configurations = GeneralUtility::makeInstance(
+            \Sys25\RnBase\Configuration\Processor::class
         );
         $configurations->init(
             $conf,

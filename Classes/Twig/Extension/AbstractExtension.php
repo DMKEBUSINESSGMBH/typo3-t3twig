@@ -88,16 +88,16 @@ class AbstractExtension extends \Twig_Extension
     /**
      * Creates a new data instance.
      *
-     * @param array|\Tx_Rnbase_Domain_Model_Data $arguments
+     * @param array|\Sys25\RnBase\Domain\Model\DataModel $arguments
      * @param EnvironmentTwig                    $env
      *
-     * @return \Tx_Rnbase_Domain_Model_Data
+     * @return \Sys25\RnBase\Domain\Model\DataModel
      */
     protected function initiateArguments(
         $arguments = null,
         EnvironmentTwig $env = null
     ) {
-        $arguments = \Tx_Rnbase_Domain_Model_Data::getInstance($arguments);
+        $arguments = \Sys25\RnBase\Domain\Model\DataModel::getInstance($arguments);
 
         if ($env instanceof EnvironmentTwig) {
             $this->setContentObjectData(
@@ -110,7 +110,7 @@ class AbstractExtension extends \Twig_Extension
         // convert ts config from  array to ts array
         if ($arguments->hasTsConfig()) {
             $arguments->setTsConfig(
-                \Tx_Rnbase_Utility_TypoScript::convertPlainArrayToTypoScriptArray(
+                \Sys25\RnBase\Utility\TypoScript::convertPlainArrayToTypoScriptArray(
                     $arguments->getTsConfig()->toArray()
                 )
             );
@@ -138,7 +138,7 @@ class AbstractExtension extends \Twig_Extension
         } elseif (is_scalar($data)) {
             $currentValue = $currentValue ?: (string) $data;
             $data = [$data];
-        } elseif ($data instanceof \Tx_Rnbase_Domain_Model_Data) {
+        } elseif ($data instanceof \Sys25\RnBase\Domain\Model\DataModel) {
             $data = $data->toArray();
         }
 

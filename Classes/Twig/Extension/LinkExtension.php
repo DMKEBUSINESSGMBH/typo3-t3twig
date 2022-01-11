@@ -26,6 +26,7 @@ namespace DMK\T3twig\Twig\Extension;
  ***************************************************************/
 
 use DMK\T3twig\Twig\EnvironmentTwig;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class LinkExtension.
@@ -77,7 +78,7 @@ class LinkExtension extends AbstractExtension
         $arguments['label'] = $label;
 
         return $this->performCommand(
-            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env) {
+            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env) {
                 return $this->makeRnbaseLink($env, $arguments)->makeTag();
             },
             $env,
@@ -94,7 +95,7 @@ class LinkExtension extends AbstractExtension
     public function renderUrl(EnvironmentTwig $env, array $arguments = [])
     {
         return $this->performCommand(
-            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env) {
+            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env) {
                 return $this->makeRnbaseLink($env, $arguments)->makeUrl(false);
             },
             $env,
@@ -114,13 +115,13 @@ class LinkExtension extends AbstractExtension
 
     /**
      * @param EnvironmentTwig              $env
-     * @param \Tx_Rnbase_Domain_Model_Data $arguments
+     * @param \Sys25\RnBase\Domain\Model\DataModel $arguments
      *
-     * @return \tx_rnbase_util_Link
+     * @return \Sys25\RnBase\Utility\Link
      */
     private function makeRnbaseLink(
         EnvironmentTwig $env,
-        \Tx_Rnbase_Domain_Model_Data $arguments
+        \Sys25\RnBase\Domain\Model\DataModel $arguments
     ) {
         $params = $arguments->getParams() ? $arguments->getParams()->toArray() : [];
         $tsPath = $arguments->getTsPath();
@@ -134,15 +135,15 @@ class LinkExtension extends AbstractExtension
         if ($arguments->hasTsConfig()) {
             $primeval = $env->getConfigurations();
             /**
-             * @var \Tx_Rnbase_Configuration_Processor
+             * @var \Sys25\RnBase\Configuration\Processor
              */
-            $configurations = \tx_rnbase::makeInstance(
-                'Tx_Rnbase_Configuration_Processor'
+            $configurations = GeneralUtility::makeInstance(
+                \Sys25\RnBase\Configuration\Processor::class
             );
             $config = $arguments->getTsConfig();
             $primevalConf = $primeval->get($confId.$tsPath);
             if (is_array($primevalConf)) {
-                $config = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                $config = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $primevalConf,
                     $config
                 );

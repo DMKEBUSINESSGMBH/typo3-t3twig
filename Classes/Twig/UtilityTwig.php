@@ -101,7 +101,7 @@ class UtilityTwig
     ) {
         foreach ($paths as $namespace => $path) {
             $twigLoaderFilesystem->addPath(
-                \tx_rnbase_util_Files::getFileAbsFileName($path),
+                \Sys25\RnBase\Utility\Files::getFileAbsFileName($path),
                 $namespace
             );
         }
@@ -123,7 +123,7 @@ class UtilityTwig
             /**
              * @var \Twig_Extension
              */
-            $extInstance = \tx_rnbase::makeInstance($value);
+            $extInstance = GeneralUtility::makeInstance($value);
 
             /*
              * Is it a valid twig extension?

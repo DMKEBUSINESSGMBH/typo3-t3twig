@@ -27,6 +27,7 @@ namespace DMK\T3twig\ContentObject;
 
 use DMK\T3twig\Twig\RendererTwig as Renderer;
 use DMK\T3twig\Twig\T3TwigException;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
 
 /**
@@ -96,14 +97,14 @@ class TwigContentObject extends AbstractContentObject
      *
      * @param array $conf
      *
-     * @return \Tx_Rnbase_Configuration_Processor
+     * @return \Sys25\RnBase\Configuration\Processor
      */
     private function buildConfigurations(
         array $conf
     ) {
-        /* @var $configurations \Tx_Rnbase_Configuration_ProcessorInterface */
-        $configurations = \tx_rnbase::makeInstance(
-            'Tx_Rnbase_Configuration_Processor'
+        /* @var $configurations \Sys25\RnBase\Configuration\ConfigurationInterface */
+        $configurations = GeneralUtility::makeInstance(
+            \Sys25\RnBase\Configuration\Processor::class
         );
         $configurations->init(
             $conf,
@@ -118,7 +119,7 @@ class TwigContentObject extends AbstractContentObject
     /**
      * Compile rendered content objects in variables array ready to assign to the view.
      *
-     * @param \Tx_Rnbase_Configuration_Processor $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      *
      * @return array the variables to be assigned
      *

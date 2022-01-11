@@ -1,0 +1,19 @@
+parameters:
+    level: 1
+    bootstrapFiles:
+        - "%currentWorkingDirectory%/.Build/vendor/autoload.php"
+    paths:
+        - %currentWorkingDirectory%/Classes
+        - %currentWorkingDirectory%/ext_localconf.php
+        - %currentWorkingDirectory%/ext_tables.php
+        - %currentWorkingDirectory%/ext_emconf.php
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#Constant TYPO3_MODE not found#'
+        - '#Undefined variable: \$_EXTKEY#'
+        -
+                    message: '/Function twig_date_converter not found./'
+                    path: %currentWorkingDirectory%/Classes/Twig/Extension/DateExtension.php
+        -
+                    message: '/Call to an undefined method DMK\\T3twig\\ContentObject\\TwigContentObject::getContentObject\(\)./'
+                    path: %currentWorkingDirectory%/Classes/ContentObject/TwigContentObject.php

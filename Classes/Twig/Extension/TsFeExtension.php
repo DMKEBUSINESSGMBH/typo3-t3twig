@@ -62,7 +62,7 @@ class TsFeExtension extends \Twig_Extension implements GlobalsInterface
     {
         return [
             'tsfe' => $GLOBALS['TSFE'],
-            'pageRenderer' => \tx_rnbase_util_TYPO3::getPageRenderer(),
+            'pageRenderer' => \Sys25\RnBase\Utility\TYPO3::getPageRenderer(),
         ];
     }
 

@@ -114,7 +114,7 @@ class TSParserExtension extends AbstractExtension
         }
 
         return $this->performCommand(
-            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $value, $confId) {
+            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $value, $confId) {
                 // dont throw exception, if ts path does not exists
                 $arguments->setSkipTsNotFoundException(true);
 
@@ -169,7 +169,7 @@ class TSParserExtension extends AbstractExtension
         array $arguments = []
     ) {
         return $this->performCommand(
-            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $confId) {
+            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $confId) {
                 list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
                 $conf = empty($setup[$tsPath.'.']) ? [] : $setup[$tsPath.'.'];
 
@@ -197,7 +197,7 @@ class TSParserExtension extends AbstractExtension
         array $arguments = []
     ) {
         return $this->performCommand(
-            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $confId) {
+            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $confId) {
                 list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
 
                 return $env->getContentObject()->cObjGetSingle(
@@ -227,7 +227,7 @@ class TSParserExtension extends AbstractExtension
         array $arguments = []
     ) {
         return $this->performCommand(
-            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $confId) {
+            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $confId) {
                 list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
 
                 return $env->getContentObject()->stdWrap(
@@ -257,7 +257,7 @@ class TSParserExtension extends AbstractExtension
         array $arguments = []
     ) {
         return $this->performCommand(
-            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $confId) {
+            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $confId) {
                 list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
 
                 if (empty($confId) && $arguments->hasTsPath()) {
@@ -280,7 +280,7 @@ class TSParserExtension extends AbstractExtension
      *
      * @param EnvironmentTwig              $env
      * @param string                       $typoscriptObjectPath
-     * @param \Tx_Rnbase_Domain_Model_Data $arguments
+     * @param \Sys25\RnBase\Domain\Model\DataModel $arguments
      *
      * @throws \Exception
      *
@@ -289,7 +289,7 @@ class TSParserExtension extends AbstractExtension
     protected function findSetup(
         EnvironmentTwig $env,
         $typoscriptObjectPath,
-        \Tx_Rnbase_Domain_Model_Data $arguments
+        \Sys25\RnBase\Domain\Model\DataModel $arguments
     ) {
         if (empty($typoscriptObjectPath) && $arguments->hasTsPath()) {
             $typoscriptObjectPath = $arguments->getTsPath();
@@ -299,9 +299,9 @@ class TSParserExtension extends AbstractExtension
             throw new \Exception('No TypoScript path given. arguments = {"ts_path" : "lib.testlink"}', 1489658526);
         }
 
-        $setup = \tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup;
+        $setup = \Sys25\RnBase\Utility\TYPO3::getTSFE()->tmpl->setup;
 
-        $pathSegments = \Tx_Rnbase_Utility_Strings::trimExplode(
+        $pathSegments = \Sys25\RnBase\Utility\Strings::trimExplode(
             '.',
             $typoscriptObjectPath
         );

@@ -72,10 +72,10 @@ class DateExtension extends AbstractExtension
     ) {
         if (null === $format) {
             $formats = $env->getExtension('Twig_Extension_Core')->getDateFormat();
-            $format = $date instanceof DateInterval ? $formats[1] : $formats[0];
+            $format = $date instanceof \DateInterval ? $formats[1] : $formats[0];
         }
 
-        if (!$date instanceof DateInterval) {
+        if (!$date instanceof \DateInterval) {
             $date = twig_date_converter($env, $date);
         }
 

@@ -92,7 +92,7 @@ class ImageExtension extends AbstractExtension
         }
 
         return $this->performCommand(
-            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $image) {
+            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $image) {
                 return $env->getContentObject()->cImage(
                     $image,
                     $arguments->getTsConfig()
@@ -114,7 +114,7 @@ class ImageExtension extends AbstractExtension
      */
     public function fetchReferences($table, $uid, $refField = 'images')
     {
-        return \tx_rnbase_util_TSFAL::fetchReferences($table, $uid, $refField);
+        return \Sys25\RnBase\Utility\TSFAL::fetchReferences($table, $uid, $refField);
     }
 
     /**

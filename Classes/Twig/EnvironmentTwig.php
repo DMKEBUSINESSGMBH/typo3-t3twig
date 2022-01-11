@@ -63,7 +63,7 @@ class EnvironmentTwig extends \Twig_Environment
     /**
      * The current configurations.
      *
-     * @return \Tx_Rnbase_Configuration_ProcessorInterface
+     * @return \Sys25\RnBase\Configuration\ConfigurationInterface
      */
     public function getConfigurations()
     {
@@ -91,7 +91,7 @@ class EnvironmentTwig extends \Twig_Environment
     }
 
     /**
-     * @return \tx_rnbase_parameters
+     * @return \Sys25\RnBase\Frontend\Request\Parameters
      */
     public function getParameters()
     {

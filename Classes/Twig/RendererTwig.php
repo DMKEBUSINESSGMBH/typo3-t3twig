@@ -54,7 +54,7 @@ class RendererTwig
     /**
      * Filepath to alternativ fallback template.
      *
-     * @var \Tx_Rnbase_Configuration_ProcessorInterface
+     * @var \Sys25\RnBase\Configuration\ConfigurationInterface
      */
     protected $configurations;
 
@@ -68,14 +68,14 @@ class RendererTwig
     /**
      * An instance of this renderer.
      *
-     * @param \Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ConfigurationInterface $configurations
      * @param string                                      $confId
      * @param array                                       $conf
      *
      * @return \DMK\T3twig\Twig\RendererTwig
      */
     public static function instance(
-        \Tx_Rnbase_Configuration_ProcessorInterface $configurations,
+        \Sys25\RnBase\Configuration\ConfigurationInterface $configurations,
         $confId = '',
         $templateFile = ''
     ) {
@@ -89,17 +89,17 @@ class RendererTwig
     /**
      * Constructor.
      *
-     * @param \Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param \Sys25\RnBase\Configuration\ConfigurationInterface $configurations
      * @param string                                      $confId
      * @param array                                       $conf
      */
     public function __construct(
-        \Tx_Rnbase_Configuration_ProcessorInterface $configurations,
+        \Sys25\RnBase\Configuration\ConfigurationInterface $configurations,
         $confId = '',
         $templateFile = ''
     ) {
-        if (isset(\tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'])) {
-            $this->conf = \tx_rnbase_util_TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'];
+        if (isset(\Sys25\RnBase\Utility\TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'])) {
+            $this->conf = \Sys25\RnBase\Utility\TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'];
         }
         $this->configurations = $configurations;
         $this->confId = $confId;
@@ -109,7 +109,7 @@ class RendererTwig
     /**
      * The current configurations.
      *
-     * @return \tx_rnbase_configurations
+     * @return \Sys25\RnBase\Configuration\Processor
      */
     public function getConfigurations()
     {
@@ -136,7 +136,7 @@ class RendererTwig
         // initial use the global paths
         $paths = $this->conf['templatepaths.'] ?: [];
         // add the paths for the current render context
-        $paths = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+        $paths = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
             $paths,
             $this->getConfigurations()->getExploded(
                 $this->getConfId().'templatepaths.'
@@ -157,7 +157,7 @@ class RendererTwig
         $paths = $this->conf['extensions.'] ?: [];
 
         // add the paths for the current render context
-        $paths = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+        $paths = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
             $paths,
             $this->getConfigurations()->getExploded(
                 $this->getConfId().'extensions.'
@@ -186,7 +186,6 @@ class RendererTwig
         // if the path only contains the filename like `Detail.html.twig`
         // so we try to add the base template path from the configuration.
         if (!empty($path) && false === strpos($path, '/')) {
-            // check the rnbase base path
             $basePath = $this->getConfigurations()->get('templatePath');
             // add the first template include path
             $basePath = $basePath ?: reset((array) $this->conf['templatepaths.']);
@@ -199,7 +198,7 @@ class RendererTwig
             throw new T3TwigException('Neither "file" nor "template" configured for twig template.');
         }
 
-        return \tx_rnbase_util_Files::getFileAbsFileName(
+        return \Sys25\RnBase\Utility\Files::getFileAbsFileName(
             $path
         );
     }

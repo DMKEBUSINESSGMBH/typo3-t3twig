@@ -26,6 +26,7 @@ namespace DMK\T3twig\View;
  ***************************************************************/
 
 use DMK\T3twig\Twig\RendererTwig as Renderer;
+use Sys25\RnBase\Frontend\Request\RequestInterface;
 
 /**
  * Class BaseTwigView.
@@ -38,25 +39,30 @@ use DMK\T3twig\Twig\RendererTwig as Renderer;
  *
  * @see     https://www.dmk-ebusiness.de/
  */
-class RnBaseView extends \tx_rnbase_view_Base
+class RnBaseView extends \Sys25\RnBase\Frontend\View\Marker\BaseView
 {
     /**
-     * @param string                                      $view
-     * @param \Tx_Rnbase_Configuration_ProcessorInterface $configurations
+     * @param $view
+     * @param RequestInterface $request
      *
      * @return string
+     *
+     * @throws \DMK\T3twig\Twig\T3TwigException
+     * @throws \TYPO3\CMS\Core\Exception
+     * @throws \Throwable
+     * @throws \Twig_Error_Runtime
      */
-    public function render($view, $configurations)
+    public function render($view, RequestInterface $request)
     {
         $renderer = Renderer::instance(
-            $configurations,
-            $this->getController()->getConfId().'template.',
+            $request->getConfigurations(),
+            $request->getConfId().'template.',
             // provide fallback template file (always a full filepath)
             $this->getTemplate($view, '.html.twig')
         );
 
         return $renderer->render(
-            $configurations->getViewData()->getArrayCopy()
+            $request->getViewContext()->getArrayCopy()
         );
     }
 }

@@ -66,12 +66,12 @@ class RequestExtension extends AbstractExtension
         array $arguments = []
     ) {
         return $this->performCommand(
-            function (\Tx_Rnbase_Domain_Model_Data $arguments) use ($env, $paramName) {
+            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $paramName) {
                 $paths = explode('|', $paramName);
                 $segment = array_shift($paths);
 
                 if ($arguments->getGlobal()) {
-                    $param = \tx_rnbase_parameters::getPostOrGetParameter($segment);
+                    $param = \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter($segment);
                 } else {
                     $param = $env->getParameters()->get($segment);
                 }

@@ -27,6 +27,7 @@ namespace DMK\T3twig\Twig\Extension;
  * *************************************************************
  */
 use DMK\T3twig\Twig\EnvironmentTwig;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class TSParserExtension.
@@ -62,8 +63,11 @@ class DBRelationExtension extends \Twig_Extension
      *
      * @return mixed|null
      */
-    public function lookupRelation(EnvironmentTwig $env, \Tx_Rnbase_Domain_Model_Base $entity, array $arguments = [])
-    {
+    public function lookupRelation(
+        EnvironmentTwig $env,
+        \Sys25\RnBase\Domain\Model\BaseModel $entity,
+        array $arguments = []
+    ) {
         $confId = sprintf('%srelations.%s.', $env->getConfId(), htmlspecialchars($arguments['relation']));
 
         $alias = $env->getConfigurations()->get($confId.'join.alias');
@@ -75,18 +79,18 @@ class DBRelationExtension extends \Twig_Extension
         $fields = $options = [];
         $fields[$alias.'.'.$field][OP_EQ_INT] = $entity->getUid();
 
-        \tx_rnbase_util_SearchBase::setConfigFields($fields, $env->getConfigurations(), $confId.'fields.');
-        \tx_rnbase_util_SearchBase::setConfigOptions($options, $env->getConfigurations(), $confId.'options.');
+        \Sys25\RnBase\Search\SearchBase::setConfigFields($fields, $env->getConfigurations(), $confId.'fields.');
+        \Sys25\RnBase\Search\SearchBase::setConfigOptions($options, $env->getConfigurations(), $confId.'options.');
 
         if ($otherOptions = isset($arguments['options']) ? $arguments['options'] : []) {
-            $options = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($options, $otherOptions);
+            $options = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($options, $otherOptions);
         }
 
         if ($otherFields = isset($arguments['fields']) ? $arguments['fields'] : []) {
-            $fields = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($fields, $otherFields);
+            $fields = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($fields, $otherFields);
         }
 
-        $searcher = \tx_rnbase::makeInstance($env->getConfigurations()->get($confId.'callback.class'));
+        $searcher = GeneralUtility::makeInstance($env->getConfigurations()->get($confId.'callback.class'));
         $method = $env->getConfigurations()->get($confId.'callback.method');
 
         return $searcher->$method($fields, $options);

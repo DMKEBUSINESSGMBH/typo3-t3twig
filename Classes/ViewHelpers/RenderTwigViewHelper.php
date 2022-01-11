@@ -3,6 +3,7 @@
 namespace DMK\T3twig\ViewHelpers;
 
 use DMK\T3twig\Twig\RendererTwig as Renderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -38,7 +39,7 @@ class RenderTwigViewHelper extends AbstractViewHelper
     {
         $template = $this->arguments['template'];
         $settings = $this->arguments['settings'];
-        $tsfe = \tx_rnbase_util_TYPO3::getTSFE();
+        $tsfe = \Sys25\RnBase\Utility\TYPO3::getTSFE();
 
         $configurations = $this->buildConfigurations($settings, $tsfe->cObj);
         $renderer = Renderer::instance(
@@ -61,8 +62,8 @@ class RenderTwigViewHelper extends AbstractViewHelper
     private function buildConfigurations(array $conf, $cObj)
     {
         /* @var $configurations \Sys25\RnBase\Configuration\ConfigurationInterface */
-        $configurations = \tx_rnbase::makeInstance(
-            'Tx_Rnbase_Configuration_Processor'
+        $configurations = GeneralUtility::makeInstance(
+            \Sys25\RnBase\Configuration\Processor::class
         );
         $configurations->init(
             $conf,
