@@ -167,7 +167,7 @@ class LinkExtension extends AbstractExtension
             }
         }
 
-        /// create link from original if overrule config exist (keep vars).
+        // create link from original if overrule config exist (keep vars).
         $rnBaseLink = $primeval->createLink();
         $rnBaseLink->label($arguments->getLabel(), true);
         $rnBaseLink->initByTS($configurations, $confId.$tsPath, $params);
