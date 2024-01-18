@@ -26,6 +26,8 @@ namespace DMK\T3twig\Twig\Extension;
  ***************************************************************/
 
 use DMK\T3twig\Twig\EnvironmentTwig;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * Class TSParserExtension.
@@ -48,12 +50,12 @@ class TSParserExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter(
+            new TwigFilter(
                 't3ts',
                 [$this, 'applyTs'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
-            new \Twig_SimpleFilter(
+            new TwigFilter(
                 't3rte',
                 [$this, 'applyRte'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
@@ -69,22 +71,22 @@ class TSParserExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 't3cObject',
                 [$this, 'renderContentObject'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 't3stdWrap',
                 [$this, 'renderStdWrap'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 't3tsRaw',
                 [$this, 'renderTsRaw'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 't3parseFunc',
                 [$this, 'renderParseFunc'],
                 ['needs_environment' => true, 'is_safe' => ['html']]

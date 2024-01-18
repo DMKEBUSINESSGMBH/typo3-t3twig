@@ -2,6 +2,7 @@
 
 namespace DMK\T3twig\Twig\Loader;
 
+use Twig\Loader\FilesystemLoader;
 use TYPO3\CMS\Core\Core\Environment;
 
 /***************************************************************
@@ -37,7 +38,7 @@ use TYPO3\CMS\Core\Core\Environment;
  *
  * @see     https://www.dmk-ebusiness.de/
  */
-class T3FileSystem extends \Twig_Loader_Filesystem
+class T3FileSystem extends FilesystemLoader
 {
     private static $sysExtKeys = [
         'core',

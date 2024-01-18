@@ -26,6 +26,7 @@ namespace DMK\T3twig\Twig\Extension;
  ***************************************************************/
 
 use DMK\T3twig\Twig\EnvironmentTwig;
+use Twig\TwigFilter;
 use TYPO3\CMS\Core\Core\Environment;
 
 /**
@@ -46,7 +47,7 @@ class DateExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter(
+            new TwigFilter(
                 't3strftime',
                 [$this, 'renderStrfTime'],
                 ['needs_environment' => true, 'is_safe' => ['html']]

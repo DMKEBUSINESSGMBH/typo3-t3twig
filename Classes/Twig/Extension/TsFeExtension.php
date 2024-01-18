@@ -3,6 +3,7 @@
 namespace DMK\T3twig\Twig\Extension;
 
 use Twig\Extension\GlobalsInterface;
+use Twig\TwigFunction;
 
 /***************************************************************
  * Copyright notice
@@ -37,7 +38,7 @@ use Twig\Extension\GlobalsInterface;
  *
  * @see     https://www.dmk-ebusiness.de/
  */
-class TsFeExtension extends \Twig_Extension implements GlobalsInterface
+class TsFeExtension extends \Twig\Extension\AbstractExtension implements GlobalsInterface
 {
     /**
      * @return array
@@ -45,7 +46,7 @@ class TsFeExtension extends \Twig_Extension implements GlobalsInterface
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'tsfePagetitle',
                 [$this, 'setPageTitleTag'],
                 ['is_safe' => ['html']]

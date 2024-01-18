@@ -27,6 +27,7 @@ namespace DMK\T3twig\Twig\Extension;
  * *************************************************************
  */
 use DMK\T3twig\Twig\EnvironmentTwig;
+use Twig\TwigFunction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -39,7 +40,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @see https://www.dmk-ebusiness.de/
  */
-class DBRelationExtension extends \Twig_Extension
+class DBRelationExtension extends \Twig\Extension\AbstractExtension
 {
     /**
      * @return array
@@ -47,7 +48,7 @@ class DBRelationExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('t3dbrel', [
+            new TwigFunction('t3dbrel', [
                 $this,
                 'lookupRelation',
             ], [

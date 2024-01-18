@@ -26,6 +26,7 @@ namespace DMK\T3twig\Twig;
  ***************************************************************/
 
 use DMK\T3twig\Twig\RendererTwig as Renderer;
+use Twig\Environment;
 
 /**
  * Class EnvironmentTwig.
@@ -38,7 +39,7 @@ use DMK\T3twig\Twig\RendererTwig as Renderer;
  *
  * @see     https://www.dmk-ebusiness.de/
  */
-class EnvironmentTwig extends \Twig_Environment
+class EnvironmentTwig extends Environment
 {
     /**
      * @var Renderer

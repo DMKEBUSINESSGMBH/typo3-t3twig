@@ -26,6 +26,8 @@ namespace DMK\T3twig\Twig\Extension;
  ***************************************************************/
 
 use DMK\T3twig\Twig\EnvironmentTwig;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -47,7 +49,7 @@ class LinkExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter(
+            new TwigFilter(
                 't3link',
                 [$this, 'renderLink'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
@@ -58,7 +60,7 @@ class LinkExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 't3url',
                 [$this, 'renderUrl'],
                 ['needs_environment' => true]

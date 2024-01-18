@@ -26,6 +26,7 @@ namespace DMK\T3twig\Twig\Extension;
  ***************************************************************/
 
 use DMK\T3twig\Twig\EnvironmentTwig;
+use Twig\TwigFunction;
 
 /**
  * Class ImageExtension.
@@ -56,11 +57,11 @@ class ImageExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 't3fetchReferences',
                 [$this, 'fetchReferences']
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 't3image',
                 [$this, 'renderImage'],
                 ['needs_environment' => true, 'is_safe' => ['html']]

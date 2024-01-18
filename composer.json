@@ -27,8 +27,8 @@
         }
     ],
     "require": {
-        "typo3/cms-core": "^9.5.24 || ^10.4.14",
-        "digedag/rn-base": "~1.15",
+        "typo3/cms-core": "^11.5 || ^12.4",
+        "digedag/rn-base": "~1.18",
         "twig/twig": "~1.0"
     },
     "require-dev": {

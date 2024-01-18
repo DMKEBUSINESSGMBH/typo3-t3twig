@@ -26,6 +26,7 @@ namespace DMK\T3twig\Twig\Extension;
  ***************************************************************/
 
 use DMK\T3twig\Twig\EnvironmentTwig;
+use Twig\TwigFilter;
 
 /**
  * Class LanguageExtension.
@@ -38,7 +39,7 @@ use DMK\T3twig\Twig\EnvironmentTwig;
  *
  * @see     https://www.dmk-ebusiness.de/
  */
-class LanguageExtension extends \Twig_Extension
+class LanguageExtension extends \Twig\Extension\AbstractExtension
 {
     /**
      * @return array
@@ -46,7 +47,7 @@ class LanguageExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('t3trans', [$this, 'getTranslation'], ['needs_environment' => true]),
+            new TwigFilter('t3trans', [$this, 'getTranslation'], ['needs_environment' => true]),
         ];
     }
 

@@ -26,6 +26,7 @@ namespace DMK\T3twig\Twig\Extension;
  ***************************************************************/
 
 use DMK\T3twig\Twig\EnvironmentTwig;
+use Twig\TwigFunction;
 
 /**
  * Class TSParserExtension.
@@ -45,7 +46,7 @@ class RequestExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 't3gp',
                 [$this, 'renderGetPost'],
                 ['needs_environment' => true]

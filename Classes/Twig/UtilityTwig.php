@@ -27,9 +27,10 @@ namespace DMK\T3twig\Twig;
 
 use DMK\T3twig\Cache\TYPO3Cache;
 use DMK\T3twig\Twig\Loader\T3FileSystem;
+use Twig\Extension\ExtensionInterface;
+use Twig\Loader\FilesystemLoader;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class TwigUtil.
@@ -44,12 +45,19 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  */
 class UtilityTwig
 {
+    private static $cache;
+
+    public function __construct(TYPO3Cache $cache)
+    {
+        self::$cache = $cache;
+    }
+
     /**
      * Returns an instance of twig loader filesystem.
      *
      * @param string $templateDir template directory
      *
-     * @return \Twig_Loader_Filesystem
+     * @return FilesystemLoader
      */
     public static function getTwigLoaderFilesystem($templateDir)
     {
@@ -59,17 +67,17 @@ class UtilityTwig
     /**
      * Returns an instance of twig environment.
      *
-     * @param \Twig_Loader_Filesystem $twigLoaderFilesystem twig loader filesystem
+     * @param FilesystemLoader $twigLoaderFilesystem twig loader filesystem
      * @param bool                    $debug                enable debug
      *
      * @return EnvironmentTwig
      */
     public static function getTwigEnvironment(
-        \Twig_Loader_Filesystem $twigLoaderFilesystem,
+        FilesystemLoader $twigLoaderFilesystem,
         $debug = true
     ) {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $cache = $objectManager->get(TYPO3Cache::class);
+//        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+//        $cache = self::$cache;
 
         /**
          * Some ToDos.
@@ -80,7 +88,7 @@ class UtilityTwig
             $twigLoaderFilesystem,
             [
                 'debug' => $debug,
-                'cache' => $cache,
+                'cache' => self::$cache,
             ]
         );
 
@@ -96,7 +104,7 @@ class UtilityTwig
      * @throws \Twig_Error_Loader
      */
     public static function injectTemplatePaths(
-        \Twig_Loader_Filesystem $twigLoaderFilesystem,
+        FilesystemLoader $twigLoaderFilesystem,
         array $paths
     ) {
         foreach ($paths as $namespace => $path) {
@@ -128,7 +136,7 @@ class UtilityTwig
             /*
              * Is it a valid twig extension?
              */
-            if (!$extInstance instanceof \Twig_ExtensionInterface) {
+            if (!$extInstance instanceof ExtensionInterface) {
                 throw new Exception(sprintf('Twig extension must be an instance of Twig_ExtensionInterface; "%s" given.', is_object($extInstance) ? get_class($extInstance) : gettype($extInstance)));
             }
 

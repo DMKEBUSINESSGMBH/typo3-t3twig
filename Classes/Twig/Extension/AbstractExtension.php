@@ -37,7 +37,7 @@ use DMK\T3twig\Twig\EnvironmentTwig;
  *
  * @see     https://www.dmk-ebusiness.de/
  */
-class AbstractExtension extends \Twig_Extension
+class AbstractExtension extends \Twig\Extension\AbstractExtension
 {
     /**
      * Initiate the arguments,

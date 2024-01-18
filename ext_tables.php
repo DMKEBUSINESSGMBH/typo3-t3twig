@@ -10,7 +10,7 @@
  *
  * @see     https://www.dmk-ebusiness.de/
  */
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     exit('Access denied.');
 }
 

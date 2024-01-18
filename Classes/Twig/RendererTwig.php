@@ -129,7 +129,7 @@ class RendererTwig
     /**
      * The template path to search in for macros, includes, tc.
      *
-     * @return string
+     * @return array
      */
     protected function getTemplatePaths()
     {
@@ -149,12 +149,12 @@ class RendererTwig
     /**
      * The extensions to use in twig templates.
      *
-     * @return string
+     * @return array
      */
     protected function getExtensions()
     {
         // initial use the global paths
-        $paths = $this->conf['extensions.'] ?: [];
+        $paths = isset($this->conf['extensions.']) ? $this->conf['extensions.'] : [];
 
         // add the paths for the current render context
         $paths = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
