@@ -27,6 +27,10 @@ namespace DMK\T3twig\Twig\Extension;
 
 use DMK\T3twig\Twig\EnvironmentTwig;
 use Twig\TwigFunction;
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\ProcessedFile;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
  * Class ImageExtension.
@@ -74,34 +78,53 @@ class ImageExtension extends AbstractExtension
      * @param mixed           $image
      * @param array           $arguments
      *
-     * @return array
+     * @return string
      */
     public function renderImage(
         EnvironmentTwig $env,
         $image,
         array $arguments = []
     ) {
-        // backward compatibility, create the ts_config key
-        if (!isset($arguments['ts_config'])) {
-            $arguments['ts_config'] = $arguments;
-        }
-
-        // get Resource Object (non ExtBase version), taken from Fluid\MediaViewHelper
-        if (is_object($image) && is_callable([$image, 'getOriginalResource'])) {
-            // We have a domain model, so we need to fetch the FAL resource object from there
-            $image = $image->getOriginalResource();
-        }
-
-        return $this->performCommand(
-            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $image) {
-                return $env->getContentObject()->cImage(
+        try {
+            // get Resource Object (non ExtBase version), taken from Fluid\MediaViewHelper
+            if (is_object($image) && is_callable([$image, 'getOriginalResource'])) {
+                // We have a domain model, so we need to fetch the FAL resource object from there
+                $image = $image->getOriginalResource();
+            } else {
+                $image = $env->getContentObject()->getImgResource(
                     $image,
-                    $arguments->getTsConfig()
-                );
-            },
-            $env,
-            $arguments
-        );
+                    $arguments
+                )['originalFile'];
+            }
+
+            $processingInstructions = [
+                'width' => $arguments['width'] ?? '',
+                'height' => $arguments['height'] ?? '',
+                'minWidth' => $arguments['minWidth'] ?? ($arguments['minW'] ?? ''),
+                'minHeight' => $arguments['minHeight'] ?? ($arguments['minH'] ?? ''),
+                'maxWidth' => $arguments['maxWidth'] ?? ($arguments['maxW'] ?? ''),
+                'maxHeight' => $arguments['maxHeight'] ?? ($arguments['maxH'] ?? ''),
+            ];
+            /** @var File $image */
+            $processedImg = $image->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingInstructions);
+            $tag = new TagBuilder('img');
+            $tag->addAttribute('src', $processedImg->getPublicUrl());
+            $tag->addAttribute('width', $processedImg->getProperty('width'));
+            $tag->addAttribute('height', $processedImg->getProperty('height'));
+
+            $tag->addAttribute('alt',
+                $arguments['alt'] ?? ($arguments['altText'] ?? ($image->hasProperty('alternative') ? $image->getProperty('alternative') : ''))
+            );
+
+            $title = $arguments['title'] ?? ($arguments['titleText'] ?? ($image->hasProperty('title') ? $image->getProperty('title') : false));
+            if ($title) {
+                $tag->addAttribute('title', $title);
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+
+        return $tag->render();
     }
 
     /**
