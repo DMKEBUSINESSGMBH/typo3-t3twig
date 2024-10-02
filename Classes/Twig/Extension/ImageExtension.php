@@ -94,7 +94,11 @@ class ImageExtension extends AbstractExtension
                 $image = $env->getContentObject()->getImgResource(
                     $image,
                     $arguments
-                )['originalFile'];
+                );
+                if(!isset($image['originalFile'])) {
+                    return '';
+                }
+                $image = $image['originalFile'];
             }
 
             $processingInstructions = [
