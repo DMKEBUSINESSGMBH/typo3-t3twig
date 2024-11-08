@@ -57,9 +57,9 @@ class TsFeExtension extends \Twig\Extension\AbstractExtension implements Globals
     /**
      * {@inheritdoc}
      *
-     * @see Twig_Extension::getGlobals()
+     * @see \Twig\Extension\AbstractExtension::getGlobals()
      */
-    public function getGlobals()
+    public function getGlobals(): array
     {
         return [
             'tsfe' => $GLOBALS['TSFE'],

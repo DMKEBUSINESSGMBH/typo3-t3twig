@@ -27,6 +27,8 @@ namespace DMK\T3twig\Twig;
 
 use DMK\T3twig\Cache\TYPO3Cache;
 use DMK\T3twig\Twig\Loader\T3FileSystem;
+use Twig\Error\LoaderError;
+use Twig\Extension\AbstractExtension;
 use Twig\Extension\ExtensionInterface;
 use Twig\Loader\FilesystemLoader;
 use TYPO3\CMS\Core\Exception;
@@ -45,7 +47,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class UtilityTwig
 {
-    private static $cache;
+    private static $cache = false;
 
     public function __construct(TYPO3Cache $cache)
     {
@@ -98,10 +100,10 @@ class UtilityTwig
     /**
      * Inject twig template paths with namespace.
      *
-     * @param \Twig_Loader_Filesystem $twigLoaderFilesystem
+     * @param FilesystemLoader $twigLoaderFilesystem
      * @param array                   $paths
      *
-     * @throws \Twig_Error_Loader
+     * @throws LoaderError
      */
     public static function injectTemplatePaths(
         FilesystemLoader $twigLoaderFilesystem,
@@ -129,7 +131,7 @@ class UtilityTwig
     ) {
         foreach ($extensions as $extension => $value) {
             /**
-             * @var \Twig_Extension
+             * @var AbstractExtension
              */
             $extInstance = GeneralUtility::makeInstance($value);
 
@@ -143,7 +145,7 @@ class UtilityTwig
             /*
              * Is extension already enabled?
              */
-            if ($environment->hasExtension($extInstance->getName())) {
+            if ($environment->hasExtension($extInstance::class)) {
                 continue;
             }
 

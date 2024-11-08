@@ -72,7 +72,7 @@ class DateExtension extends AbstractExtension
         array $arguments = []
     ) {
         if (null === $format) {
-            $formats = $env->getExtension('Twig_Extension_Core')->getDateFormat();
+            $formats = $env->getExtension(\Twig\Extension\CoreExtension::class)->getDateFormat();
             $format = $date instanceof \DateInterval ? $formats[1] : $formats[0];
         }
 

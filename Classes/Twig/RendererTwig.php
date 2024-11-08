@@ -241,11 +241,13 @@ class RendererTwig
             $this->getExtensions()
         );
 
+        $name = basename($templateFullFilePath);
         /**
-         * @var \Twig_Template
+         * @var \Twig\Template
          */
         $template = $twigEnv->loadTemplate(
-            basename($templateFullFilePath)
+            $twigEnv->getTemplateClass($name),
+            $name
         );
 
         $result = $template->render($data);
