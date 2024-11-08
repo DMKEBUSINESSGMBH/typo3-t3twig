@@ -29,7 +29,7 @@
     "require": {
         "typo3/cms-core": "^11.5 || ^12.4",
         "digedag/rn-base": "~1.18",
-        "twig/twig": "~1.0"
+        "twig/twig": "~3.14"
     },
     "require-dev": {
         "mikey179/vfsstream": "^1.6",
