@@ -122,7 +122,6 @@ class AbstractExtension extends \Twig\Extension\AbstractExtension
     /**
      * Sets the data in the current content object and backups the current value.
      *
-     * @param EnvironmentTwig $env
      * @param array           $data
      * @param string          $currentValue
      */

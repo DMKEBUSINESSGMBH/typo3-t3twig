@@ -15,14 +15,14 @@ class TYPO3Cache implements CacheInterface
      */
     private $delegate;
 
-    public function injectCacheManager(CacheManager $cacheManager)
+    public function injectCacheManager(CacheManager $cacheManager): void
     {
         $this->delegate = $cacheManager->getCache(self::CACHE_TYPE);
     }
 
     public function generateKey(string $name, string $className): string
     {
-        $cacheKey = implode('_', [get_class($this->delegate), $name, $className]);
+        $cacheKey = implode('_', [$this->delegate::class, $name, $className]);
         // strip all unallowed characters
         $cacheKey = preg_replace('/[^A-Za-z0-9-_]/', '_', $cacheKey);
 
@@ -52,7 +52,7 @@ class TYPO3Cache implements CacheInterface
         );
 
         // Ignore errors, because they may not be relevant at this point.
-        set_error_handler(function () {});
+        set_error_handler(function (): void {});
         $time = filemtime($path);
         restore_error_handler();
 

@@ -41,10 +41,7 @@ use TYPO3\CMS\Core\Core\Environment;
  */
 class DateExtension extends AbstractExtension
 {
-    /**
-     * @return array
-     */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter(
@@ -58,10 +55,8 @@ class DateExtension extends AbstractExtension
     /**
      * Formats a date with strftime.
      *
-     * @param EnvironmentTwig         $env
      * @param string|int|DateInterval $date
      * @param string                  $format
-     * @param array                   $arguments
      *
      * @return string
      */
@@ -95,7 +90,7 @@ class DateExtension extends AbstractExtension
                 '%R' => date('H:i', $date),
                 '%t' => "\t",
                 '%T' => '%H:%M:%S',
-                '%u' => ($w = date('w', $date)) ? $w : 7,
+                '%u' => (($w = date('w', $date)) !== '' && ($w = date('w', $date)) !== '0') ? $w : 7,
             ];
             $format = str_replace(
                 array_keys($mapping),
@@ -105,9 +100,7 @@ class DateExtension extends AbstractExtension
         }
 
         return $this->performCommand(
-            function () use ($format, $date) {
-                return strftime($format, $date);
-            },
+            fn (): string|false => strftime($format, $date),
             $env,
             $arguments
         );
@@ -115,10 +108,8 @@ class DateExtension extends AbstractExtension
 
     /**
      * Get Extension name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 't3twig_dateExtension';
     }

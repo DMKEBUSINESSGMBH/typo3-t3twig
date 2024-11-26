@@ -45,19 +45,13 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
  */
 class ImageExtension extends AbstractExtension
 {
-    /**
-     * @return array
-     */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction(
@@ -73,58 +67,49 @@ class ImageExtension extends AbstractExtension
     }
 
     /**
-     * @param EnvironmentTwig $env
-     * @param mixed           $image
-     * @param array           $arguments
-     *
      * @return string
      */
     public function renderImage(
         EnvironmentTwig $env,
-        $image,
+        mixed $image,
         array $arguments = [],
     ) {
-        try {
-            // get Resource Object (non ExtBase version), taken from Fluid\MediaViewHelper
-            if (is_object($image) && is_callable([$image, 'getOriginalResource'])) {
-                // We have a domain model, so we need to fetch the FAL resource object from there
-                $image = $image->getOriginalResource();
-            } else {
-                $image = $env->getContentObject()->getImgResource(
-                    $image,
-                    $arguments
-                );
-                if (!isset($image['originalFile'])) {
-                    return '';
-                }
-                $image = $image['originalFile'];
-            }
-
-            $processingInstructions = [
-                'width' => $arguments['width'] ?? '',
-                'height' => $arguments['height'] ?? '',
-                'minWidth' => $arguments['minWidth'] ?? ($arguments['minW'] ?? ''),
-                'minHeight' => $arguments['minHeight'] ?? ($arguments['minH'] ?? ''),
-                'maxWidth' => $arguments['maxWidth'] ?? ($arguments['maxW'] ?? ''),
-                'maxHeight' => $arguments['maxHeight'] ?? ($arguments['maxH'] ?? ''),
-            ];
-            /** @var File $image */
-            $processedImg = $image->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingInstructions);
-            $tag = new TagBuilder('img');
-            $tag->addAttribute('src', $processedImg->getPublicUrl());
-            $tag->addAttribute('width', $processedImg->getProperty('width'));
-            $tag->addAttribute('height', $processedImg->getProperty('height'));
-
-            $tag->addAttribute('alt',
-                $arguments['alt'] ?? ($arguments['altText'] ?? ($image->hasProperty('alternative') ? $image->getProperty('alternative') : ''))
+        // get Resource Object (non ExtBase version), taken from Fluid\MediaViewHelper
+        if (is_object($image) && is_callable([$image, 'getOriginalResource'])) {
+            // We have a domain model, so we need to fetch the FAL resource object from there
+            $image = $image->getOriginalResource();
+        } else {
+            $image = $env->getContentObject()->getImgResource(
+                $image,
+                $arguments
             );
-
-            $title = $arguments['title'] ?? ($arguments['titleText'] ?? ($image->hasProperty('title') ? $image->getProperty('title') : false));
-            if ($title) {
-                $tag->addAttribute('title', $title);
+            if (!isset($image['originalFile'])) {
+                return '';
             }
-        } catch (\Exception $exception) {
-            throw $exception;
+
+            $image = $image['originalFile'];
+        }
+
+        $processingInstructions = [
+            'width' => $arguments['width'] ?? '',
+            'height' => $arguments['height'] ?? '',
+            'minWidth' => $arguments['minWidth'] ?? ($arguments['minW'] ?? ''),
+            'minHeight' => $arguments['minHeight'] ?? ($arguments['minH'] ?? ''),
+            'maxWidth' => $arguments['maxWidth'] ?? ($arguments['maxW'] ?? ''),
+            'maxHeight' => $arguments['maxHeight'] ?? ($arguments['maxH'] ?? ''),
+        ];
+        /** @var File $image */
+        $processedImg = $image->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingInstructions);
+        $tag = new TagBuilder('img');
+        $tag->addAttribute('src', $processedImg->getPublicUrl());
+        $tag->addAttribute('width', $processedImg->getProperty('width'));
+        $tag->addAttribute('height', $processedImg->getProperty('height'));
+        $tag->addAttribute('alt',
+            $arguments['alt'] ?? ($arguments['altText'] ?? ($image->hasProperty('alternative') ? $image->getProperty('alternative') : ''))
+        );
+        $title = $arguments['title'] ?? ($arguments['titleText'] ?? ($image->hasProperty('title') ? $image->getProperty('title') : false));
+        if ($title) {
+            $tag->addAttribute('title', $title);
         }
 
         return $tag->render();
@@ -146,10 +131,8 @@ class ImageExtension extends AbstractExtension
 
     /**
      * Get Extension name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 't3twig_imageExtension';
     }

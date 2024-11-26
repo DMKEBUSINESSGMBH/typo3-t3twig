@@ -14,8 +14,10 @@ class TYPO3CacheTest extends TestCase
 {
     use ProphecyTrait;
 
-    private $twigCache;
-    private $cache;
+    private TYPO3Cache $twigCache;
+
+    private \Prophecy\Prophecy\ObjectProphecy $cache;
+
     private $root;
 
     protected function setUp(): void
@@ -31,7 +33,7 @@ class TYPO3CacheTest extends TestCase
         $this->root = vfsStream::setup();
     }
 
-    public function testWrite()
+    public function testWrite(): void
     {
         $this->cache->set('foo', '#bar')
             ->shouldBeCalled();
@@ -39,7 +41,7 @@ class TYPO3CacheTest extends TestCase
         $this->twigCache->write('foo', 'bar');
     }
 
-    public function testGetTimeStamp()
+    public function testGetTimeStamp(): void
     {
         $this->cache->has('foo')->willReturn(true);
 
@@ -51,14 +53,14 @@ class TYPO3CacheTest extends TestCase
         self::assertSame(0, $this->twigCache->getTimestamp('foo'));
     }
 
-    public function testGetTimestampWhichDoesNotExists()
+    public function testGetTimestampWhichDoesNotExists(): void
     {
         $this->cache->has('foo')->willReturn(false);
 
         self::assertSame(0, $this->twigCache->getTimestamp('foo'));
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $this->cache->requireOnce('foo')->shouldBeCalled();
 
@@ -68,12 +70,12 @@ class TYPO3CacheTest extends TestCase
     /**
      * @dataProvider getKeyData
      */
-    public function testGenerateKey($name, $class, $expected)
+    public function testGenerateKey(string $name, string $class, string $expected): void
     {
         self::assertMatchesRegularExpression($expected, $this->twigCache->generateKey($name, $class));
     }
 
-    public static function getKeyData()
+    public static function getKeyData(): array
     {
         return [
             [
@@ -83,8 +85,8 @@ class TYPO3CacheTest extends TestCase
             ],
             [
                 'name' => '@foo.html.twig',
-                'class' => '\Twig\Template',
-                'expected' => '/Double_TYPO3_CMS_Core_Cache_Frontend_PhpFrontend_P(.*)_foo_html_twig__Twig_Template/',
+                'class' => \Twig\Template::class,
+                'expected' => '/Double_TYPO3_CMS_Core_Cache_Frontend_PhpFrontend_P(.*)__foo_html_twig_Twig_Template/',
             ],
         ];
     }

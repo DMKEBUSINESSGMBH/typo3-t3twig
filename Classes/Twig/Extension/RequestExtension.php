@@ -40,10 +40,7 @@ use Twig\TwigFunction;
  */
 class RequestExtension extends AbstractExtension
 {
-    /**
-     * @return array
-     */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction(
@@ -55,9 +52,7 @@ class RequestExtension extends AbstractExtension
     }
 
     /**
-     * @param EnvironmentTwig $env
      * @param string                           $paramName
-     * @param array                            $arguments
      *
      * @return mixed|null
      */
@@ -81,6 +76,7 @@ class RequestExtension extends AbstractExtension
                     if (!isset($param[$segment])) {
                         return null;
                     }
+
                     $param = $param[$segment];
                 }
 
@@ -100,10 +96,8 @@ class RequestExtension extends AbstractExtension
 
     /**
      * Get Extension name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 't3twig_requestExtension';
     }

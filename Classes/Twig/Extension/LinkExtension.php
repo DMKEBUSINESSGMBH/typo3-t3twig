@@ -43,10 +43,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class LinkExtension extends AbstractExtension
 {
-    /**
-     * @return array
-     */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter(
@@ -57,7 +54,7 @@ class LinkExtension extends AbstractExtension
         ];
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction(
@@ -69,9 +66,7 @@ class LinkExtension extends AbstractExtension
     }
 
     /**
-     * @param EnvironmentTwig $env
      * @param                 label
-     * @param array $arguments
      *
      * @return string
      */
@@ -80,26 +75,19 @@ class LinkExtension extends AbstractExtension
         $arguments['label'] = $label;
 
         return $this->performCommand(
-            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env) {
-                return $this->makeRnbaseLink($env, $arguments)->makeTag();
-            },
+            fn (\Sys25\RnBase\Domain\Model\DataModel $arguments) => $this->makeRnbaseLink($env, $arguments)->makeTag(),
             $env,
             $arguments
         );
     }
 
     /**
-     * @param EnvironmentTwig $env
-     * @param array           $arguments
-     *
      * @return string
      */
     public function renderUrl(EnvironmentTwig $env, array $arguments = [])
     {
         return $this->performCommand(
-            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env) {
-                return $this->makeRnbaseLink($env, $arguments)->makeUrl(false);
-            },
+            fn (\Sys25\RnBase\Domain\Model\DataModel $arguments) => $this->makeRnbaseLink($env, $arguments)->makeUrl(false),
             $env,
             $arguments
         );
@@ -107,18 +95,13 @@ class LinkExtension extends AbstractExtension
 
     /**
      * Get Extension name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 't3twig_linkExtension';
     }
 
     /**
-     * @param EnvironmentTwig              $env
-     * @param \Sys25\RnBase\Domain\Model\DataModel $arguments
-     *
      * @return \Sys25\RnBase\Utility\Link
      */
     private function makeRnbaseLink(
@@ -150,6 +133,7 @@ class LinkExtension extends AbstractExtension
                     $config
                 );
             }
+
             $config = ['link.' => $config];
             $configurations->init(
                 $config,

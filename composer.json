@@ -27,6 +27,7 @@
         }
     ],
     "require": {
+		"php": "^8.0",
         "typo3/cms-core": "^11.5 || ^12.4",
         "digedag/rn-base": "~1.18",
         "twig/twig": "~3.14"
@@ -42,7 +43,9 @@
 		"saschaegerer/phpstan-typo3": "^1.9",
 		"phpstan/extension-installer": "*",
 		"dmk/phpstan-rnbase": "*",
-		"phpspec/prophecy-phpunit": "^2.0"
+		"phpspec/prophecy-phpunit": "^2.0",
+		"ssch/typo3-rector": "^2.5",
+		"rector/rector": "^1.0"
 	},
     "suggest": {
         "twig/extensions": "Common additional features for Twig that do not directly belong in core. See @Documentation/reference/extensions/ThirdParty.md"
@@ -95,16 +98,15 @@
             "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
             ".Build/bin/php-cs-fixer fix -v --dry-run --diff  --ansi"
         ],
+		"test:rector": [
+			"[ -e .Build/bin/rector ] || composer update",
+			".Build/bin/rector process --dry-run"
+		],
 		"test:phpcompatibility": [
-			"@test:phpcompatibility:7.4",
 			"@test:phpcompatibility:8.0",
 			"@test:phpcompatibility:8.1",
 			"@test:phpcompatibility:8.2",
 			"@test:phpcompatibility:8.3"
-		],
-		"test:phpcompatibility:7.4": [
-			"[ -e .Build/bin/phpcs ] || composer update",
-			".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 7.4"
 		],
 		"test:phpcompatibility:8.0": [
 			"[ -e .Build/bin/phpcs ] || composer update",
@@ -132,6 +134,7 @@
         ],
         "test": [
             "@test:phpcs",
+			"@test:rector",
 			"@test:phpcompatibility",
             "@test:phpstan",
             "@test:phpunit"
@@ -140,7 +143,12 @@
             "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
             ".Build/bin/php-cs-fixer fix -v"
         ],
-        "fix": [
+		"fix:rector": [
+			"[ -e .Build/bin/rector ] || composer update --ansi",
+			".Build/bin/rector process"
+		],
+		"fix": [
+			"@fix:rector",
             "@fix:phpcs"
         ]
     },

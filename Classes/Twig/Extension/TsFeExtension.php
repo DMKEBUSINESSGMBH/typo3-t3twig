@@ -40,10 +40,7 @@ use Twig\TwigFunction;
  */
 class TsFeExtension extends \Twig\Extension\AbstractExtension implements GlobalsInterface
 {
-    /**
-     * @return array
-     */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction(
@@ -69,10 +66,8 @@ class TsFeExtension extends \Twig\Extension\AbstractExtension implements Globals
 
     /**
      * @param string $value
-     *
-     * @return string
      */
-    public function setPageTitleTag($value)
+    public function setPageTitleTag($value): string
     {
         if (empty($value)) {
             return '';
@@ -89,10 +84,8 @@ class TsFeExtension extends \Twig\Extension\AbstractExtension implements Globals
 
     /**
      * Get Extension name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 't3twig_tsFeExtension';
     }

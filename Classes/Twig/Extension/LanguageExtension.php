@@ -41,10 +41,7 @@ use Twig\TwigFilter;
  */
 class LanguageExtension extends \Twig\Extension\AbstractExtension
 {
-    /**
-     * @return array
-     */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('t3trans', [$this, 'getTranslation'], ['needs_environment' => true]),
@@ -52,13 +49,9 @@ class LanguageExtension extends \Twig\Extension\AbstractExtension
     }
 
     /**
-     * @param EnvironmentTwig $env
      * @param string          $label
-     * @param array           $placeholders
-     *
-     * @return string
      */
-    public function getTranslation(EnvironmentTwig $env, $label, array $placeholders = [])
+    public function getTranslation(EnvironmentTwig $env, $label, array $placeholders = []): string
     {
         return strtr(
             $env->getConfigurations()->getLL($label),
@@ -68,10 +61,8 @@ class LanguageExtension extends \Twig\Extension\AbstractExtension
 
     /**
      * Get Extension name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 't3twig_languageExtension';
     }

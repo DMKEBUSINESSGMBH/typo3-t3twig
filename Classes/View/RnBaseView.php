@@ -43,16 +43,13 @@ class RnBaseView extends \Sys25\RnBase\Frontend\View\Marker\BaseView
 {
     /**
      * @param $view
-     * @param RequestInterface $request
-     *
-     * @return string
      *
      * @throws \DMK\T3twig\Twig\T3TwigException
      * @throws \TYPO3\CMS\Core\Exception
      * @throws \Throwable
      * @throws \Twig_Error_Runtime
      */
-    public function render($view, RequestInterface $request)
+    public function render($view, RequestInterface $request): string
     {
         $renderer = Renderer::instance(
             $request->getConfigurations(),

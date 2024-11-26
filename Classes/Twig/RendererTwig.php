@@ -45,40 +45,16 @@ class RendererTwig
     protected $conf;
 
     /**
-     * Filepath to alternativ fallback template.
-     *
-     * @var string
-     */
-    protected $fallbackTemplate;
-
-    /**
-     * Filepath to alternativ fallback template.
-     *
-     * @var \Sys25\RnBase\Configuration\ConfigurationInterface
-     */
-    protected $configurations;
-
-    /**
-     * Configuration path.
-     *
-     * @var string
-     */
-    protected $confId;
-
-    /**
      * An instance of this renderer.
      *
-     * @param \Sys25\RnBase\Configuration\ConfigurationInterface $configurations
      * @param string                                      $confId
      * @param array                                       $conf
-     *
-     * @return RendererTwig
      */
     public static function instance(
         \Sys25\RnBase\Configuration\ConfigurationInterface $configurations,
         $confId = '',
         $templateFile = '',
-    ) {
+    ): self {
         return new self(
             $configurations,
             $confId,
@@ -89,21 +65,27 @@ class RendererTwig
     /**
      * Constructor.
      *
-     * @param \Sys25\RnBase\Configuration\ConfigurationInterface $configurations
      * @param string                                      $confId
      * @param array                                       $conf
+     * @param string $templateFile
      */
     public function __construct(
-        \Sys25\RnBase\Configuration\ConfigurationInterface $configurations,
-        $confId = '',
-        $templateFile = '',
+        /**
+         * Filepath to alternativ fallback template.
+         */
+        protected \Sys25\RnBase\Configuration\ConfigurationInterface $configurations,
+        /**
+         * Configuration path.
+         */
+        protected $confId = '',
+        /**
+         * Filepath to alternativ fallback template.
+         */
+        protected $fallbackTemplate = '',
     ) {
-        if (isset(\Sys25\RnBase\Utility\TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'])) {
-            $this->conf = \Sys25\RnBase\Utility\TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'];
+        if (isset($GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['lib.']['tx_t3twig.'])) {
+            $this->conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['lib.']['tx_t3twig.'];
         }
-        $this->configurations = $configurations;
-        $this->confId = $confId;
-        $this->fallbackTemplate = $templateFile;
     }
 
     /**
@@ -111,7 +93,7 @@ class RendererTwig
      *
      * @return \Sys25\RnBase\Configuration\Processor
      */
-    public function getConfigurations()
+    public function getConfigurations(): \Sys25\RnBase\Configuration\ConfigurationInterface
     {
         return $this->configurations;
     }
@@ -154,7 +136,7 @@ class RendererTwig
     protected function getExtensions()
     {
         // initial use the global paths
-        $paths = isset($this->conf['extensions.']) ? $this->conf['extensions.'] : [];
+        $paths = $this->conf['extensions.'] ?? [];
 
         // add the paths for the current render context
         $paths = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
@@ -185,7 +167,7 @@ class RendererTwig
 
         // if the path only contains the filename like `Detail.html.twig`
         // so we try to add the base template path from the configuration.
-        if (!empty($path) && false === strpos($path, '/')) {
+        if (!empty($path) && !str_contains($path, '/')) {
             $basePath = $this->getConfigurations()->get('templatePath');
             // add the first template include path
             $basePath = $basePath ?: reset((array) $this->conf['templatepaths.']);
@@ -218,12 +200,13 @@ class RendererTwig
      */
     public function render(
         ?array $data = null,
-    ) {
+    ): string {
         $templateFullFilePath = $this->getTemplatePath();
 
         if (!is_file($templateFullFilePath)) {
             throw new T3TwigException('Template file not found or empty: '.$templateFullFilePath);
         }
+
         $twigLoader = UtilityTwig::getTwigLoaderFilesystem(
             dirname($templateFullFilePath)
         );
@@ -250,8 +233,6 @@ class RendererTwig
             $name
         );
 
-        $result = $template->render($data);
-
-        return $result;
+        return $template->render($data);
     }
 }

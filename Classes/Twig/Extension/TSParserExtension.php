@@ -44,10 +44,8 @@ class TSParserExtension extends AbstractExtension
 {
     /**
      * Twig Filters.
-     *
-     * @return array
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter(
@@ -65,10 +63,8 @@ class TSParserExtension extends AbstractExtension
 
     /**
      * Twig Functions.
-     *
-     * @return array
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction(
@@ -97,10 +93,8 @@ class TSParserExtension extends AbstractExtension
     /**
      * Creates output based on TypoScript.
      *
-     * @param EnvironmentTwig $env
      * @param string          $value
      * @param string          $confId
-     * @param array           $arguments
      *
      * @return string
      */
@@ -120,7 +114,7 @@ class TSParserExtension extends AbstractExtension
                 // dont throw exception, if ts path does not exists
                 $arguments->setSkipTsNotFoundException(true);
 
-                list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+                [$tsPath, $setup] = $this->findSetup($env, $confId, $arguments);
 
                 $conf = empty($setup[$tsPath.'.']) ? [] : $setup[$tsPath.'.'];
 
@@ -138,10 +132,8 @@ class TSParserExtension extends AbstractExtension
     /**
      * Creates output based on parseFunc_RTE.
      *
-     * @param EnvironmentTwig $env
      * @param string          $value
      * @param string          $confId
-     * @param array           $arguments
      *
      * @return string
      */
@@ -159,9 +151,7 @@ class TSParserExtension extends AbstractExtension
     /**
      * Creates output based on TypoScript parseFunc.
      *
-     * @param EnvironmentTwig $env
      * @param string          $confId
-     * @param array           $arguments
      *
      * @return string
      */
@@ -172,7 +162,7 @@ class TSParserExtension extends AbstractExtension
     ) {
         return $this->performCommand(
             function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $confId) {
-                list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+                [$tsPath, $setup] = $this->findSetup($env, $confId, $arguments);
                 $conf = empty($setup[$tsPath.'.']) ? [] : $setup[$tsPath.'.'];
 
                 return $env->getContentObject()->parseFunc($arguments->getCurrentValue(), $conf);
@@ -185,9 +175,7 @@ class TSParserExtension extends AbstractExtension
     /**
      * Creates output based on TypoScript.
      *
-     * @param EnvironmentTwig $env
      * @param string          $confId
-     * @param array           $arguments
      *
      * @return string
      *
@@ -200,7 +188,7 @@ class TSParserExtension extends AbstractExtension
     ) {
         return $this->performCommand(
             function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $confId) {
-                list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+                [$tsPath, $setup] = $this->findSetup($env, $confId, $arguments);
 
                 return $env->getContentObject()->cObjGetSingle(
                     $setup[$tsPath],
@@ -215,9 +203,7 @@ class TSParserExtension extends AbstractExtension
     /**
      * Creates output based on TypoScript.
      *
-     * @param EnvironmentTwig $env
      * @param string          $confId
-     * @param array           $arguments
      *
      * @return string
      *
@@ -230,7 +216,7 @@ class TSParserExtension extends AbstractExtension
     ) {
         return $this->performCommand(
             function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $confId) {
-                list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+                [$tsPath, $setup] = $this->findSetup($env, $confId, $arguments);
 
                 return $env->getContentObject()->stdWrap(
                     $setup[$tsPath],
@@ -245,9 +231,7 @@ class TSParserExtension extends AbstractExtension
     /**
      * Creates output based on TypoScript.
      *
-     * @param EnvironmentTwig $env
      * @param string          $confId
-     * @param array           $arguments
      *
      * @return string
      *
@@ -260,13 +244,13 @@ class TSParserExtension extends AbstractExtension
     ) {
         return $this->performCommand(
             function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $confId) {
-                list($tsPath, $setup) = $this->findSetup($env, $confId, $arguments);
+                [$tsPath, $setup] = $this->findSetup($env, $confId, $arguments);
 
                 if (empty($confId) && $arguments->hasTsPath()) {
                     $confId = $arguments->getTsPath();
                 }
 
-                if ('.' === substr($confId, -1)) {
+                if (str_ends_with($confId, '.')) {
                     return $setup;
                 }
 
@@ -280,11 +264,7 @@ class TSParserExtension extends AbstractExtension
     /**
      * Try to wind the setup of the given conf id.
      *
-     * @param EnvironmentTwig              $env
      * @param string                       $typoscriptObjectPath
-     * @param \Sys25\RnBase\Domain\Model\DataModel $arguments
-     *
-     * @return array
      *
      * @throws \Exception
      */
@@ -292,7 +272,7 @@ class TSParserExtension extends AbstractExtension
         EnvironmentTwig $env,
         $typoscriptObjectPath,
         \Sys25\RnBase\Domain\Model\DataModel $arguments,
-    ) {
+    ): array {
         if (empty($typoscriptObjectPath) && $arguments->hasTsPath()) {
             $typoscriptObjectPath = $arguments->getTsPath();
         }
@@ -301,7 +281,7 @@ class TSParserExtension extends AbstractExtension
             throw new \Exception('No TypoScript path given. arguments = {"ts_path" : "lib.testlink"}', 1489658526);
         }
 
-        $setup = \Sys25\RnBase\Utility\TYPO3::getTSFE()->tmpl->setup;
+        $setup = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray();
 
         $pathSegments = \Sys25\RnBase\Utility\Strings::trimExplode(
             '.',
@@ -315,13 +295,14 @@ class TSParserExtension extends AbstractExtension
                 $setup = false;
                 break;
             }
+
             $setup = $setup[$segment.'.'];
         }
 
         // try to get value from configuration directly, if no global ts was found
-        if (empty($pathSegments) || false === $setup) {
+        if ([] === $pathSegments || false === $setup) {
             $setup = $env->getConfigurations()->get(
-                $env->getConfId().'ts.'.(empty($pathSegments) ? '' : implode('.', $pathSegments).'.')
+                $env->getConfId().'ts.'.([] === $pathSegments ? '' : implode('.', $pathSegments).'.')
             );
         }
 
@@ -335,10 +316,8 @@ class TSParserExtension extends AbstractExtension
 
     /**
      * Get Extension name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 't3twig_tsParserExtension';
     }

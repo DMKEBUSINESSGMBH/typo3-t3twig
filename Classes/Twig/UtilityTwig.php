@@ -47,7 +47,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class UtilityTwig
 {
-    private static $cache = false;
+    private static TYPO3Cache $cache;
 
     public function __construct(TYPO3Cache $cache)
     {
@@ -61,7 +61,7 @@ class UtilityTwig
      *
      * @return FilesystemLoader
      */
-    public static function getTwigLoaderFilesystem($templateDir)
+    public static function getTwigLoaderFilesystem($templateDir): T3FileSystem
     {
         return new T3FileSystem($templateDir);
     }
@@ -71,13 +71,11 @@ class UtilityTwig
      *
      * @param FilesystemLoader $twigLoaderFilesystem twig loader filesystem
      * @param bool                    $debug                enable debug
-     *
-     * @return EnvironmentTwig
      */
     public static function getTwigEnvironment(
         FilesystemLoader $twigLoaderFilesystem,
         $debug = true,
-    ) {
+    ): EnvironmentTwig {
         //        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         //        $cache = self::$cache;
 
@@ -100,15 +98,12 @@ class UtilityTwig
     /**
      * Inject twig template paths with namespace.
      *
-     * @param FilesystemLoader $twigLoaderFilesystem
-     * @param array                   $paths
-     *
      * @throws LoaderError
      */
     public static function injectTemplatePaths(
         FilesystemLoader $twigLoaderFilesystem,
         array $paths,
-    ) {
+    ): void {
         foreach ($paths as $namespace => $path) {
             $twigLoaderFilesystem->addPath(
                 \Sys25\RnBase\Utility\Files::getFileAbsFileName($path),
@@ -120,16 +115,13 @@ class UtilityTwig
     /**
      * Inject Twig Extensions by TS Config.
      *
-     * @param EnvironmentTwig $environment
-     * @param array           $extensions
-     *
      * @throws Exception
      */
     public static function injectExtensions(
         EnvironmentTwig $environment,
         array $extensions,
-    ) {
-        foreach ($extensions as $extension => $value) {
+    ): void {
+        foreach ($extensions as $value) {
             /**
              * @var AbstractExtension
              */
@@ -139,7 +131,7 @@ class UtilityTwig
              * Is it a valid twig extension?
              */
             if (!$extInstance instanceof ExtensionInterface) {
-                throw new Exception(sprintf('Twig extension must be an instance of Twig_ExtensionInterface; "%s" given.', is_object($extInstance) ? get_class($extInstance) : gettype($extInstance)));
+                throw new Exception(sprintf('Twig extension must be an instance of Twig_ExtensionInterface; "%s" given.', get_debug_type($extInstance)));
             }
 
             /*

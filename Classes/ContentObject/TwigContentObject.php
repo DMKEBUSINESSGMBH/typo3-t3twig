@@ -44,13 +44,10 @@ class TwigContentObject extends AbstractContentObject
 {
     /**
      * @param string                $name
-     * @param array                 $configuration
      * @param string                $typoscriptKey
      * @param ContentObjectRenderer $contentObject
-     *
-     * @return string
      */
-    public function cObjGetSingleExt($name, array $configuration, $typoscriptKey, $contentObject)
+    public function cObjGetSingleExt($name, array $configuration, $typoscriptKey, ?\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObject): string
     {
         $this->cObj = $contentObject;
 
@@ -70,7 +67,7 @@ class TwigContentObject extends AbstractContentObject
      */
     public function render(
         $conf = [],
-    ) {
+    ): string {
         $content = '';
 
         $configurations = $this->buildConfigurations($conf);
@@ -80,15 +77,11 @@ class TwigContentObject extends AbstractContentObject
         );
         $contextData = $this->getContext($configurations);
 
-        $content .= $renderer->render($contextData);
-
-        return $content;
+        return $content.$renderer->render($contextData);
     }
 
     /**
      * Builds the configuration object based on the conf.
-     *
-     * @param array $conf
      *
      * @return \Sys25\RnBase\Configuration\Processor
      */
@@ -118,13 +111,14 @@ class TwigContentObject extends AbstractContentObject
      *
      * @throws T3TwigException
      */
-    protected function getContext($configurations)
+    protected function getContext($configurations): array
     {
         $contextData = [];
         $contextNames = $configurations->getKeyNames('context.');
         if (empty($contextNames)) {
             $contextNames = $configurations->getKeyNames('variables.');
         }
+
         $reservedVariables = ['data', 'current'];
         foreach ($contextNames as $key) {
             if (!in_array($key, $reservedVariables)) {

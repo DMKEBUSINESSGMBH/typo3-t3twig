@@ -46,10 +46,8 @@ class RnBaseTwigView extends AbstractView implements ViewInterface
     /**
      * @param string                                      $view
      * @param \Sys25\RnBase\Configuration\ConfigurationInterface $configurations
-     *
-     * @return string
      */
-    public function render($view, RequestInterface $request)
+    public function render($view, RequestInterface $request): string
     {
         $configurations = $request->getConfigurations();
         $renderer = Renderer::instance(
@@ -72,7 +70,7 @@ class RnBaseTwigView extends AbstractView implements ViewInterface
      *
      * @param string path to the directory containing the php templates
      */
-    public function setTemplatePath($pathToTemplates)
+    public function setTemplatePath($pathToTemplates): void
     {
         $this->pathToTemplates = $pathToTemplates;
     }

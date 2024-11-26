@@ -28,14 +28,14 @@ class RenderTwigViewHelper extends AbstractViewHelper
 {
     protected $escapeOutput = false;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('template', 'string', 'Path to twig template', true);
         $this->registerArgument('settings', 'array', 'TS settings', false, false);
         $this->registerArgument('context', 'array', 'context', false, []);
     }
 
-    public function render()
+    public function render(): string
     {
         $template = $this->arguments['template'];
         $settings = $this->arguments['settings'];
@@ -47,15 +47,12 @@ class RenderTwigViewHelper extends AbstractViewHelper
             '',
             $template
         );
-        $content = $renderer->render($this->arguments['context']);
 
-        return $content;
+        return $renderer->render($this->arguments['context']);
     }
 
     /**
      * Builds the  configuration object based on the conf.
-     *
-     * @param array $conf
      *
      * @return \Sys25\RnBase\Configuration\ConfigurationInterface
      */

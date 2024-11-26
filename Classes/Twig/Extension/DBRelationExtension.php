@@ -42,10 +42,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DBRelationExtension extends \Twig\Extension\AbstractExtension
 {
-    /**
-     * @return array
-     */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('t3dbrel', [
@@ -58,9 +55,7 @@ class DBRelationExtension extends \Twig\Extension\AbstractExtension
     }
 
     /**
-     * @param EnvironmentTwig $env
      * @param string                           $paramName
-     * @param array                            $arguments
      *
      * @return mixed|null
      */
@@ -77,17 +72,18 @@ class DBRelationExtension extends \Twig\Extension\AbstractExtension
             throw new \Exception(sprintf("Verify config for relation '%s' Table alias or field not found. Full typoscript path: %s", htmlspecialchars($arguments['relation']), $confId));
         }
 
-        $fields = $options = [];
+        $fields = [];
+        $options = [];
         $fields[$alias.'.'.$field][OP_EQ_INT] = $entity->getUid();
 
         \Sys25\RnBase\Search\SearchBase::setConfigFields($fields, $env->getConfigurations(), $confId.'fields.');
         \Sys25\RnBase\Search\SearchBase::setConfigOptions($options, $env->getConfigurations(), $confId.'options.');
 
-        if ($otherOptions = isset($arguments['options']) ? $arguments['options'] : []) {
+        if ($otherOptions = $arguments['options'] ?? []) {
             $options = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($options, $otherOptions);
         }
 
-        if ($otherFields = isset($arguments['fields']) ? $arguments['fields'] : []) {
+        if ($otherFields = $arguments['fields'] ?? []) {
             $fields = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($fields, $otherFields);
         }
 
@@ -99,10 +95,8 @@ class DBRelationExtension extends \Twig\Extension\AbstractExtension
 
     /**
      * Get Extension name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 't3twig_dbrelationExtension';
     }

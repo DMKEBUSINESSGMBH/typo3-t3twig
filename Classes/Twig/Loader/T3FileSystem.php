@@ -40,7 +40,7 @@ use TYPO3\CMS\Core\Core\Environment;
  */
 class T3FileSystem extends FilesystemLoader
 {
-    private static $sysExtKeys = [
+    private static array $sysExtKeys = [
         'core',
         'extbase',
         'fluid',
@@ -81,7 +81,7 @@ class T3FileSystem extends FilesystemLoader
         'viewpage',
     ];
 
-    public function __construct($paths = [], $rootPath = null)
+    public function __construct($paths = [], ?string $rootPath = null)
     {
         parent::__construct($paths, $rootPath);
         // Now add TYPO3 Extensions
@@ -97,9 +97,7 @@ class T3FileSystem extends FilesystemLoader
     {
         $extKeys = array_filter(
             \Sys25\RnBase\Utility\Extensions::getLoadedExtensionListArray(),
-            function ($v) {
-                return !in_array($v, self::$sysExtKeys);
-            }
+            fn ($v): bool => !in_array($v, self::$sysExtKeys)
         );
         foreach ($extKeys as $extKey) {
             $path = \Sys25\RnBase\Utility\Extensions::extPath($extKey);
@@ -108,6 +106,7 @@ class T3FileSystem extends FilesystemLoader
                 $this->addPath($path, 'EXT:'.$extKey);
             }
         }
+
         // add fileadmin
         $path = Environment::getPublicPath().'/fileadmin/';
         if (is_dir($path)) {

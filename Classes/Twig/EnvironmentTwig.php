@@ -49,13 +49,11 @@ class EnvironmentTwig extends Environment
     /**
      * Sets the current renderer.
      *
-     * @param Renderer $renderer
-     *
      * @return $this
      */
     public function setRenderer(
         Renderer $renderer,
-    ) {
+    ): static {
         $this->renderer = $renderer;
 
         return $this;
