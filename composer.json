@@ -45,7 +45,8 @@
 		"dmk/phpstan-rnbase": "*",
 		"phpspec/prophecy-phpunit": "^2.0",
 		"ssch/typo3-rector": "^2.5",
-		"rector/rector": "^1.0"
+		"rector/rector": "^1.0",
+		"captainhook/captainhook": "^5.10"
 	},
     "suggest": {
         "twig/extensions": "Common additional features for Twig that do not directly belong in core. See @Documentation/reference/extensions/ThirdParty.md"
@@ -79,9 +80,9 @@
         }
 	},
     "scripts": {
-        "post-autoload-dump": [
-            "mkdir -p .Build/Web/typo3conf/ext/"
-        ],
+		"post-autoload-dump": [
+			"[ -e .Build/bin/captainhook ] && .Build/bin/captainhook install -f || echo 'CaptainHook missing, skip install.'"
+		],
 		"runqa": [
 			"@fix",
 			"@lint",
