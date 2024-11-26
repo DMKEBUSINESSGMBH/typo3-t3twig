@@ -19,9 +19,11 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "7.2"
-                    - "7.3"
-                    - "7.4"
+                  - "7.4"
+                  - "8.0"
+                  - "8.1"
+                  - "8.2"
+                  - "8.3"
 
         steps:
             -
@@ -65,9 +67,14 @@ jobs:
             matrix:
                 command:
                     - "test:phpcs"
+                    - "test:phpcompatibility"
                     - "test:phpstan"
                 php-version:
                     - "7.4"
+                    - "8.0"
+                    - "8.1"
+                    - "8.2"
+                    - "8.3"
 
         steps:
             -
@@ -111,25 +118,23 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                include:
-                    -
-                        typo3-version: "^9.5"
-                        php-version: "7.2"
-                    -
-                        typo3-version: "^9.5"
-                        php-version: "7.3"
-                    -
-                        typo3-version: "^9.5"
-                        php-version: "7.4"
-                    -
-                        typo3-version: "^10.4"
-                        php-version: "7.2"
-                    -
-                        typo3-version: "^10.4"
-                        php-version: "7.3"
-                    -
-                        typo3-version: "^10.4"
-                        php-version: "7.4"
+              include:
+                - typo3-version: "^11.5"
+                  php-version: "7.4"
+                - typo3-version: "^11.5"
+                  php-version: "8.0"
+                - typo3-version: "^11.5"
+                  php-version: "8.1"
+                - typo3-version: "^11.5"
+                  php-version: "8.2"
+                - typo3-version: "^11.5"
+                  php-version: "8.3"
+                - typo3-version: "^12.4"
+                  php-version: "8.1"
+                - typo3-version: "^12.4"
+                  php-version: "8.2"
+                - typo3-version: "^12.4"
+                  php-version: "8.3"
 
         steps:
             -

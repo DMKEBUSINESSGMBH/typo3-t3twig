@@ -5,17 +5,20 @@ namespace DMK\T3twig\Tests\Unit\Cache;
 use DMK\T3twig\Cache\TYPO3Cache;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\PhpFrontend;
 
 class TYPO3CacheTest extends TestCase
 {
+    use ProphecyTrait;
+
     private $twigCache;
     private $cache;
     private $root;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->twigCache = new TYPO3Cache();
         $this->cache = $this->prophesize(PhpFrontend::class);
@@ -67,7 +70,7 @@ class TYPO3CacheTest extends TestCase
      */
     public function testGenerateKey($name, $class, $expected)
     {
-        self::assertRegExp($expected, $this->twigCache->generateKey($name, $class));
+        self::assertMatchesRegularExpression($expected, $this->twigCache->generateKey($name, $class));
     }
 
     public static function getKeyData()

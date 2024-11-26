@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    DMK\T3twig\:
+        resource: '../Classes/*'
+
+    DMK\T3twig\ContentObject\TwigContentObject:
+      tags:
+        - name: frontend.contentobject
+          identifier: 'TWIGTEMPLATE'

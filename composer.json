@@ -35,13 +35,15 @@
         "mikey179/vfsstream": "^1.6",
         "php-parallel-lint/php-parallel-lint": "^1.2",
         "friendsofphp/php-cs-fixer": "^3.3",
-        "nimut/testing-framework": "^2 || ^4.0 || ^5.0",
-        "phpunit/phpunit": "^5 || ^6",
-        "phpstan/phpstan": "^0.12.8",
-        "phpstan/extension-installer": "^1.0",
-        "saschaegerer/phpstan-typo3": "^0.13",
-        "dmk/phpstan-rnbase": "^0.0.3"
-    },
+		"phpcompatibility/php-compatibility": "^9.3.5",
+		"typo3/testing-framework": "^6.0 || ^7.0",
+		"phpunit/phpunit": "^9.0",
+		"phpstan/phpstan": "^1.1",
+		"saschaegerer/phpstan-typo3": "^1.9",
+		"phpstan/extension-installer": "*",
+		"dmk/phpstan-rnbase": "*",
+		"phpspec/prophecy-phpunit": "^2.0"
+	},
     "suggest": {
         "twig/extensions": "Common additional features for Twig that do not directly belong in core. See @Documentation/reference/extensions/ThirdParty.md"
     },
@@ -64,15 +66,24 @@
     "config": {
         "vendor-dir": ".Build/vendor",
         "bin-dir": ".Build/bin",
-        "preferred-install": {
-            "typo3/cms": "source"
+		"preferred-install": {
+			"*": "dist"
+		},
+        "allow-plugins": {
+            "typo3/cms-composer-installers": true,
+            "typo3/class-alias-loader": true,
+            "phpstan/extension-installer": true
         }
-    },
+	},
     "scripts": {
         "post-autoload-dump": [
-            "mkdir -p .Build/Web/typo3conf/ext/",
-            "[ -L .Build/Web/typo3conf/ext/t3twig ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/t3twig"
+            "mkdir -p .Build/Web/typo3conf/ext/"
         ],
+		"runqa": [
+			"@fix",
+			"@lint",
+			"@test"
+		],
         "lint:php": [
             "[ -e .Build/bin/parallel-lint ] || composer update",
             ".Build/bin/parallel-lint ./Classes"
@@ -84,6 +95,33 @@
             "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
             ".Build/bin/php-cs-fixer fix -v --dry-run --diff  --ansi"
         ],
+		"test:phpcompatibility": [
+			"@test:phpcompatibility:7.4",
+			"@test:phpcompatibility:8.0",
+			"@test:phpcompatibility:8.1",
+			"@test:phpcompatibility:8.2",
+			"@test:phpcompatibility:8.3"
+		],
+		"test:phpcompatibility:7.4": [
+			"[ -e .Build/bin/phpcs ] || composer update",
+			".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 7.4"
+		],
+		"test:phpcompatibility:8.0": [
+			"[ -e .Build/bin/phpcs ] || composer update",
+			".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.0"
+		],
+		"test:phpcompatibility:8.1": [
+			"[ -e .Build/bin/phpcs ] || composer update",
+			".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.1"
+		],
+		"test:phpcompatibility:8.2": [
+			"[ -e .Build/bin/phpcs ] || composer update",
+			".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.2"
+		],
+		"test:phpcompatibility:8.3": [
+			"[ -e .Build/bin/phpcs ] || composer update",
+			".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.3"
+		],
         "test:phpstan": [
             "[ -e .Build/bin/phpstan ] || composer update --ansi",
             ".Build/bin/phpstan analyse -c phpstan.neon --memory-limit=512M --ansi"
@@ -94,6 +132,7 @@
         ],
         "test": [
             "@test:phpcs",
+			"@test:phpcompatibility",
             "@test:phpstan",
             "@test:phpunit"
         ],

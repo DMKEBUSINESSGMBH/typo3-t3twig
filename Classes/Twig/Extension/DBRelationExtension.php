@@ -58,7 +58,7 @@ class DBRelationExtension extends \Twig\Extension\AbstractExtension
     }
 
     /**
-     * @param \DMK\T3twig\Twig\EnvironmentTwig $env
+     * @param EnvironmentTwig $env
      * @param string                           $paramName
      * @param array                            $arguments
      *
@@ -67,7 +67,7 @@ class DBRelationExtension extends \Twig\Extension\AbstractExtension
     public function lookupRelation(
         EnvironmentTwig $env,
         \Sys25\RnBase\Domain\Model\BaseModel $entity,
-        array $arguments = []
+        array $arguments = [],
     ) {
         $confId = sprintf('%srelations.%s.', $env->getConfId(), htmlspecialchars($arguments['relation']));
 

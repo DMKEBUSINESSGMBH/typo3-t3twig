@@ -49,12 +49,12 @@ class EnvironmentTwig extends Environment
     /**
      * Sets the current renderer.
      *
-     * @param \DMK\T3twig\Twig\RendererTwig $renderer
+     * @param Renderer $renderer
      *
      * @return $this
      */
     public function setRenderer(
-        Renderer $renderer
+        Renderer $renderer,
     ) {
         $this->renderer = $renderer;
 

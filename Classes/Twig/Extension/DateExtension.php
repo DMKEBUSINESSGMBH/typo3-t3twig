@@ -69,7 +69,7 @@ class DateExtension extends AbstractExtension
         EnvironmentTwig $env,
         $date,
         $format = null,
-        array $arguments = []
+        array $arguments = [],
     ) {
         if (null === $format) {
             $formats = $env->getExtension(\Twig\Extension\CoreExtension::class)->getDateFormat();

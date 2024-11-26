@@ -8,6 +8,7 @@
 ### md renderings
 *.md.html
 /.php_cs.cache
+/.phpunit.result.cache
 
 ### Travis Builds
 /.Build

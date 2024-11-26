@@ -72,12 +72,12 @@ class RendererTwig
      * @param string                                      $confId
      * @param array                                       $conf
      *
-     * @return \DMK\T3twig\Twig\RendererTwig
+     * @return RendererTwig
      */
     public static function instance(
         \Sys25\RnBase\Configuration\ConfigurationInterface $configurations,
         $confId = '',
-        $templateFile = ''
+        $templateFile = '',
     ) {
         return new self(
             $configurations,
@@ -96,7 +96,7 @@ class RendererTwig
     public function __construct(
         \Sys25\RnBase\Configuration\ConfigurationInterface $configurations,
         $confId = '',
-        $templateFile = ''
+        $templateFile = '',
     ) {
         if (isset(\Sys25\RnBase\Utility\TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'])) {
             $this->conf = \Sys25\RnBase\Utility\TYPO3::getTSFE()->tmpl->setup['lib.']['tx_t3twig.'];
@@ -217,7 +217,7 @@ class RendererTwig
      * @throws \Twig_Error_Runtime
      */
     public function render(
-        array $data = null
+        ?array $data = null,
     ) {
         $templateFullFilePath = $this->getTemplatePath();
 

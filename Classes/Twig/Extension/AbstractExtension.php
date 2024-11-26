@@ -48,14 +48,14 @@ class AbstractExtension extends \Twig\Extension\AbstractExtension
      * @param EnvironmentTwig $env
      * @param array           $arguments
      *
-     * @throws \Exception
-     *
      * @return mixed
+     *
+     * @throws \Exception
      */
     protected function performCommand(
         $callable,
-        EnvironmentTwig $env = null,
-        $arguments = null
+        ?EnvironmentTwig $env = null,
+        $arguments = null,
     ) {
         $cObj = $env->getContentObject();
         $exception = null;
@@ -95,7 +95,7 @@ class AbstractExtension extends \Twig\Extension\AbstractExtension
      */
     protected function initiateArguments(
         $arguments = null,
-        EnvironmentTwig $env = null
+        ?EnvironmentTwig $env = null,
     ) {
         $arguments = \Sys25\RnBase\Domain\Model\DataModel::getInstance($arguments);
 
@@ -129,7 +129,7 @@ class AbstractExtension extends \Twig\Extension\AbstractExtension
     protected function setContentObjectData(
         EnvironmentTwig $env,
         $data = null,
-        $currentValue = null
+        $currentValue = null,
     ) {
         $contentObject = $env->getContentObject();
 

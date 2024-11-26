@@ -108,7 +108,7 @@ class TSParserExtension extends AbstractExtension
         EnvironmentTwig $env,
         $value,
         $confId,
-        array $arguments = []
+        array $arguments = [],
     ) {
         // set the current value to arguments for initialize, if not set
         if (!isset($arguments['current_value'])) {
@@ -149,7 +149,7 @@ class TSParserExtension extends AbstractExtension
         EnvironmentTwig $env,
         $value,
         $confId = 'lib.parseFunc_RTE',
-        array $arguments = []
+        array $arguments = [],
     ) {
         $arguments['current_value'] = $value;
 
@@ -168,7 +168,7 @@ class TSParserExtension extends AbstractExtension
     public function renderParseFunc(
         EnvironmentTwig $env,
         $confId,
-        array $arguments = []
+        array $arguments = [],
     ) {
         return $this->performCommand(
             function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $confId) {
@@ -189,14 +189,14 @@ class TSParserExtension extends AbstractExtension
      * @param string          $confId
      * @param array           $arguments
      *
-     * @throws \Exception
-     *
      * @return string
+     *
+     * @throws \Exception
      */
     public function renderContentObject(
         EnvironmentTwig $env,
         $confId,
-        array $arguments = []
+        array $arguments = [],
     ) {
         return $this->performCommand(
             function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $confId) {
@@ -219,14 +219,14 @@ class TSParserExtension extends AbstractExtension
      * @param string          $confId
      * @param array           $arguments
      *
-     * @throws \Exception
-     *
      * @return string
+     *
+     * @throws \Exception
      */
     public function renderStdWrap(
         EnvironmentTwig $env,
         $confId,
-        array $arguments = []
+        array $arguments = [],
     ) {
         return $this->performCommand(
             function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $confId) {
@@ -249,14 +249,14 @@ class TSParserExtension extends AbstractExtension
      * @param string          $confId
      * @param array           $arguments
      *
-     * @throws \Exception
-     *
      * @return string
+     *
+     * @throws \Exception
      */
     public function renderTsRaw(
         EnvironmentTwig $env,
         $confId,
-        array $arguments = []
+        array $arguments = [],
     ) {
         return $this->performCommand(
             function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $confId) {
@@ -284,14 +284,14 @@ class TSParserExtension extends AbstractExtension
      * @param string                       $typoscriptObjectPath
      * @param \Sys25\RnBase\Domain\Model\DataModel $arguments
      *
-     * @throws \Exception
-     *
      * @return array
+     *
+     * @throws \Exception
      */
     protected function findSetup(
         EnvironmentTwig $env,
         $typoscriptObjectPath,
-        \Sys25\RnBase\Domain\Model\DataModel $arguments
+        \Sys25\RnBase\Domain\Model\DataModel $arguments,
     ) {
         if (empty($typoscriptObjectPath) && $arguments->hasTsPath()) {
             $typoscriptObjectPath = $arguments->getTsPath();
@@ -311,7 +311,7 @@ class TSParserExtension extends AbstractExtension
 
         // check the ts path and find the setup config
         foreach ($pathSegments as $segment) {
-            if (!array_key_exists(($segment.'.'), $setup)) {
+            if (!array_key_exists($segment.'.', $setup)) {
                 $setup = false;
                 break;
             }

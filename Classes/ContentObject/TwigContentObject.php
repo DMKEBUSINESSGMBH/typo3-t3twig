@@ -42,13 +42,6 @@ use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
  */
 class TwigContentObject extends AbstractContentObject
 {
-    public function __construct($cObject = null)
-    {
-        if ($cObject) {
-            parent::__construct($cObject);
-        }
-    }
-
     /**
      * @param string                $name
      * @param array                 $configuration
@@ -76,7 +69,7 @@ class TwigContentObject extends AbstractContentObject
      * @throws T3TwigException
      */
     public function render(
-        $conf = []
+        $conf = [],
     ) {
         $content = '';
 
@@ -100,7 +93,7 @@ class TwigContentObject extends AbstractContentObject
      * @return \Sys25\RnBase\Configuration\Processor
      */
     private function buildConfigurations(
-        array $conf
+        array $conf,
     ) {
         /* @var $configurations \Sys25\RnBase\Configuration\ConfigurationInterface */
         $configurations = GeneralUtility::makeInstance(
@@ -108,7 +101,7 @@ class TwigContentObject extends AbstractContentObject
         );
         $configurations->init(
             $conf,
-            $this->getContentObject(),
+            $this->getContentObjectRenderer(),
             't3twig',
             't3twig'
         );
@@ -141,8 +134,8 @@ class TwigContentObject extends AbstractContentObject
             }
         }
 
-        $contextData['data'] = $this->getContentObject()->data;
-        $contextData['current'] = $this->getContentObject()->data[$this->getContentObject()->currentValKey];
+        $contextData['data'] = $this->getContentObjectRenderer()->data;
+        $contextData['current'] = $this->getContentObjectRenderer()->data[$this->getContentObjectRenderer()->currentValKey];
 
         return $contextData;
     }

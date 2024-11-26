@@ -29,7 +29,6 @@ use DMK\T3twig\Twig\EnvironmentTwig;
 use Twig\TwigFunction;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
@@ -83,7 +82,7 @@ class ImageExtension extends AbstractExtension
     public function renderImage(
         EnvironmentTwig $env,
         $image,
-        array $arguments = []
+        array $arguments = [],
     ) {
         try {
             // get Resource Object (non ExtBase version), taken from Fluid\MediaViewHelper
@@ -95,7 +94,7 @@ class ImageExtension extends AbstractExtension
                     $image,
                     $arguments
                 );
-                if(!isset($image['originalFile'])) {
+                if (!isset($image['originalFile'])) {
                     return '';
                 }
                 $image = $image['originalFile'];

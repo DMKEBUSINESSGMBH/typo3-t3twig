@@ -123,7 +123,7 @@ class LinkExtension extends AbstractExtension
      */
     private function makeRnbaseLink(
         EnvironmentTwig $env,
-        \Sys25\RnBase\Domain\Model\DataModel $arguments
+        \Sys25\RnBase\Domain\Model\DataModel $arguments,
     ) {
         $params = $arguments->getParams() ? $arguments->getParams()->toArray() : [];
         $tsPath = $arguments->getTsPath();
@@ -178,7 +178,7 @@ class LinkExtension extends AbstractExtension
             $rnBaseLink->destination($arguments->getDestination());
         }
 
-        if (($extTarget = $configurations->get($confId.$tsPath.'extTarget'))) {
+        if ($extTarget = $configurations->get($confId.$tsPath.'extTarget')) {
             $rnBaseLink->externalTargetAttribute($extTarget);
         }
 

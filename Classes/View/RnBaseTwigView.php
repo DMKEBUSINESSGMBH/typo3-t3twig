@@ -31,7 +31,7 @@ use Sys25\RnBase\Frontend\View\AbstractView;
 use Sys25\RnBase\Frontend\View\ViewInterface;
 
 /**
- * Class BaseTwigView.
+ * Class RnBaseTwigView.
  *
  * @category TYPO3-Extension
  *

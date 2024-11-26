@@ -76,10 +76,10 @@ class UtilityTwig
      */
     public static function getTwigEnvironment(
         FilesystemLoader $twigLoaderFilesystem,
-        $debug = true
+        $debug = true,
     ) {
-//        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-//        $cache = self::$cache;
+        //        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        //        $cache = self::$cache;
 
         /**
          * Some ToDos.
@@ -107,7 +107,7 @@ class UtilityTwig
      */
     public static function injectTemplatePaths(
         FilesystemLoader $twigLoaderFilesystem,
-        array $paths
+        array $paths,
     ) {
         foreach ($paths as $namespace => $path) {
             $twigLoaderFilesystem->addPath(
@@ -123,11 +123,11 @@ class UtilityTwig
      * @param EnvironmentTwig $environment
      * @param array           $extensions
      *
-     * @throws \TYPO3\CMS\Core\Exception
+     * @throws Exception
      */
     public static function injectExtensions(
         EnvironmentTwig $environment,
-        array $extensions
+        array $extensions,
     ) {
         foreach ($extensions as $extension => $value) {
             /**

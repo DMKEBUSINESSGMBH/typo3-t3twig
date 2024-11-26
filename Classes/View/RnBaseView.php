@@ -29,7 +29,7 @@ use DMK\T3twig\Twig\RendererTwig as Renderer;
 use Sys25\RnBase\Frontend\Request\RequestInterface;
 
 /**
- * Class BaseTwigView.
+ * Class RnBaseView.
  *
  * @category TYPO3-Extension
  *

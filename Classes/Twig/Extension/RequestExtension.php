@@ -55,7 +55,7 @@ class RequestExtension extends AbstractExtension
     }
 
     /**
-     * @param \DMK\T3twig\Twig\EnvironmentTwig $env
+     * @param EnvironmentTwig $env
      * @param string                           $paramName
      * @param array                            $arguments
      *
@@ -64,7 +64,7 @@ class RequestExtension extends AbstractExtension
     public function renderGetPost(
         EnvironmentTwig $env,
         $paramName,
-        array $arguments = []
+        array $arguments = [],
     ) {
         return $this->performCommand(
             function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $paramName) {
