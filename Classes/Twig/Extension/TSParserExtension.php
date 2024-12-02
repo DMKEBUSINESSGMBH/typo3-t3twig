@@ -309,7 +309,7 @@ class TSParserExtension extends AbstractExtension
 
         // check the ts path and find the setup config
         foreach ($pathSegments as $segment) {
-            if (!array_key_exists(($segment.'.'), $setup)) {
+            if (!array_key_exists($segment.'.', $setup)) {
                 $setup = false;
                 break;
             }

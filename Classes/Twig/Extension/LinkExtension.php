@@ -176,7 +176,7 @@ class LinkExtension extends AbstractExtension
             $rnBaseLink->destination($arguments->getDestination());
         }
 
-        if (($extTarget = $configurations->get($confId.$tsPath.'extTarget'))) {
+        if ($extTarget = $configurations->get($confId.$tsPath.'extTarget')) {
             $rnBaseLink->externalTargetAttribute($extTarget);
         }
 
