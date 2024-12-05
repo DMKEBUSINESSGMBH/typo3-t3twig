@@ -27,6 +27,7 @@ namespace DMK\T3twig\Twig\Extension;
 
 use DMK\T3twig\Twig\EnvironmentTwig;
 use Twig\TwigFunction;
+use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
@@ -74,42 +75,66 @@ class ImageExtension extends AbstractExtension
         mixed $image,
         array $arguments = [],
     ) {
-        // get Resource Object (non ExtBase version), taken from Fluid\MediaViewHelper
-        if (is_object($image) && is_callable([$image, 'getOriginalResource'])) {
-            // We have a domain model, so we need to fetch the FAL resource object from there
-            $image = $image->getOriginalResource();
-        } else {
-            $image = $env->getContentObject()->getImgResource(
-                $image,
-                $arguments
-            );
-            if (!isset($image['originalFile'])) {
+        try {
+            // get Resource Object (non ExtBase version), taken from Fluid\MediaViewHelper
+            if (is_object($image) && is_callable([$image, 'getOriginalResource'])) {
+                // We have a domain model, so we need to fetch the FAL resource object from there
+                $image = $image->getOriginalResource();
+            } else {
+                $image = $env->getContentObject()->getImgResource(
+                    $image,
+                    $arguments
+                );
+            }
+            if(!isset($image['processedFile']) && !isset($image['originalFile'])) {
                 return '';
             }
+            if(isset($image['processedFile'])) {
+                $processedImg = $image['processedFile'];
+                $image = $processedImg->getOriginalFile();
+            } else {
+                $image = $image['originalFile'];
+                $cropString = $arguments['crop'];
+                if ($cropString === null && $image->hasProperty('crop') && $image->getProperty('crop')) {
+                    $cropString = $image->getProperty('crop');
+                }
 
-            $image = $image['originalFile'];
-        }
+                // CropVariantCollection needs a string, but this VH could also receive an array
+                if (is_array($cropString)) {
+                    $cropString = json_encode($cropString);
+                }
 
-        $processingInstructions = [
-            'width' => $arguments['width'] ?? '',
-            'height' => $arguments['height'] ?? '',
-            'minWidth' => $arguments['minWidth'] ?? ($arguments['minW'] ?? ''),
-            'minHeight' => $arguments['minHeight'] ?? ($arguments['minH'] ?? ''),
-            'maxWidth' => $arguments['maxWidth'] ?? ($arguments['maxW'] ?? ''),
-            'maxHeight' => $arguments['maxHeight'] ?? ($arguments['maxH'] ?? ''),
-        ];
-        /** @var File $image */
-        $processedImg = $image->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingInstructions);
-        $tag = new TagBuilder('img');
-        $tag->addAttribute('src', $processedImg->getPublicUrl());
-        $tag->addAttribute('width', $processedImg->getProperty('width'));
-        $tag->addAttribute('height', $processedImg->getProperty('height'));
-        $tag->addAttribute('alt',
-            $arguments['alt'] ?? ($arguments['altText'] ?? ($image->hasProperty('alternative') ? $image->getProperty('alternative') : ''))
-        );
-        $title = $arguments['title'] ?? ($arguments['titleText'] ?? ($image->hasProperty('title') ? $image->getProperty('title') : false));
-        if ($title) {
-            $tag->addAttribute('title', $title);
+                $cropVariantCollection = CropVariantCollection::create((string)$cropString);
+                $cropVariant = $arguments['cropVariant'] ?: 'default';
+                $cropArea = $cropVariantCollection->getCropArea($cropVariant);
+                $processingInstructions = [
+                    'width' => $arguments['width'] ?? '',
+                    'height' => $arguments['height'] ?? '',
+                    'minWidth' => $arguments['minWidth'] ?? ($arguments['minW'] ?? ''),
+                    'minHeight' => $arguments['minHeight'] ?? ($arguments['minH'] ?? ''),
+                    'maxWidth' => $arguments['maxWidth'] ?? ($arguments['maxW'] ?? ''),
+                    'maxHeight' => $arguments['maxHeight'] ?? ($arguments['maxH'] ?? ''),
+                    'crop' => $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($image),
+                ];
+                /** @var File $image */
+                $processedImg = $image->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingInstructions);
+            }
+
+            $tag = new TagBuilder('img');
+            $tag->addAttribute('src', $processedImg->getPublicUrl());
+            $tag->addAttribute('width', $processedImg->getProperty('width'));
+            $tag->addAttribute('height', $processedImg->getProperty('height'));
+
+            $tag->addAttribute('alt',
+                $arguments['alt'] ?? ($arguments['altText'] ?? ($image->hasProperty('alternative') ? $image->getProperty('alternative') : ''))
+            );
+
+            $title = $arguments['title'] ?? ($arguments['titleText'] ?? ($image->hasProperty('title') ? $image->getProperty('title') : false));
+            if ($title) {
+                $tag->addAttribute('title', $title);
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
         }
 
         return $tag->render();
