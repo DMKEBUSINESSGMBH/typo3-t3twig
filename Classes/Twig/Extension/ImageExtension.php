@@ -120,6 +120,7 @@ class ImageExtension extends AbstractExtension
             /** @var File $image */
             $processedImg = $image->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingInstructions);
         }
+
         $tag = new TagBuilder('img');
         $tag->addAttribute('src', $processedImg->getPublicUrl());
         $tag->addAttribute('width', $processedImg->getProperty('width'));
