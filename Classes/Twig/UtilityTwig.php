@@ -88,7 +88,7 @@ class UtilityTwig
             $twigLoaderFilesystem,
             [
                 'debug' => $debug,
-                'cache' => self::$cache,
+                'cache' => self::$cache ?? false,
             ]
         );
 
