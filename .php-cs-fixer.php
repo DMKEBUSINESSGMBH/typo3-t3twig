@@ -11,7 +11,7 @@ return $config
     ->setCacheFile('.Build/.php_cs.cache')
     ->setFinder($finder)
     ->setRules([
-        '@PSR2' => true,
+        '@PSR12' => true,
         '@Symfony' => true,
         'phpdoc_align' => false,
         'no_superfluous_phpdoc_tags' => false,
