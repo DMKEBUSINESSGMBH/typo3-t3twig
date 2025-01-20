@@ -83,9 +83,7 @@ class RendererTwig
          */
         protected $fallbackTemplate = '',
     ) {
-        if (isset($GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['lib.']['tx_t3twig.'])) {
-            $this->conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['lib.']['tx_t3twig.'];
-        }
+        $this->conf = $GLOBALS['TYPO3_REQUEST']?->getAttribute('frontend.typoscript')?->getSetupArray()['lib.']['tx_t3twig.'] ?? [];
     }
 
     /**
