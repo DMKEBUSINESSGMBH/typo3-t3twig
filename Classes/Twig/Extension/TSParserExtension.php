@@ -219,8 +219,8 @@ class TSParserExtension extends AbstractExtension
                 [$tsPath, $setup] = $this->findSetup($env, $confId, $arguments);
 
                 return $env->getContentObject()->stdWrap(
-                    $setup[$tsPath],
-                    $setup[$tsPath.'.']
+                    $setup[$tsPath] ?? '',
+                    $setup[$tsPath.'.'] ?? []
                 );
             },
             $env,
