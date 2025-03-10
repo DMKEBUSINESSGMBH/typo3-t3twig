@@ -64,7 +64,7 @@ class ImageExtension extends AbstractExtension
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function renderImage(
         EnvironmentTwig $env,
