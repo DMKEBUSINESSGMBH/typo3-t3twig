@@ -82,13 +82,13 @@ class ImageExtension extends AbstractExtension
             $image = $image->getOriginalResource();
         }
 
-        $arguments['ts_config']['file'] = $image;
-
         return $this->performCommand(
-            fn (\Sys25\RnBase\Domain\Model\DataModel $arguments) => $env->getContentObject()->cObjGetSingle(
-                'IMAGE',
-                $arguments->getTsConfig()
-            ),
+            function (\Sys25\RnBase\Domain\Model\DataModel $arguments) use ($env, $image) {
+                $tsconfig = $arguments->getTsConfig();
+                $tsconfig['ts_config']['file'] = $image;
+
+                return $env->getContentObject()->cObjGetSingle('IMAGE', $tsconfig);
+            },
             $env,
             $arguments
         );
