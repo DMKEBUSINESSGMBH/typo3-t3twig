@@ -2,6 +2,45 @@
 
 # Changes
 
+## v12.0.0
+* Add support for TYPO3 11.5 and 12.4
+* Drop support for TYPO3 9.5 and 10.4
+* Breaking Change: rename setup.txt to setup.typoscript
+
+## v10.1.0
+* Require rn_base >= 1.15.0
+
+## v10.0.2
+* fix adding of context variable in twig viewhelper
+
+## v10.0.1
+* fixed description so TER release works again
+
+## v10.0.0
+* Add support for TYPO3 10.4
+* Add ExtbaseView
+* Integrate caching framework
+* bugfixes and maintenance
+* Remove Support for TYPO3 6.2, 7.5 and 8.7
+* fix cache key generation
+
+## v2.0.6
+* added TYPO3 9.5 support
+* added documentation
+* New extension dbrelation to lookup related entities
+* Fluid viewhelper to render Twig templates
+* Fix last and next link in pagination macro
+
+## v2.0.3
+* Add support for TYPO3 6.2
+* added documentation
+
+## v2.0.2
+* Add placeholder support for translations
+
+## v2.0.1
+* clean up and bugfixes
+
 ## v2.0.0
  * TYPO3 8.7 LTS Support
  * new parseFunc and RTE functions
