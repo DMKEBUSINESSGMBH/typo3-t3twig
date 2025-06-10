@@ -2,6 +2,9 @@
 
 # Changes
 
+## v12.0.1
+* Fix TER release
+
 ## v12.0.0
 * Add support for TYPO3 11.5 and 12.4
 * Drop support for TYPO3 9.5 and 10.4
