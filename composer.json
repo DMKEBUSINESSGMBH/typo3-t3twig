@@ -107,26 +107,8 @@
 			".Build/bin/rector process --dry-run"
 		],
 		"test:phpcompatibility": [
-			"@test:phpcompatibility:8.0",
-			"@test:phpcompatibility:8.1",
-			"@test:phpcompatibility:8.2",
-			"@test:phpcompatibility:8.3"
-		],
-		"test:phpcompatibility:8.0": [
 			"[ -e .Build/bin/phpcs ] || composer update",
-			".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.0"
-		],
-		"test:phpcompatibility:8.1": [
-			"[ -e .Build/bin/phpcs ] || composer update",
-			".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.1"
-		],
-		"test:phpcompatibility:8.2": [
-			"[ -e .Build/bin/phpcs ] || composer update",
-			".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.2"
-		],
-		"test:phpcompatibility:8.3": [
-			"[ -e .Build/bin/phpcs ] || composer update",
-			".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.3"
+			".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.0-8.4"
 		],
         "test:phpstan": [
             "[ -e .Build/bin/phpstan ] || composer update --ansi",

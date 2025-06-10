@@ -44,12 +44,12 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->phpVersion(PhpVersion::PHP_80);
 
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_83,
+        LevelSetList::UP_TO_PHP_84,
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
         SetList::DEAD_CODE,
         SetList::STRICT_BOOLEANS,
-        SetList::PHP_83,
+        SetList::PHP_84,
         SetList::PRIVATIZATION,
         SetList::TYPE_DECLARATION,
         SetList::EARLY_RETURN,
@@ -61,7 +61,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->ruleWithConfiguration(
         ExtEmConfRector::class,
         [
-            ExtEmConfRector::PHP_VERSION_CONSTRAINT => '8.0.0-8.3.99',
+            ExtEmConfRector::PHP_VERSION_CONSTRAINT => '8.0.0-8.4.99',
             ExtEmConfRector::TYPO3_VERSION_CONSTRAINT => '11.5.0-12.4.99',
             ExtEmConfRector::ADDITIONAL_VALUES_TO_BE_REMOVED => [],
         ]
