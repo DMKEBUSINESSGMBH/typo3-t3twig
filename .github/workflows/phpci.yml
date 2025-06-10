@@ -1,4 +1,4 @@
-name: "PHP-CI"
+name: "Quality Checks"
 
 on:
     push:
@@ -12,7 +12,7 @@ env:
 jobs:
 
     php-lint:
-        name: "PHP Lint"
+        name: "Linting"
 
         runs-on: "ubuntu-latest"
 
@@ -23,6 +23,7 @@ jobs:
                   - "8.1"
                   - "8.2"
                   - "8.3"
+                  - "8.4"
 
         steps:
             -
@@ -39,13 +40,14 @@ jobs:
                 run: "composer validate --strict"
             -
                 name: "Determine composer cache directory"
-                id: "determine-composer-cache-directory"
-                run: "echo \"::set-output name=directory::$(composer config cache-dir)\""
+                id: composer-cache
+                run: |
+                    echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
             -
                 name: "Cache dependencies installed with composer"
                 uses: "actions/cache@v4"
                 with:
-                    path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
+                    path: ${{ steps.composer-cache.outputs.dir }}
                     key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.lock') }}"
                     restore-keys: "php-${{ matrix.php-version }}-composer-"
             -
@@ -53,7 +55,7 @@ jobs:
                 run: "composer install --no-interaction --no-progress --no-suggest"
             -
                 name: "Run Linter"
-                run: "composer lint:php"
+                run: "composer lint"
 
     php-qs:
         name: "PHP QS"
@@ -74,6 +76,11 @@ jobs:
                     - "8.1"
                     - "8.2"
                     - "8.3"
+                    - "8.4"
+              ### Exclude PHP 8.4 for php-c-fixers as there is currently no support
+                exclude:
+                  - command: "test:phpcs"
+                    php-version: "8.4"
 
         steps:
             -
@@ -90,13 +97,14 @@ jobs:
                 run: "composer validate --strict"
             -
                 name: "Determine composer cache directory"
-                id: "determine-composer-cache-directory"
-                run: "echo \"::set-output name=directory::$(composer config cache-dir)\""
+                id: composer-cache
+                run: |
+                    echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
             -
                 name: "Cache dependencies installed with composer"
                 uses: "actions/cache@v4"
                 with:
-                    path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
+                    path: ${{ steps.composer-cache.outputs.dir }}
                     key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.lock') }}"
                     restore-keys: "php-${{ matrix.php-version }}-composer-"
             -
@@ -132,6 +140,8 @@ jobs:
                   php-version: "8.2"
                 - typo3-version: "^12.4"
                   php-version: "8.3"
+                - typo3-version: "^12.4"
+                  php-version: "8.4"
 
         steps:
             -
@@ -148,13 +158,14 @@ jobs:
                 run: "composer validate --strict"
             -
                 name: "Determine composer cache directory"
-                id: "determine-composer-cache-directory"
-                run: "echo \"::set-output name=directory::$(composer config cache-dir)\""
+                id: composer-cache
+                run: |
+                    echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
             -
                 name: "Cache dependencies installed with composer"
                 uses: "actions/cache@v4"
                 with:
-                    path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
+                    path: ${{ steps.composer-cache.outputs.dir }}
                     key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.lock') }}"
                     restore-keys: "php-${{ matrix.php-version }}-composer-"
             -
@@ -165,5 +176,3 @@ jobs:
             -
                 name: "Run PHP unit tests"
                 run: "composer test:phpunit"
-
-
