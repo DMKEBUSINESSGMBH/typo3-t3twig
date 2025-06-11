@@ -192,7 +192,7 @@ class TSParserExtension extends AbstractExtension
 
                 return $env->getContentObject()->cObjGetSingle(
                     $setup[$tsPath],
-                    $setup[$tsPath.'.']
+                    $setup[$tsPath.'.'] ?? []
                 );
             },
             $env,
