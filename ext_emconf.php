@@ -13,7 +13,7 @@
 $EM_CONF['t3twig'] = [
     'title' => 'T3twig',
     'description' => 'TYPO3 extension to render page templates with Twig and extend rn_base for using Twig templates instead of marker',
-    'version' => '12.0.1',
+    'version' => '12.0.2',
     'state' => 'stable',
     'clearcacheonload' => 0,
     'category' => 'misc',

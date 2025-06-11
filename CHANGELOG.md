@@ -2,6 +2,9 @@
 
 # Changes
 
+## v12.0.2
+* Fix PHP warnings
+
 ## v12.0.1
 * Fix TER release
 
