@@ -114,7 +114,7 @@ class RendererTwig
     protected function getTemplatePaths()
     {
         // initial use the global paths
-        $paths = $this->conf['templatepaths.'] ?: [];
+        $paths = $this->conf['templatepaths.'] ?? [];
         // add the paths for the current render context
         $paths = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
             $paths,
